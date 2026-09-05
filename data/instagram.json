@@ -1,0 +1,62 @@
+[
+  {
+    "id": "post-01",
+    "shortcode": "C34aBc123",
+    "permalink": "https://www.instagram.com/uosdigest/",
+    "imageUrl": "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80",
+    "caption": "Issue #3 is officially printed and in distribution across Sharjah campuses! Grab your physical copy at the College of Communication or library.",
+    "timestamp": "2026-03-01T10:30:00Z",
+    "likes": 142,
+    "comments": 18
+  },
+  {
+    "id": "post-02",
+    "shortcode": "C34aBc124",
+    "permalink": "https://www.instagram.com/uosdigest/",
+    "imageUrl": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=800&q=80",
+    "caption": "Behind the scenes at the editorial board layout session. Selecting feature photography and typography for The UOS Times broadsheet.",
+    "timestamp": "2026-02-26T14:15:00Z",
+    "likes": 98,
+    "comments": 9
+  },
+  {
+    "id": "post-03",
+    "shortcode": "C34aBc125",
+    "permalink": "https://www.instagram.com/uosdigest/",
+    "imageUrl": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80",
+    "caption": "Vox-pop poll is now live on our website: what is your take on print magazines vs digital scrolling for campus news? Cast your stance via the link in bio!",
+    "timestamp": "2026-02-22T09:00:00Z",
+    "likes": 215,
+    "comments": 34
+  },
+  {
+    "id": "post-04",
+    "shortcode": "C34aBc126",
+    "permalink": "https://www.instagram.com/uosdigest/",
+    "imageUrl": "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=800&q=80",
+    "caption": "Inside the Ittisal Radio recording booth: Ep. 08 is out on Spotify featuring student journalists discussing multimedia storytelling.",
+    "timestamp": "2026-02-18T16:45:00Z",
+    "likes": 176,
+    "comments": 12
+  },
+  {
+    "id": "post-05",
+    "shortcode": "C34aBc127",
+    "permalink": "https://www.instagram.com/uosdigest/",
+    "imageUrl": "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80",
+    "caption": "Call for submissions: Writers, photojournalists, and designers from all colleges are invited to pitch for the upcoming Spring edition.",
+    "timestamp": "2026-02-12T11:20:00Z",
+    "likes": 189,
+    "comments": 27
+  },
+  {
+    "id": "post-06",
+    "shortcode": "C34aBc128",
+    "permalink": "https://www.instagram.com/uosdigest/",
+    "imageUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=800&q=80",
+    "caption": "Archival spotlight: Revisiting the foundational spreads of The UOS Times issue 17. Preserving student perspectives through print.",
+    "timestamp": "2026-02-05T13:00:00Z",
+    "likes": 130,
+    "comments": 8
+  }
+]

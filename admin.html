@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editorial Bureau Administration | UOS Digest & The UOS Times</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%237A132B'/><text y='70' x='22' fill='%23C5A059' font-size='65' font-family='serif' font-weight='bold'>U</text></svg>">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css?v=20260902_3">
+</head>
+<body style="background-color: var(--uos-paper); min-height: 100vh; display: flex; flex-direction: column;">
+
+  <!-- Admin Top Bar -->
+  <div style="background-color: var(--uos-maroon); color: #FFFFFF; padding: 0.85rem 1.5rem; border-bottom: 2px solid var(--uos-maroon-dark); display: flex; justify-content: space-between; align-items: center;">
+    <div style="display: flex; align-items: center; gap: 0.75rem;">
+      <a href="index.html" style="background: #111111; color: var(--uos-gold); font-family: var(--font-mono); font-size: 0.75rem; font-weight: bold; padding: 0.3rem 0.6rem; text-decoration: none; border: 1px solid var(--uos-gold);">
+        ← Back to Main Site
+      </a>
+      <div style="display: flex; flex-direction: column;">
+        <span style="font-weight: 900; font-size: 1.1rem; letter-spacing: -0.02em;">Press Club Editorial Bureau Administration</span>
+        <span style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--uos-gold-muted);">University of Sharjah • College of Communication</span>
+      </div>
+    </div>
+
+    <div id="admin-header-actions" style="display: none; align-items: center; gap: 0.75rem;">
+      <span style="font-family: var(--font-mono); font-size: 0.7rem; color: #D1CFCA;">Authenticated as: <strong style="color: #FFFFFF;">press@sharjah.ac.ae</strong></span>
+      <button id="admin-logout-btn" class="btn-white" style="padding: 0.35rem 0.75rem; font-size: 0.7rem;">Log Out</button>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <main style="flex: 1; display: flex; flex-direction: column;">
+    
+    <!-- LOGIN VIEW (Inputs start empty for manual typing) -->
+    <div id="admin-login-view" style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem;">
+      <div style="background: #FFFFFF; border: 2px solid var(--uos-ink); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15); max-width: 28rem; width: 100%; padding: 2.5rem;">
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <div style="width: 3.5rem; height: 3.5rem; background: var(--uos-paper-dark); border: 2px solid var(--uos-maroon); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem auto; font-size: 1.5rem;">
+            🔒
+          </div>
+          <h2 style="font-weight: 900; font-size: 1.5rem; color: #111111;">Editorial Portal Login</h2>
+          <p style="font-family: var(--font-mono); font-size: 0.75rem; color: #6B7280; margin-top: 0.25rem;">
+            Authorized University of Sharjah Bureau Editors Only
+          </p>
+        </div>
+
+        <form id="admin-login-form">
+          <div class="form-group">
+            <label class="form-label">Bureau Email Address</label>
+            <input id="admin-email" type="email" required placeholder="name@sharjah.ac.ae" class="form-input" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Security Password</label>
+            <input id="admin-password" type="password" required placeholder="••••••••••••" class="form-input" />
+          </div>
+
+          <button type="submit" class="btn-maroon" style="width: 100%; justify-content: center; padding: 0.85rem; font-size: 0.85rem; margin-top: 0.5rem;">
+            Authenticate Access ↗
+          </button>
+        </form>
+
+        <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--uos-border); text-align: center; font-family: var(--font-mono); font-size: 0.7rem; color: #9CA3AF;">
+          Official System Key: <code>press@sharjah.ac.ae</code> / <code>uospress2026</code>
+        </div>
+      </div>
+    </div>
+
+    <!-- DASHBOARD VIEW -->
+    <div id="admin-dashboard-view" style="display: none; flex: 1; flex-direction: row;">
+      <!-- Sidebar -->
+      <aside style="width: 17rem; background: #FAF9F5; border-right: 2px solid var(--uos-ink); padding: 1.25rem; display: flex; flex-direction: column; gap: 0.35rem;">
+        <span style="font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; color: var(--uos-maroon); text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.1em;">
+          EDITORIAL MODULES
+        </span>
+        <button class="admin-tab-btn active" data-tab="publications" onclick="window.switchAdminTab('publications')">📚 Publications Archive</button>
+        <button class="admin-tab-btn" data-tab="polls" onclick="window.switchAdminTab('polls')">🗳️ Campus Pulse Surveys</button>
+        <button class="admin-tab-btn" data-tab="forms" onclick="window.switchAdminTab('forms')">🎛️ Form Master Controls</button>
+        <button class="admin-tab-btn" data-tab="subscribers" onclick="window.switchAdminTab('subscribers')">📬 Newsletter Directory</button>
+        <button class="admin-tab-btn" data-tab="applications" onclick="window.switchAdminTab('applications')">📝 Student Applications</button>
+        <button class="admin-tab-btn" data-tab="podcasts" onclick="window.switchAdminTab('podcasts')">🎙️ Radio Pitches</button>
+      </aside>
+
+      <!-- Content Canvas -->
+      <section id="admin-tab-content" style="flex: 1; padding: 2.5rem; background: #FFFFFF; overflow-y: auto;">
+        <!-- Populated by JS -->
+      </section>
+    </div>
+
+  </main>
+
+  <!-- POP-UP MODAL 1: Publish / Edit Publication -->
+  <div id="admin-pub-modal" class="modal-overlay">
+    <div class="modal-box" style="max-width: 38rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--uos-border); padding-bottom: 1rem; margin-bottom: 1.5rem;">
+        <div>
+          <span style="background: var(--uos-maroon); color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.2rem 0.5rem;">ISSUE CURATOR</span>
+          <h3 id="pub-modal-title" style="font-weight: 900; font-size: 1.35rem; margin-top: 0.25rem;">Publish New Issue</h3>
+        </div>
+        <button class="btn-white" onclick="window.closePubModal()">✕</button>
+      </div>
+
+      <form id="pub-form" style="display: flex; flex-direction: column; gap: 0.85rem;">
+        <input type="hidden" id="pub-form-id" value="" />
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 0.75rem;">
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label">Publication Title *</label>
+            <input id="pub-form-title" type="text" required placeholder="e.g. UOS Digest, Issue #4" class="form-input" />
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label">Issue Number *</label>
+            <input id="pub-form-number" type="number" required min="1" value="4" class="form-input" />
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label">Theme / Subtitle</label>
+          <input id="pub-form-subtitle" type="text" placeholder="e.g. The Architecture of Student Expression" class="form-input" />
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem;">
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label">Format Type</label>
+            <select id="pub-form-type" class="form-select">
+              <option value="magazine">Magazine (UOS Digest)</option>
+              <option value="newspaper">Broadsheet (The UOS Times)</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label">Academic Semester</label>
+            <input id="pub-form-semester" type="text" value="Spring Semester" class="form-input" />
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label">Release Date</label>
+            <input id="pub-form-date" type="text" value="March 2026" class="form-input" />
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 0.75rem;">
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label">Cover Image (URL or File Upload)</label>
+            <div style="display: flex; flex-direction: column; gap: 0.35rem;">
+              <input id="pub-form-cover" type="text" placeholder="https://... or cloud image url" class="form-input" />
+              <input id="pub-form-cover-file" type="file" accept="image/*" class="form-input" style="background: #FFFFFF; font-size: 0.7rem;" />
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label">Page Count</label>
+            <input id="pub-form-pages" type="number" value="32" class="form-input" />
+          </div>
+        </div>
+
+        <!-- PDF Upload & Path Selection -->
+        <div style="padding: 1rem; background: var(--uos-paper); border: 1px solid var(--uos-border); font-family: var(--font-mono); font-size: 0.75rem;">
+          <label class="form-label" style="margin-bottom: 0.35rem;">PDF Document File (Upload to Firebase Storage or enter path) *</label>
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <input id="pub-form-file-upload" type="file" accept="application/pdf" class="form-input" style="background: #FFFFFF;" />
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+              <span style="color: #6B7280;">Or path / URL:</span>
+              <input id="pub-form-pdf-path" type="text" placeholder="/pdf/uos digest issue 3 for print.pdf or https://firebasestorage..." class="form-input" style="flex: 1; font-size: 0.7rem;" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Upload Progress Bar -->
+        <div id="pub-upload-progress" style="display: none; padding: 0.75rem; background: #FAF9F5; border: 1px solid var(--uos-maroon); font-family: var(--font-mono); font-size: 0.75rem;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+            <span id="pub-upload-status" style="color: var(--uos-maroon); font-weight: bold;">Uploading to Firebase Cloud Storage...</span>
+            <span id="pub-upload-percent" style="font-weight: bold;">0%</span>
+          </div>
+          <progress id="pub-upload-bar" value="0" max="100" style="width: 100%; height: 8px; accent-color: var(--uos-maroon);"></progress>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label">Description / Curatorial Statement</label>
+          <textarea id="pub-form-desc" rows="2" placeholder="Brief curatorial note..." class="form-textarea"></textarea>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label">Highlights (Line-separated)</label>
+          <textarea id="pub-form-highlights" rows="2" placeholder="Feature 1&#10;Feature 2" class="form-textarea"></textarea>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 0.5rem;">
+          <button type="button" class="btn-white" onclick="window.closePubModal()">Cancel</button>
+          <button id="pub-form-submit-btn" type="submit" class="btn-maroon">Save & Publish Issue ↗</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- POP-UP MODAL 2: Edit Subscriber -->
+  <div id="admin-sub-modal" class="modal-overlay">
+    <div class="modal-box" style="max-width: 28rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--uos-border); padding-bottom: 1rem; margin-bottom: 1.5rem;">
+        <h3 style="font-weight: 900; font-size: 1.25rem;">Edit Subscriber</h3>
+        <button class="btn-white" onclick="window.closeSubModal()">✕</button>
+      </div>
+
+      <form id="sub-edit-form" style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <input type="hidden" id="sub-edit-id" />
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label">First Name</label>
+          <input id="sub-edit-first" type="text" required class="form-input" />
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label">Last Name</label>
+          <input id="sub-edit-last" type="text" class="form-input" />
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label">Email Address</label>
+          <input id="sub-edit-email" type="email" required class="form-input" />
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label">Interests (Comma-separated)</label>
+          <input id="sub-edit-interests" type="text" class="form-input" />
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 0.5rem;">
+          <button type="button" class="btn-white" onclick="window.closeSubModal()">Cancel</button>
+          <button type="submit" class="btn-maroon">Save Subscriber</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="js/admin.js?v=20260902_4"></script>
+</body>
+</html>

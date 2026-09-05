@@ -1,0 +1,54 @@
+name: Daily Instagram Feed Sync
+
+on:
+  schedule:
+    # Runs everyday at 06:00 UTC (10:00 AM UAE Time)
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+    # Allows manual trigger from GitHub Actions UI
+
+permissions:
+  contents: write
+
+jobs:
+  sync-instagram:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+
+      - name: Fetch latest Instagram posts
+        env:
+          INSTAGRAM_USERNAME: 'uosdigest'
+          MAX_POSTS: '6'
+          INSTAGRAM_SESSION: ${{ secrets.INSTAGRAM_SESSION }}
+        run: |
+          python scripts/fetch_instagram.py
+
+      - name: Commit and push changes if updated
+        run: |
+          if git diff --quiet data/instagram.json; then
+            echo "No new posts to commit."
+          else
+            echo "New posts detected! Committing and pushing to repository..."
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add data/instagram.json
+            git commit -m "chore(instagram): update @uosdigest feed [skip ci]"
+            git push
+          fi
