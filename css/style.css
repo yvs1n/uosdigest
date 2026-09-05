@@ -142,8 +142,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 4.25rem;
+  min-height: 4.5rem;
   padding: 0.5rem 0;
+  gap: 1.5rem;
 }
 
 .logo-container {
@@ -196,9 +197,10 @@ body {
 .nav-links {
   display: none;
   align-items: center;
-  gap: 1.25rem;
+  gap: 1.5rem;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
 }
 
 @media (min-width: 1024px) {
@@ -207,21 +209,39 @@ body {
   }
 }
 
+@media (min-width: 1200px) {
+  .nav-links {
+    gap: 2rem;
+  }
+}
+
 .nav-link {
   color: #374151;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 700;
+  padding: 0.35rem 0.15rem;
+  position: relative;
   transition: color 0.15s ease;
+  white-space: nowrap;
 }
 
 .nav-link:hover {
   color: var(--uos-maroon);
 }
 
-.nav-link span.num {
-  color: #9CA3AF;
-  font-size: 0.65rem;
-  margin-right: 0.2rem;
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--uos-maroon);
+  transition: width 0.2s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
 }
 
 /* Mobile Menu Toggle Button & Drawer */
