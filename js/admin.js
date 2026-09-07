@@ -28,6 +28,12 @@ import {
   addPollQuestion,
   deletePollQuestion,
   getSurveyVoters,
+  getTimesArticles,
+  saveTimesArticles,
+  addTimesArticle,
+  updateTimesArticle,
+  deleteTimesArticle,
+  toggleTimesArticleFeatured,
   exportToCSV,
   initLiveSync
 } from './storage.js';
@@ -40,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAdminDashboard();
   initPubFormHandler();
   initSubEditFormHandler();
+  initTimesFormHandler();
 
   // Connect real-time Firestore sync to keep admin tables updated live
   initLiveSync(() => {
@@ -159,6 +166,106 @@ function renderTabContent() {
             </div>
           </div>
         `).join('')}
+      </div>
+    `;
+  } else if (currentTab === 'times') {
+    const timesArticles = getTimesArticles();
+    const featuredArticle = timesArticles.find(a => a.featured) || timesArticles[0];
+    const categories = Array.from(new Set(timesArticles.map(a => a.category)));
+
+    contentArea.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1.5rem; border-bottom: 2px solid var(--uos-ink); flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+            <span style="background: var(--uos-times-green); color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.15rem 0.5rem;">
+              BROADSHEET NEWSROOM
+            </span>
+            <span style="font-family: var(--font-mono); font-size: 0.7rem; color: #6B7280;">Live Firebase Sync Enabled</span>
+          </div>
+          <h2 style="font-weight: 900; font-size: 1.65rem; font-family: var(--font-times);">The UOS Times Newsroom (${timesArticles.length})</h2>
+          <p style="font-family: var(--font-mono); font-size: 0.75rem; color: #6B7280;">Publish new campus articles, investigations, op-eds, and manage the front-page lead story</p>
+        </div>
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+          <a href="times.html" target="_blank" class="btn-times-outline" style="padding: 0.65rem 1rem; font-size: 0.75rem;">
+            Preview Broadsheet ↗
+          </a>
+          <button id="times-add-btn" class="btn-times" onclick="window.openAddTimesModal()" style="padding: 0.65rem 1.25rem;">
+            + Write New Article ↗
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Bar -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
+        <div style="padding: 1rem; background: var(--uos-paper); border: 1px solid var(--uos-ink);">
+          <span style="font-family: var(--font-mono); font-size: 0.65rem; color: #6B7280; text-transform: uppercase;">Total Published</span>
+          <h4 style="font-weight: 900; font-size: 1.5rem; color: var(--uos-ink);">${timesArticles.length}</h4>
+        </div>
+        <div style="padding: 1rem; background: var(--uos-times-green-tint); border: 1px solid var(--uos-times-green);">
+          <span style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--uos-times-green-dark); text-transform: uppercase;">Front-Page Lead</span>
+          <h4 style="font-weight: 900; font-size: 0.95rem; color: var(--uos-times-green-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${featuredArticle ? featuredArticle.title : 'None'}</h4>
+        </div>
+        <div style="padding: 1rem; background: var(--uos-paper); border: 1px solid var(--uos-ink);">
+          <span style="font-family: var(--font-mono); font-size: 0.65rem; color: #6B7280; text-transform: uppercase;">Active Desks</span>
+          <h4 style="font-weight: 900; font-size: 1.5rem; color: var(--uos-ink);">${categories.length}</h4>
+        </div>
+      </div>
+
+      <!-- Articles Table -->
+      <div style="border: 2px solid var(--uos-ink); background: #FFFFFF; overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-family: var(--font-mono); font-size: 0.75rem; text-align: left;">
+          <thead>
+            <tr style="background: var(--uos-paper-dark); border-bottom: 2px solid var(--uos-ink);">
+              <th style="padding: 0.75rem 1rem; width: 4.5rem;">Cover</th>
+              <th style="padding: 0.75rem 1rem;">Headline & Broadsheet Dek</th>
+              <th style="padding: 0.75rem 1rem;">Desk Category</th>
+              <th style="padding: 0.75rem 1rem;">Byline</th>
+              <th style="padding: 0.75rem 1rem;">Date</th>
+              <th style="padding: 0.75rem 1rem; text-align: center;">Front Lead</th>
+              <th style="padding: 0.75rem 1rem; text-align: right;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${timesArticles.map(a => `
+              <tr style="border-bottom: 1px solid var(--uos-border); ${a.featured ? 'background: #F0FDF4;' : ''}">
+                <td style="padding: 0.75rem 1rem;">
+                  ${a.coverImage ? `
+                    <img src="${a.coverImage}" alt="${a.title}" style="width: 4rem; height: 3rem; object-fit: cover; border: 1px solid var(--uos-ink);" />
+                  ` : `<div style="width: 4rem; height: 3rem; background: #E5E7EB; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; color: #9CA3AF;">No Pic</div>`}
+                </td>
+                <td style="padding: 0.75rem 1rem; max-width: 20rem;">
+                  <strong style="font-size: 0.85rem; font-family: var(--font-times); color: #111111; display: block; line-height: 1.25;">
+                    ${a.title}
+                  </strong>
+                  ${a.subtitle ? `<span style="font-family: var(--font-bitter); font-style: italic; font-size: 0.72rem; color: #6B7280; display: block; margin-top: 0.2rem;">"${a.subtitle}"</span>` : ''}
+                </td>
+                <td style="padding: 0.75rem 1rem;">
+                  <span class="times-category-pill" style="font-size: 0.65rem;">${a.category}</span>
+                </td>
+                <td style="padding: 0.75rem 1rem;">
+                  <strong>${a.author}</strong>
+                  ${a.authorRole ? `<span style="display: block; font-size: 0.65rem; color: #6B7280;">${a.authorRole}</span>` : ''}
+                </td>
+                <td style="padding: 0.75rem 1rem; color: #6B7280; white-space: nowrap;">
+                  ${a.date}
+                </td>
+                <td style="padding: 0.75rem 1rem; text-align: center;">
+                  <button 
+                    onclick="window.toggleFeaturedTimesArticle('${a.id}')"
+                    style="background: ${a.featured ? 'var(--uos-times-green)' : '#FFFFFF'}; color: ${a.featured ? '#FFFFFF' : '#6B7280'}; border: 1px solid ${a.featured ? 'var(--uos-times-green)' : '#D1CFCA'}; padding: 0.25rem 0.5rem; font-family: var(--font-mono); font-size: 0.65rem; cursor: pointer; font-weight: bold;"
+                    title="${a.featured ? 'Lead article on front page' : 'Click to feature on front page'}"
+                  >
+                    ${a.featured ? '★ LEAD' : '☆ Standard'}
+                  </button>
+                </td>
+                <td style="padding: 0.75rem 1rem; text-align: right; white-space: nowrap;">
+                  <button class="btn-white" style="padding: 0.3rem 0.6rem; font-size: 0.7rem; margin-right: 0.35rem;" onclick="window.openEditTimesModal('${a.id}')">Edit</button>
+                  <button class="btn-white" style="padding: 0.3rem 0.6rem; font-size: 0.7rem; color: #DC2626; border-color: #FCA5A5;" onclick="window.deleteTimesArticlePrompt('${a.id}')">Delete</button>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
       </div>
     `;
   } else if (currentTab === 'polls') {
@@ -822,3 +929,158 @@ window.resetPollVotesToZero = (pollId) => {
     }
   }
 };
+
+// ==========================================================================
+// The UOS Times Newsroom Article Handlers (Local + Firebase Sync)
+// ==========================================================================
+
+window.openAddTimesModal = () => {
+  const modal = document.getElementById('admin-times-modal');
+  const titleEl = document.getElementById('times-modal-title');
+  const idEl = document.getElementById('times-form-id');
+
+  if (modal) {
+    if (titleEl) titleEl.textContent = 'Publish New Broadsheet Article';
+    if (idEl) idEl.value = '';
+    document.getElementById('times-form-title').value = '';
+    document.getElementById('times-form-subtitle').value = '';
+    document.getElementById('times-form-category').value = 'Campus News';
+    document.getElementById('times-form-readtime').value = '3 min read';
+    document.getElementById('times-form-author').value = 'UOS News Bureau';
+    document.getElementById('times-form-role').value = 'Staff Reporter';
+    document.getElementById('times-form-date').value = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    document.getElementById('times-form-image-url').value = '';
+    document.getElementById('times-form-image-file').value = '';
+    document.getElementById('times-form-excerpt').value = '';
+    document.getElementById('times-form-content').value = '';
+    document.getElementById('times-form-tags').value = '';
+    document.getElementById('times-form-featured').checked = false;
+
+    modal.classList.add('active');
+  }
+};
+
+window.openEditTimesModal = (articleId) => {
+  const articles = getTimesArticles();
+  const art = articles.find(a => a.id === articleId);
+  if (!art) return;
+
+  const modal = document.getElementById('admin-times-modal');
+  const titleEl = document.getElementById('times-modal-title');
+  const idEl = document.getElementById('times-form-id');
+
+  if (modal) {
+    if (titleEl) titleEl.textContent = `Edit Article: ${art.title}`;
+    if (idEl) idEl.value = art.id;
+    document.getElementById('times-form-title').value = art.title;
+    document.getElementById('times-form-subtitle').value = art.subtitle || '';
+    document.getElementById('times-form-category').value = art.category || 'Campus News';
+    document.getElementById('times-form-readtime').value = art.readTime || '3 min read';
+    document.getElementById('times-form-author').value = art.author || '';
+    document.getElementById('times-form-role').value = art.authorRole || '';
+    document.getElementById('times-form-date').value = art.date || '';
+    document.getElementById('times-form-image-url').value = art.coverImage || '';
+    document.getElementById('times-form-image-file').value = '';
+    document.getElementById('times-form-excerpt').value = art.excerpt || '';
+    document.getElementById('times-form-content').value = art.content || art.excerpt || '';
+    document.getElementById('times-form-tags').value = (art.tags || []).join(', ');
+    document.getElementById('times-form-featured').checked = !!art.featured;
+
+    modal.classList.add('active');
+  }
+};
+
+window.closeTimesModal = () => {
+  const modal = document.getElementById('admin-times-modal');
+  if (modal) modal.classList.remove('active');
+};
+
+window.deleteTimesArticlePrompt = (articleId) => {
+  if (confirm('Are you sure you want to delete this article from The UOS Times newsroom?')) {
+    deleteTimesArticle(articleId);
+    renderTabContent();
+  }
+};
+
+window.toggleFeaturedTimesArticle = (articleId) => {
+  toggleTimesArticleFeatured(articleId);
+  renderTabContent();
+};
+
+function initTimesFormHandler() {
+  const form = document.getElementById('times-article-form');
+  const fileInput = document.getElementById('times-form-image-file');
+  const urlInput = document.getElementById('times-form-image-url');
+  const submitBtn = document.getElementById('times-form-submit-btn');
+
+  if (fileInput) {
+    fileInput.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Uploading Cover Image...';
+        }
+        try {
+          const downloadUrl = await uploadImageToStorage(file);
+          if (urlInput) urlInput.value = downloadUrl;
+        } catch (err) {
+          console.warn('Image upload error:', err);
+        } finally {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Save & Publish to Newsroom ↗';
+          }
+        }
+      }
+    };
+  }
+
+  if (form) {
+    form.onsubmit = (e) => {
+      e.preventDefault();
+      const id = document.getElementById('times-form-id').value;
+      const title = document.getElementById('times-form-title').value.trim();
+      const subtitle = document.getElementById('times-form-subtitle').value.trim();
+      const category = document.getElementById('times-form-category').value;
+      const readTime = document.getElementById('times-form-readtime').value.trim();
+      const author = document.getElementById('times-form-author').value.trim();
+      const authorRole = document.getElementById('times-form-role').value.trim();
+      const date = document.getElementById('times-form-date').value.trim() || new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+      const coverImage = document.getElementById('times-form-image-url').value.trim() || 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=80';
+      const excerpt = document.getElementById('times-form-excerpt').value.trim();
+      const content = document.getElementById('times-form-content').value.trim();
+      const tagsStr = document.getElementById('times-form-tags').value;
+      const featured = document.getElementById('times-form-featured').checked;
+
+      const tags = tagsStr.split(',').map(t => t.trim()).filter(Boolean);
+
+      const articlePayload = {
+        title,
+        subtitle,
+        category,
+        readTime,
+        author,
+        authorRole,
+        date,
+        coverImage,
+        excerpt,
+        content,
+        tags,
+        featured
+      };
+
+      if (id) {
+        updateTimesArticle({ id, ...articlePayload });
+        alert(`✓ Article "${title}" updated successfully! Changes are synchronized with Firebase.`);
+      } else {
+        addTimesArticle(articlePayload);
+        alert(`✓ New article "${title}" published to The UOS Times newsroom! Changes are synchronized with Firebase.`);
+      }
+
+      window.closeTimesModal();
+      renderTabContent();
+    };
+  }
+}
+

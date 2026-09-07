@@ -130,7 +130,7 @@ export function renderHeroAndPublications() {
             ${p.title}
           </h3>
 
-          ${p.subtitle ? `<p style="font-family: var(--font-serif); font-style: italic; font-size: 0.75rem; color: #4B5563;">"${p.subtitle}"</p>` : ''}
+          ${p.subtitle ? `<p class="pub-subtitle" style="font-size: 0.78rem; color: #4B5563;">"${p.subtitle}"</p>` : ''}
 
           <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid #E2E0D8; display: flex; justify-content: space-between; align-items: center;">
             <button class="btn-maroon" style="padding: 0.4rem 0.75rem; font-size: 0.7rem;" onclick="window.openPublicationReader('${p.id}')">

@@ -6,12 +6,12 @@
   <title>UOS Digest & The UOS Times | University of Sharjah Student Editorial</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%237A132B'/><text y='70' x='22' fill='%23C5A059' font-size='65' font-family='serif' font-weight='bold'>U</text></svg>">
   
-  <!-- Google Fonts: Inter (Swiss Sans), Playfair Display (Serif), Amiri (Arabic), JetBrains Mono -->
+  <!-- Google Fonts: Inter (Swiss Sans), Playfair Display (Serif), Bitter (Subtitles), DM Serif Text (The UOS Times), Amiri (Arabic), JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Bitter:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Serif+Text:ital@0;1&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="css/style.css?v=20260905_1">
+  <link rel="stylesheet" href="css/style.css?v=20260907_1">
 </head>
 <body>
 
@@ -28,6 +28,10 @@
           <span>The Press Club (نادي الصحافة)</span>
         </div>
         <div style="display: flex; align-items: center; gap: 1rem;">
+          <a href="times.html" style="color: var(--uos-gold); font-weight: bold; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;">
+            📰 The UOS Times Newspaper ↗
+          </a>
+          <span style="color: var(--uos-gold-muted);">•</span>
           <span id="institutional-date">Saturday, August 30, 2026</span>
           <span style="color: var(--uos-gold-muted);">•</span>
           <a href="https://instagram.com/thepressclub.uos" target="_blank">@thepressclub.uos ↗</a>
@@ -51,6 +55,10 @@
           </a>
 
           <nav class="nav-links">
+            <a href="times.html" class="nav-link" style="color: var(--uos-times-green); font-weight: 800; display: inline-flex; align-items: center; gap: 0.35rem;">
+              <span style="background: var(--uos-times-green); color: #FFFFFF; padding: 0.1rem 0.35rem; font-size: 0.65rem; border-radius: 2px;">NEW</span>
+              The UOS Times ↗
+            </a>
             <a href="#publications" class="nav-link">Publications</a>
             <a href="#instagram" class="nav-link">Instagram</a>
             <a href="#radio" class="nav-link">Ittisal Radio</a>
@@ -71,6 +79,7 @@
 
         <!-- Mobile Navigation Drawer -->
         <div id="mobile-nav-drawer" class="mobile-nav-drawer">
+          <a href="times.html" class="mobile-nav-link" style="color: var(--uos-times-green); font-weight: 800; background: var(--uos-times-green-tint);">📰 The UOS Times (Newspaper Subpage ↗)</a>
           <a href="#publications" class="mobile-nav-link" onclick="window.toggleMobileMenu()">Publications Archive</a>
           <a href="#instagram" class="mobile-nav-link" onclick="window.toggleMobileMenu()">Instagram Dispatch (@uosdigest)</a>
           <a href="#radio" class="mobile-nav-link" onclick="window.toggleMobileMenu()">Ittisal Radio (إذاعة اتصال)</a>
@@ -83,10 +92,10 @@
   </div>
 
   <!-- 01: Lead Hero Publication Section -->
-  <section class="swiss-grid-bg" style="border-bottom: 2px solid var(--uos-ink); padding: 3.5rem 0 5rem 0; background-color: var(--uos-paper);">
+  <section id="hero" class="swiss-grid-bg" style="padding: 3.5rem 0; border-bottom: 2px solid var(--uos-ink);">
     <div class="container">
-      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--uos-border); padding-bottom: 1.5rem; margin-bottom: 2.5rem; font-family: var(--font-mono); font-size: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
-        <span style="background-color: var(--uos-maroon); color: #FFFFFF; font-weight: bold; padding: 0.2rem 0.5rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--uos-ink); padding-bottom: 0.5rem; margin-bottom: 2.5rem; font-family: var(--font-mono); font-size: 0.75rem;">
+        <span class="section-header-tag" style="margin-bottom: 0;">
           [ 01 / LEAD PUBLICATION ]
         </span>
         <span style="color: var(--uos-maroon); font-weight: bold;">
@@ -105,7 +114,7 @@
           <h1 id="hero-title" class="section-title" style="margin-bottom: 0.5rem;">
             UOS Digest, Issue #3
           </h1>
-          <p id="hero-subtitle" class="font-serif" style="font-size: clamp(1.15rem, 3.5vw, 1.5rem); font-style: italic; color: var(--uos-maroon); margin-bottom: 1.5rem;">
+          <p id="hero-subtitle" class="pub-subtitle" style="font-size: clamp(1.15rem, 3.5vw, 1.5rem); color: var(--uos-maroon); margin-bottom: 1.5rem;">
             "Constructed: The Construction of Self, Identity and Culture"
           </p>
           <p id="hero-desc" style="font-size: 1rem; color: #374151; margin-bottom: 1.5rem; line-height: 1.6;">

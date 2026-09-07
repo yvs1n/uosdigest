@@ -2,7 +2,7 @@
  * University of Sharjah - Storage & Database Engine (Pure Vanilla JS + Firebase Firestore Sync)
  */
 
-import { initialPublications, initialPolls, initialSurveyVoters, initialRadioEpisodes } from './data.js';
+import { initialPublications, initialPolls, initialSurveyVoters, initialRadioEpisodes, initialTimesArticles } from './data.js';
 import { 
   db, 
   isFirebaseAvailable, 
@@ -22,6 +22,7 @@ const KEYS = {
   POLLS: 'uos_digest_poll_data_v2',
   SURVEY_VOTERS: 'uos_digest_survey_voters_v2',
   RADIO_EPISODES: 'uos_digest_radio_episodes_v2',
+  TIMES_ARTICLES: 'uos_times_articles_v1',
   AUTH: 'uos_digest_admin_auth'
 };
 
@@ -62,7 +63,8 @@ export async function initLiveSync(onDataChange) {
     { key: 'settings', localKey: KEYS.SETTINGS, defaultVal: defaultSettings },
     { key: 'subscribers', localKey: KEYS.SUBSCRIBERS, defaultVal: [] },
     { key: 'join_submissions', localKey: KEYS.JOIN_SUBS, defaultVal: [] },
-    { key: 'podcast_submissions', localKey: KEYS.PODCAST_SUBS, defaultVal: [] }
+    { key: 'podcast_submissions', localKey: KEYS.PODCAST_SUBS, defaultVal: [] },
+    { key: 'times_articles', localKey: KEYS.TIMES_ARTICLES, defaultVal: initialTimesArticles }
   ];
 
   for (const { key, localKey, defaultVal, isPrimitive } of collectionsToSync) {
@@ -486,3 +488,62 @@ export function exportToCSV(filename, rows) {
   link.click();
   document.body.removeChild(link);
 }
+
+// 10. The UOS Times Newspaper Articles Engine (Local + Firebase Sync)
+export function getTimesArticles() {
+  const raw = localStorage.getItem(KEYS.TIMES_ARTICLES);
+  if (raw) {
+    try {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length) return parsed;
+    } catch (e) {}
+  }
+  return JSON.parse(JSON.stringify(initialTimesArticles));
+}
+
+export function saveTimesArticles(articles) {
+  localStorage.setItem(KEYS.TIMES_ARTICLES, JSON.stringify(articles));
+  saveToFirestore('times_articles', articles);
+}
+
+export function addTimesArticle(article) {
+  const articles = getTimesArticles();
+  const newArticle = {
+    id: `uos-times-${Date.now()}`,
+    date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+    featured: false,
+    ...article
+  };
+  articles.unshift(newArticle);
+  saveTimesArticles(articles);
+  return newArticle;
+}
+
+export function updateTimesArticle(updated) {
+  const articles = getTimesArticles();
+  const index = articles.findIndex(a => a.id === updated.id);
+  if (index !== -1) {
+    articles[index] = { ...articles[index], ...updated };
+    saveTimesArticles(articles);
+    return articles[index];
+  }
+  return null;
+}
+
+export function deleteTimesArticle(id) {
+  const articles = getTimesArticles();
+  const filtered = articles.filter(a => a.id !== id);
+  saveTimesArticles(filtered);
+  return filtered;
+}
+
+export function toggleTimesArticleFeatured(id) {
+  const articles = getTimesArticles();
+  const found = articles.find(a => a.id === id);
+  if (found) {
+    found.featured = !found.featured;
+    saveTimesArticles(articles);
+  }
+  return articles;
+}
+

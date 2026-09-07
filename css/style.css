@@ -4,9 +4,20 @@
    ========================================================================== */
 
 :root {
-  --uos-maroon: #7A132B;
-  --uos-maroon-dark: #5E0E21;
-  --uos-maroon-light: #8B1E3F;
+  /* UOS Digest Branding: Red #c30f2e & Sage Green #889f61 */
+  --uos-digest-red: #c30f2e;
+  --uos-digest-green: #889f61;
+  --uos-maroon: #c30f2e;
+  --uos-maroon-dark: #9e0c25;
+  --uos-maroon-light: #d62444;
+
+  /* The UOS Times Broadsheet Branding: Classic Forest Green #2c793d */
+  --uos-times-green: #2c793d;
+  --uos-times-green-dark: #1e562b;
+  --uos-times-green-light: #3a8a4d;
+  --uos-times-green-tint: #f0f7f2;
+
+  /* Institutional Secondary & Surfaces */
   --uos-gold: #C5A059;
   --uos-gold-muted: #DFC690;
   --uos-paper: #FAF9F6;
@@ -14,8 +25,12 @@
   --uos-ink: #111111;
   --uos-border: #E2E0D8;
   --uos-border-dark: #D1CFCA;
+
+  /* Fonts */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-serif: 'Playfair Display', Georgia, serif;
+  --font-bitter: 'Bitter', Georgia, serif;
+  --font-times: 'DM Serif Text', Georgia, serif;
   --font-arabic: 'Amiri', serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
@@ -51,8 +66,17 @@ body {
 /* Typography Utilities */
 .font-sans { font-family: var(--font-sans); }
 .font-serif { font-family: var(--font-serif); }
+.font-bitter { font-family: var(--font-bitter); }
+.font-times { font-family: var(--font-times); }
 .font-arabic { font-family: var(--font-arabic); }
 .font-mono { font-family: var(--font-mono); }
+
+.pub-subtitle {
+  font-family: var(--font-bitter);
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
 
 /* Swiss Layout Container */
 .container {
@@ -785,4 +809,300 @@ section[id] {
   transform: translateX(3px);
   transition: transform 0.2s ease;
 }
+
+/* ==========================================================================
+   The UOS Times - Broadsheet Newspaper Styles (#2c793d & DM Serif Text)
+   ========================================================================== */
+
+.btn-times {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--uos-times-green);
+  color: #FFFFFF;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.65rem 1.25rem;
+  border: 1px solid var(--uos-times-green-dark);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.btn-times:hover {
+  background-color: var(--uos-times-green-dark);
+  transform: translateY(-1px);
+}
+
+.btn-times-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: transparent;
+  color: var(--uos-times-green);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.65rem 1.25rem;
+  border: 1.5px solid var(--uos-times-green);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.btn-times-outline:hover {
+  background-color: var(--uos-times-green);
+  color: #FFFFFF;
+}
+
+/* Broadsheet Masthead */
+.times-masthead {
+  background-color: var(--uos-paper);
+  border-bottom: 3px double var(--uos-ink);
+  padding: 1.5rem 0 1rem 0;
+}
+
+.times-title {
+  font-family: var(--font-times);
+  font-weight: 900;
+  font-size: clamp(2.5rem, 7vw, 4.75rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--uos-ink);
+  text-transform: uppercase;
+}
+
+.times-dateline-bar {
+  border-top: 1px solid var(--uos-ink);
+  border-bottom: 1px solid var(--uos-ink);
+  padding: 0.35rem 0;
+  margin-top: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  color: #374151;
+}
+
+.times-category-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background-color: var(--uos-times-green-tint);
+  color: var(--uos-times-green-dark);
+  border: 1px solid rgba(44, 121, 61, 0.3);
+  padding: 0.15rem 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.times-category-pill.active {
+  background-color: var(--uos-times-green);
+  color: #FFFFFF;
+  border-color: var(--uos-times-green);
+}
+
+/* Live News Ticker */
+.times-ticker-bar {
+  background-color: #111111;
+  color: #FFFFFF;
+  padding: 0.5rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  border-bottom: 1px solid #374151;
+  overflow: hidden;
+}
+
+.times-ticker-tag {
+  background-color: var(--uos-times-green);
+  color: #FFFFFF;
+  font-weight: 800;
+  padding: 0.2rem 0.5rem;
+  margin-right: 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+/* Broadsheet Lead Card */
+.times-lead-card {
+  background: #FFFFFF;
+  border: 2px solid var(--uos-ink);
+  box-shadow: 6px 6px 0px rgba(17, 17, 17, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.times-lead-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 8px 8px 0px rgba(44, 121, 61, 0.2);
+}
+
+.times-headline {
+  font-family: var(--font-times);
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--uos-ink);
+  letter-spacing: -0.01em;
+}
+
+.times-headline-md {
+  font-family: var(--font-times);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--uos-ink);
+}
+
+.times-deck {
+  font-family: var(--font-bitter);
+  font-size: 1rem;
+  font-style: italic;
+  color: #4B5563;
+  line-height: 1.4;
+  margin-top: 0.4rem;
+}
+
+.times-byline {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: #6B7280;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.times-byline strong {
+  color: var(--uos-ink);
+}
+
+/* Regular Newspaper Article Cards */
+.times-card {
+  background: #FFFFFF;
+  border: 1px solid var(--uos-ink);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.times-card:hover {
+  border-color: var(--uos-times-green);
+  transform: translateY(-2px);
+  box-shadow: 4px 4px 0px rgba(44, 121, 61, 0.2);
+}
+
+.times-card-img-wrap {
+  position: relative;
+  width: 100%;
+  height: 12.5rem;
+  background-color: #E5E7EB;
+  overflow: hidden;
+  border-bottom: 1px solid var(--uos-ink);
+}
+
+.times-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.times-card:hover .times-card-img {
+  transform: scale(1.03);
+}
+
+.times-card-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.times-card-footer {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--uos-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--uos-times-green);
+}
+
+/* Category Filter Tabs */
+.times-filter-btn {
+  background: #FFFFFF;
+  border: 1px solid var(--uos-border-dark);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.4rem 0.85rem;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.times-filter-btn:hover {
+  border-color: var(--uos-times-green);
+  color: var(--uos-times-green);
+}
+
+.times-filter-btn.active {
+  background: var(--uos-times-green);
+  border-color: var(--uos-times-green);
+  color: #FFFFFF;
+}
+
+/* Article Reading View / Modal */
+.times-modal-box {
+  background: #FFFFFF;
+  border: 2px solid var(--uos-ink);
+  max-width: 52rem;
+  width: 95%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  padding: 2.5rem;
+}
+
+.times-modal-article-body {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  line-height: 1.75;
+  color: #1F2937;
+}
+
+.times-modal-article-body p {
+  margin-bottom: 1.25rem;
+}
+
+.times-pull-quote {
+  font-family: var(--font-bitter);
+  font-style: italic;
+  font-size: 1.25rem;
+  color: var(--uos-times-green);
+  border-left: 3px solid var(--uos-times-green);
+  padding-left: 1.25rem;
+  margin: 1.75rem 0;
+  line-height: 1.5;
+}
+
 
