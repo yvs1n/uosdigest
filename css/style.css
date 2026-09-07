@@ -129,21 +129,30 @@ body {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.06);
 }
 
-/* Institutional Banner */
+/* Institutional Banner - strictly single-line height */
 .top-institutional-bar {
   background-color: var(--uos-maroon);
   color: #FFFFFF;
   border-bottom: 1px solid var(--uos-maroon-dark);
   font-family: var(--font-mono);
-  font-size: 0.7rem;
-  padding: 0.4rem 0;
+  font-size: 0.68rem;
+  height: 32px;
+  line-height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
-@media (max-width: 640px) {
-  .top-institutional-bar {
-    font-size: 0.62rem;
-    padding: 0.3rem 0;
-  }
+.top-institutional-bar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  height: 100%;
 }
 
 .top-institutional-bar a {
@@ -154,6 +163,23 @@ body {
 
 .top-institutional-bar a:hover {
   color: #FFFFFF;
+}
+
+@media (max-width: 900px) {
+  .top-bar-sub {
+    display: none !important;
+  }
+}
+
+@media (max-width: 680px) {
+  .top-institutional-bar {
+    font-size: 0.62rem;
+    height: 30px;
+    line-height: 30px;
+  }
+  .top-bar-date {
+    display: none !important;
+  }
 }
 
 /* Masthead Header */

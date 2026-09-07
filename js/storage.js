@@ -87,8 +87,22 @@ export async function initLiveSync(onDataChange) {
         }
         await saveToFirestore(key, valToSave);
       } else {
-        const cloudData = snap.data()?.payload;
+        let cloudData = snap.data()?.payload;
         if (cloudData !== undefined) {
+          if (key === 'publications' && Array.isArray(cloudData)) {
+            let changed = false;
+            cloudData.forEach(p => {
+              const def = initialPublications.find(d => d.id === p.id);
+              if (def && p.description && (p.description.includes('intellectual, artistic') || p.description.includes('student lab magazine'))) {
+                p.description = def.description;
+                p.highlights = def.highlights;
+                changed = true;
+              }
+            });
+            if (changed) {
+              saveToFirestore('publications', cloudData);
+            }
+          }
           if (isPrimitive) {
             localStorage.setItem(localKey, String(cloudData));
           } else {
@@ -103,8 +117,17 @@ export async function initLiveSync(onDataChange) {
       // 2. Attach live real-time listener
       onSnapshot(docRef, (docSnap) => {
         if (docSnap.exists()) {
-          const cloudData = docSnap.data()?.payload;
+          let cloudData = docSnap.data()?.payload;
           if (cloudData !== undefined) {
+            if (key === 'publications' && Array.isArray(cloudData)) {
+              cloudData.forEach(p => {
+                const def = initialPublications.find(d => d.id === p.id);
+                if (def && p.description && (p.description.includes('intellectual, artistic') || p.description.includes('student lab magazine'))) {
+                  p.description = def.description;
+                  p.highlights = def.highlights;
+                }
+              });
+            }
             if (isPrimitive) {
               localStorage.setItem(localKey, String(cloudData));
             } else {
@@ -131,11 +154,20 @@ export function getPublications() {
     if (data) {
       const stored = JSON.parse(data);
       if (Array.isArray(stored) && stored.length) {
-        // Merge any missing fields from initialPublications defaults
-        return stored.map(storedPub => {
+        let needsResave = false;
+        const merged = stored.map(storedPub => {
           const defaults = initialPublications.find(p => p.id === storedPub.id) || {};
+          if (storedPub.description && (storedPub.description.includes('intellectual, artistic') || storedPub.description.includes('student lab magazine'))) {
+            storedPub.description = defaults.description;
+            storedPub.highlights = defaults.highlights;
+            needsResave = true;
+          }
           return { ...defaults, ...storedPub };
         });
+        if (needsResave) {
+          savePublications(merged);
+        }
+        return merged;
       }
     }
   } catch (e) {}

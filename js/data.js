@@ -18,11 +18,11 @@ export const initialPublications = [
     pdfFileUrl: "/pdf/uos digest issue 3 for print.pdf",
     featured: true,
     pageCount: 36,
-    description: "A student lab magazine investigating the intellectual, artistic, and physical constructs that shape university life and youth culture across the University of Sharjah.",
+    description: "The student magazine of the University of Sharjah. Written, photographed, and designed by students at the College of Communication.",
     highlights: [
-      "Visual arts & photography folio from the College of Communication",
-      "The architecture of academic expression and identity",
-      "Faculty spotlight & student long-form investigative journalism"
+      "Photo essays & visual portfolios from student photographers",
+      "Essays on campus culture, creative pressure, and student life",
+      "Long-form reporting and faculty conversations"
     ],
     tags: ["Constructed", "Identity", "Visual Culture", "Student Life"]
   },
@@ -128,7 +128,7 @@ export const initialRadioEpisodes = [
     episodeNumber: 8,
     duration: "24:18",
     host: "Press Club Media Team",
-    description: "Inside the recording booth at the College of Communication: discussing how student publications adapt to multimedia formats, podcasting, and social newsrooms.",
+    description: "Student editors talk about keeping a print magazine alive in the scroll era, chasing sources across campus, and what student news looks like today.",
     date: "February 2026",
     audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
     coverImage: "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=800&q=80",
