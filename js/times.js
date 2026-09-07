@@ -61,10 +61,10 @@ function renderFrontLead() {
       <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 2.5rem; align-items: stretch;" class="lead-responsive-grid">
         <!-- Lead Main Story -->
         <div class="times-lead-card times-col-border" style="cursor: pointer;" onclick="window.openArticleModal('${lead.id}')">
-          <div style="width: 100%; height: 22rem; overflow: hidden; background: #E5E7EB; border-bottom: 2px solid var(--uos-ink);">
+          <div class="times-lead-img-wrap">
             <img src="${lead.coverImage}" alt="${lead.title}" style="width: 100%; height: 100%; object-fit: cover;" />
           </div>
-          <div style="padding: 1.75rem; display: flex; flex-direction: column; justify-content: space-between; flex: 1;">
+          <div class="times-lead-body">
             <div>
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
                 <span class="times-category-pill">${lead.category}</span>

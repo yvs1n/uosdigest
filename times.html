@@ -26,6 +26,68 @@
     .times-col-border {
       border-right: 1px solid var(--uos-border-dark);
     }
+    
+    /* Sticky Category Nav */
+    .times-nav-sticky {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(250, 249, 246, 0.98);
+      backdrop-filter: blur(8px);
+      border-bottom: 2px solid var(--uos-ink);
+    }
+    .times-sticky-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 3.25rem;
+      gap: 1rem;
+    }
+    .times-desk-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      white-space: nowrap;
+      padding: 0.4rem 0;
+      flex: 1;
+    }
+    .times-desk-nav::-webkit-scrollbar {
+      display: none;
+    }
+    .times-filter-btn {
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+    .times-nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+    .times-mobile-actions {
+      display: none;
+    }
+
+    /* Lead Story Image & Body Responsive Helpers */
+    .times-lead-img-wrap {
+      width: 100%;
+      height: 22rem;
+      overflow: hidden;
+      background: #E5E7EB;
+      border-bottom: 2px solid var(--uos-ink);
+    }
+    .times-lead-body {
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 1;
+    }
+
+    /* Responsive Broadsheet Rules */
     @media (max-width: 1024px) {
       .times-col-border {
         border-right: none;
@@ -33,18 +95,92 @@
         padding-bottom: 2rem;
         margin-bottom: 2rem;
       }
+    }
+
     @media (max-width: 900px) {
       .lead-responsive-grid {
         grid-template-columns: 1fr !important;
+        gap: 2rem !important;
       }
     }
-    .times-nav-sticky {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(250, 249, 246, 0.96);
-      backdrop-filter: blur(8px);
-      border-bottom: 2px solid var(--uos-ink);
+
+    @media (max-width: 768px) {
+      .times-nav-actions {
+        display: none !important;
+      }
+      .times-mobile-actions {
+        display: flex !important;
+        gap: 0.5rem;
+        padding: 0.75rem 0 0 0;
+      }
+      .times-mobile-actions button,
+      .times-mobile-actions a {
+        flex: 1;
+        text-align: center;
+        justify-content: center;
+      }
+      .times-nav-sticky {
+        padding: 0.15rem 0;
+      }
+      .times-sticky-container {
+        min-height: 2.75rem;
+      }
+      .times-title {
+        font-size: clamp(2rem, 8vw, 3.25rem) !important;
+      }
+      .times-crest-box {
+        width: 2.75rem !important;
+        height: 2.75rem !important;
+        font-size: 1.75rem !important;
+      }
+      .times-lead-img-wrap {
+        height: 14rem !important;
+      }
+      .times-lead-body {
+        padding: 1.15rem 1rem !important;
+      }
+      .times-modal-box {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        border-radius: 0 !important;
+        border: none !important;
+        padding: 1.25rem 1rem 3rem 1rem !important;
+      }
+      .times-dateline-bar {
+        flex-direction: column !important;
+        text-align: center !important;
+        gap: 0.25rem !important;
+        padding: 0.5rem 0 !important;
+        font-size: 0.65rem !important;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .times-articles-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+      }
+      .times-search-wrap {
+        width: 100% !important;
+      }
+      .times-search-wrap input {
+        width: 100% !important;
+      }
+      .times-card-img-wrap {
+        height: 11.5rem !important;
+      }
+      .times-card-body {
+        padding: 1rem !important;
+      }
+      .times-modal-article-body {
+        font-size: 1rem !important;
+        line-height: 1.65 !important;
+      }
+      .times-pdf-section {
+        padding: 1.5rem 1rem !important;
+      }
     }
   </style>
 </head>
@@ -57,7 +193,7 @@
         <a href="index.html" style="background: #111111; color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.15rem 0.5rem; text-decoration: none; border: 1px solid rgba(255,255,255,0.2); white-space: nowrap; flex-shrink: 0;">
           ← UOS Digest
         </a>
-        <span class="font-serif font-bold">جامعة الشارقة • UNIVERSITY OF SHARJAH</span>
+        <span class="font-serif font-bold top-bar-sub">جامعة الشارقة • UNIVERSITY OF SHARJAH</span>
         <span style="color: rgba(255,255,255,0.4);" class="top-bar-sub">|</span>
         <span class="top-bar-sub">The Press Club</span>
       </div>
@@ -88,8 +224,8 @@
 
       <!-- Main Newspaper Title Block -->
       <div style="text-align: center; padding: 1.25rem 0 0.75rem 0; border-top: 2px solid var(--uos-ink); border-bottom: 1px solid var(--uos-ink);">
-        <div style="display: flex; align-items: center; justify-content: center; gap: 1.5rem; flex-wrap: wrap;">
-          <div style="width: 3.5rem; height: 3.5rem; background: var(--uos-times-green); color: #FFFFFF; font-family: var(--font-times); font-size: 2.25rem; font-weight: bold; display: flex; align-items: center; justify-content: center; border: 2px solid var(--uos-ink);">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 1.25rem; flex-wrap: wrap;">
+          <div class="times-crest-box" style="width: 3.5rem; height: 3.5rem; background: var(--uos-times-green); color: #FFFFFF; font-family: var(--font-times); font-size: 2.25rem; font-weight: bold; display: flex; align-items: center; justify-content: center; border: 2px solid var(--uos-ink);">
             T
           </div>
           <div>
@@ -107,15 +243,25 @@
         <span>CIRCULATION: 8,500 COPIES ON CAMPUS & DIGITAL BROADCAST</span>
         <span style="font-weight: 800; color: var(--uos-times-green);">FREE CAMPUS CIRCULATION</span>
       </div>
+
+      <!-- Mobile Dedicated Action Buttons (Touch Friendly) -->
+      <div class="times-mobile-actions">
+        <button class="btn-times-outline" onclick="window.openTipModal()" style="padding: 0.5rem 0.75rem; font-size: 0.75rem;">
+          ✍️ Submit News Tip
+        </button>
+        <a href="#broadsheet-pdf" class="btn-times" style="padding: 0.5rem 0.75rem; font-size: 0.75rem;">
+          📰 Print Broadsheet PDF
+        </a>
+      </div>
     </div>
   </header>
 
   <!-- Sticky Desktop/Mobile Desk Navigation & Search -->
   <div class="times-nav-sticky">
     <div class="container">
-      <div style="display: flex; justify-content: space-between; align-items: center; min-height: 3.5rem; gap: 1rem; flex-wrap: wrap;">
-        <!-- Desk Category Links -->
-        <nav id="times-desk-nav" style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; padding: 0.5rem 0;">
+      <div class="times-sticky-container">
+        <!-- Desk Category Links (Smooth Horizontal Swipe on Mobile) -->
+        <nav id="times-desk-nav" class="times-desk-nav">
           <button class="times-filter-btn active" data-category="all" onclick="window.filterTimesCategory('all')">All Desks</button>
           <button class="times-filter-btn" data-category="Campus News" onclick="window.filterTimesCategory('Campus News')">Campus News</button>
           <button class="times-filter-btn" data-category="Academics & Tech" onclick="window.filterTimesCategory('Academics & Tech')">Academics & Tech</button>
@@ -125,8 +271,8 @@
           <button class="times-filter-btn" data-category="Opinion" onclick="window.filterTimesCategory('Opinion')">Opinion / Op-Ed</button>
         </nav>
 
-        <!-- Right Action Tools -->
-        <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <!-- Right Action Tools (Desktop) -->
+        <div class="times-nav-actions">
           <button class="btn-times-outline" onclick="window.openTipModal()" style="padding: 0.45rem 0.85rem; font-size: 0.72rem;">
             ✍️ Submit News Tip
           </button>
@@ -179,7 +325,7 @@
         </div>
 
         <!-- Search Bar -->
-        <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <div class="times-search-wrap" style="display: flex; align-items: center; gap: 0.5rem;">
           <input id="times-search-input" type="text" placeholder="Search headlines, authors, tags..." class="form-input" style="padding: 0.45rem 0.75rem; font-size: 0.8rem; width: 16rem; font-family: var(--font-mono);" />
           <button id="times-clear-search" class="btn-white" style="padding: 0.45rem 0.75rem; font-size: 0.75rem;" onclick="window.clearTimesSearch()">
             ✕
@@ -188,13 +334,13 @@
       </div>
 
       <!-- Articles Broadsheet Grid -->
-      <div id="times-articles-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem;">
+      <div id="times-articles-grid" class="times-articles-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem;">
         <!-- Populated dynamically by js/times.js -->
       </div>
     </section>
 
     <!-- SECTION 3: PHYSICAL PRINT BROADSHEET PDF ARCHIVE -->
-    <section id="broadsheet-pdf" style="margin-bottom: 4rem; padding: 3rem 2rem; background: #FFFFFF; border: 2px solid var(--uos-ink); box-shadow: 6px 6px 0px rgba(17, 17, 17, 0.08);">
+    <section id="broadsheet-pdf" class="times-pdf-section" style="margin-bottom: 4rem; padding: 3rem 2rem; background: #FFFFFF; border: 2px solid var(--uos-ink); box-shadow: 6px 6px 0px rgba(17, 17, 17, 0.08);">
       <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--uos-border); padding-bottom: 1.5rem; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
         <div>
           <span style="background: var(--uos-times-green); color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.2rem 0.5rem;">
