@@ -279,7 +279,7 @@ async function initInstagramSection() {
     return `
       <a href="${p.permalink || 'https://www.instagram.com/uosdigest'}" target="_blank" rel="noopener noreferrer" class="ig-card">
         <div class="ig-card-img-wrap">
-          <img src="${p.imageUrl}" alt="Instagram Post" class="ig-card-img" loading="lazy" />
+          <img src="${p.imageUrl}" alt="${p.caption ? p.caption.replace(/"/g, '&quot;') : 'Instagram Post'}" class="ig-card-img" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80';" />
           <div class="ig-card-badge">
             <span>📸 @uosdigest</span>
           </div>

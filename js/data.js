@@ -221,64 +221,64 @@ export const initialSurveyVoters = [];
 
 export const initialInstagramPosts = [
   {
+    id: "DdEbrx5Mk8k",
+    shortcode: "DdEbrx5Mk8k",
+    permalink: "https://www.instagram.com/uosdigest/reel/DdEbrx5Mk8k/",
+    imageUrl: "assets/instagram/DdEbrx5Mk8k.jpg",
+    caption: "CAMPUS COUTURE EPISODE 12: Real or Fake. Style, trends, and campus scenarios with UOS Digest.",
+    timestamp: "2026-09-09T16:00:00Z",
+    likes: 74,
+    comments: 2
+  },
+  {
     id: "DcyaF0SzVOH",
     shortcode: "DcyaF0SzVOH",
     permalink: "https://www.instagram.com/uosdigest/reel/DcyaF0SzVOH/",
-    imageUrl: "https://scontent.cdninstagram.com/v/t51.71878-15/792909879_1465221575430123_7744017040601215390_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=103&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=a8m5AE9iXj0Q7kNvwEtvsOD&_nc_oc=AdofrTu6sNpLCBg_YUSQMSSDnnF4VA7Ir3r-Dp6qTACLERSuzHE7mIcgQ1iiuhhAIva3WN-WaEopRaQFuRgcdpdB&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=QLGYztS-gAVZV4pUIBHxqg&_nc_ss=7b689&oh=00_AQJ78ROLwNH7sSlY2B5iSR5bASX-jL9dO6ayBw4i_7lYXQ&oe=6AA199BB",
+    imageUrl: "assets/instagram/DcyaF0SzVOH.jpg",
     caption: "Campus Couture presents: style, trends, and campus scenarios with UOS Digest.",
     timestamp: "2026-09-02T16:00:00Z",
-    likes: 69,
-    comments: 15
+    likes: 71,
+    comments: 16
   },
   {
     id: "Dcv4l3-skFt",
     shortcode: "Dcv4l3-skFt",
     permalink: "https://www.instagram.com/uosdigest/reel/Dcv4l3-skFt/",
-    imageUrl: "https://scontent.cdninstagram.com/v/t51.82787-15/791624338_17925752136408733_5698272484226774629_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=usmcoBb9gXEQ7kNvwHQ00DO&_nc_oc=AdrQhjv7C5A2PF70SReLIMgM309gXa1fKr2YRHmb-ALytkYvUEAsfQgYrvqxf-GKUM7fYxppjcLrsCQGV5SnKqtb&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=QLGYztS-gAVZV4pUIBHxqg&_nc_ss=7b689&oh=00_AQLYfrQP4q9dMh91qba-HtHq0hcFj3DhGtY8IcqFBSfbfw&oe=6AA17FAC",
+    imageUrl: "assets/instagram/Dcv4l3-skFt.jpg",
     caption: "TINY MIC series: Asking students across Sharjah campuses their takes on university life & culture.",
     timestamp: "2026-09-01T12:30:00Z",
-    likes: 96,
+    likes: 100,
     comments: 3
   },
   {
     id: "DciQ5yTTEIA",
     shortcode: "DciQ5yTTEIA",
     permalink: "https://www.instagram.com/uosdigest/reel/DciQ5yTTEIA/",
-    imageUrl: "https://scontent.cdninstagram.com/v/t51.82787-15/787101985_17924918499408733_7290797801465596862_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=111&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=Jv5DXSOiX0sQ7kNvwEQ_xMR&_nc_oc=AdrxRidFLYe3VSKPUJAjhl9iP0Geuq12OJyoY048Kb2xgr7dWdJShQCvd-DttK_JJSn0gcnA-HkJYrybZ1j7rjRs&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=QLGYztS-gAVZV4pUIBHxqg&_nc_ss=7b689&oh=00_AQIuIiVCMgNkEBcMg3Ktt-NOHEPrrRqfg4iTAlqBnKaivw&oe=6AA18B54",
+    imageUrl: "assets/instagram/DciQ5yTTEIA.jpg",
     caption: "Behind the typewriter: Issue #3 editorial preview and literary highlights from student contributors.",
     timestamp: "2026-08-27T10:15:00Z",
-    likes: 66,
+    likes: 67,
     comments: 1
   },
   {
     id: "DcgWd6as_tx",
     shortcode: "DcgWd6as_tx",
     permalink: "https://www.instagram.com/uosdigest/reel/DcgWd6as_tx/",
-    imageUrl: "https://scontent.cdninstagram.com/v/t51.71878-15/787854428_1056784103933460_6029656380611747629_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=111&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=YYCOg3TtOEQQ7kNvwENmPGg&_nc_oc=Adoeop1YpVkPnqgIeHvdQpNHyEdLzxyzZon2pWLRqa-ZB-0LLMtGErDQzEMy0hFbMFZZSzgNPktSu-D-yDoiiZky&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=QLGYztS-gAVZV4pUIBHxqg&_nc_ss=7b689&oh=00_AQL2qmpcyuzfS8nmbqp0ZIJo4nmTCuLibkYYCN-c0icdAQ&oe=6AA182D0",
+    imageUrl: "assets/instagram/DcgWd6as_tx.jpg",
     caption: "Campus Couture style spotlight: Investigating student identity and fashion in the third edition.",
     timestamp: "2026-08-26T15:00:00Z",
-    likes: 77,
+    likes: 81,
     comments: 9
   },
   {
     id: "DXy7k04MAbl",
     shortcode: "DXy7k04MAbl",
     permalink: "https://www.instagram.com/uosdigest/reel/DXy7k04MAbl/",
-    imageUrl: "https://scontent.cdninstagram.com/v/t51.71878-15/683847733_955551260595074_4152612367520543751_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=109&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=91vkWHl8rbAQ7kNvwGq7FS4&_nc_oc=Adp7B6zeOWQG5dkfDKj4oMGz-m_PMnxvv6fRmMLMt5E3RfAPVFeORIGG00fatslrB6VF3lpqu0eYGzOQ8EdUpXj-&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=QLGYztS-gAVZV4pUIBHxqg&_nc_ss=7b689&oh=00_AQLykyPck03bW8A0RMIHEvfBMo-j7GH5BsCQmc6gaOJyeA&oe=6AA187A5",
+    imageUrl: "assets/instagram/DXy7k04MAbl.jpg",
     caption: "Student photography archive: Visual stories capturing life across university courtyards and galleries.",
     timestamp: "2026-05-01T14:45:00Z",
-    likes: 75,
+    likes: 74,
     comments: 7
-  },
-  {
-    id: "DUpzStPE25O",
-    shortcode: "DUpzStPE25O",
-    permalink: "https://www.instagram.com/uosdigest/p/DUpzStPE25O/",
-    imageUrl: "https://scontent.cdninstagram.com/v/t51.82787-15/630825696_17893330623408733_7934003657411736883_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=-e6JHW9XZvoQ7kNvwEf6yVg&_nc_oc=Adp-WPq2YLo76OxuLkw21putgDo3M5MPcwx_nm1SFVwGGhWJWLkFSfmLQ3u2txsxTS9kHjYe8FeWitFAElEV1E9b&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=QLGYztS-gAVZV4pUIBHxqg&_nc_ss=7b689&oh=00_AQLoBx-xGnSZ6wMNRl8VqBh8DLegn3EpsmB5sndZhuqBOw&oe=6AA19B5A",
-    caption: "Constructed: The Construction of Self, Identity and Culture — Issue #3 is officially published!",
-    timestamp: "2026-02-12T11:00:00Z",
-    likes: 97,
-    comments: 2
   }
 ];
 

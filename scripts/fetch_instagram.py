@@ -23,6 +23,7 @@ if hasattr(sys.stdout, 'reconfigure'):
 USERNAME = os.environ.get('INSTAGRAM_USERNAME', 'uosdigest')
 MAX_POSTS = int(os.environ.get('MAX_POSTS', 6))
 OUTPUT_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'data', 'instagram.json'))
+ASSETS_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'assets', 'instagram'))
 
 def parse_count(val):
     if val is None:
@@ -41,6 +42,32 @@ def parse_count(val):
     except Exception:
         return None
 
+def save_local_image(shortcode, image_url):
+    """
+    Downloads remote image into local assets/instagram/<shortcode>.jpg
+    so images are permanent and never expire with 403 Forbidden.
+    """
+    if not image_url or not image_url.startswith('http'):
+        return image_url
+    try:
+        import requests
+        os.makedirs(ASSETS_DIR, exist_ok=True)
+        local_rel = f"assets/instagram/{shortcode}.jpg"
+        local_abs = os.path.join(ASSETS_DIR, f"{shortcode}.jpg")
+        
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        }
+        res = requests.get(image_url, headers=headers, timeout=15)
+        if res.status_code == 200 and len(res.content) > 1000:
+            with open(local_abs, 'wb') as f:
+                f.write(res.content)
+            print(f"  [IMAGE] Saved permanent local image: {local_rel} ({len(res.content)} bytes)")
+            return local_rel
+    except Exception as e:
+        print(f"  [IMAGE WARN] Could not save local image for {shortcode}: {e}")
+    return image_url
+
 def load_existing_posts():
     try:
         if os.path.exists(OUTPUT_FILE):
@@ -51,6 +78,44 @@ def load_existing_posts():
     except Exception as e:
         print(f"Notice: Could not load existing posts from {OUTPUT_FILE}: {e}")
     return []
+
+def fetch_metrics_from_web(shortcode):
+    """
+    Scrapes like and comment counts using Instagram's public Open Graph tags.
+    """
+    try:
+        import requests
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Accept-Language': 'en-US,en;q=0.9'
+        }
+        for prefix in ['reel', 'p']:
+            url = f"https://www.instagram.com/{prefix}/{shortcode}/"
+            res = requests.get(url, headers=headers, timeout=12)
+            if res.status_code != 200:
+                continue
+            text = res.text
+            m = re.search(r'property="og:description"\s+content="([^"]+)"', text)
+            if not m:
+                m = re.search(r'content="([^"]+)"\s+property="og:description"', text)
+            if m:
+                desc = m.group(1)
+                likes = None
+                comments = None
+                lm = re.search(r'([\d,.]+[kKmM]?)\s+likes?', desc, re.I)
+                if lm:
+                    likes = parse_count(lm.group(1))
+                cm = re.search(r'([\d,.]+[kKmM]?)\s+comments?', desc, re.I)
+                if cm:
+                    comments = parse_count(cm.group(1))
+                
+                img_m = re.search(r'property="og:image"\s+content="([^"]+)"', text)
+                img_url = img_m.group(1) if img_m else None
+                return likes, comments, img_url
+        return None, None, None
+    except Exception as e:
+        print(f"Notice: Web metrics fetch for {shortcode} failed: {e}")
+        return None, None, None
 
 def fetch_metrics_from_embed(shortcode):
     """
@@ -166,10 +231,22 @@ def refresh_metrics_for_posts(posts):
                     updated_likes = inst_post.likes
                 if inst_post.comments is not None:
                     updated_comments = inst_post.comments
+                if inst_post.url:
+                    p['imageUrl'] = save_local_image(sc, inst_post.url)
             except Exception:
                 pass
 
-        # 2. Fallback to public embed scraper if needed
+        # 2. Fallback to web metadata (og:description and og:image)
+        if updated_likes is None or updated_comments is None:
+            wlikes, wcomments, wimg = fetch_metrics_from_web(sc)
+            if updated_likes is None and wlikes is not None:
+                updated_likes = wlikes
+            if updated_comments is None and wcomments is not None:
+                updated_comments = wcomments
+            if wimg and (not p.get('imageUrl') or p.get('imageUrl').startswith('http')):
+                p['imageUrl'] = save_local_image(sc, wimg)
+
+        # 3. Fallback to public embed scraper if needed
         if updated_likes is None or updated_comments is None:
             elikes, ecomments = fetch_metrics_from_embed(sc)
             if updated_likes is None and elikes is not None:
@@ -177,13 +254,18 @@ def refresh_metrics_for_posts(posts):
             if updated_comments is None and ecomments is not None:
                 updated_comments = ecomments
 
-        # 3. Apply fresh counts if found
+        # Ensure image is saved locally
+        img_url = p.get('imageUrl')
+        if img_url and img_url.startswith('http'):
+            p['imageUrl'] = save_local_image(sc, img_url)
+
+        # Apply fresh counts if found
         if updated_likes is not None:
             p['likes'] = updated_likes
         if updated_comments is not None:
             p['comments'] = updated_comments
 
-        print(f"  Verified {sc}: likes={p.get('likes')}, comments={p.get('comments')}")
+        print(f"  Verified {sc}: likes={p.get('likes')}, comments={p.get('comments')}, image={p.get('imageUrl')}")
         time.sleep(0.3)
 
 def merge_and_slide_window(new_posts, existing_posts):
@@ -198,6 +280,8 @@ def merge_and_slide_window(new_posts, existing_posts):
         pid = p.get('id') or p.get('shortcode')
         if not pid:
             continue
+        if p.get('imageUrl') and p.get('imageUrl').startswith('http'):
+            p['imageUrl'] = save_local_image(pid, p['imageUrl'])
         if pid in combined:
             ex = combined[pid]
             ex['caption'] = p.get('caption') or ex.get('caption')
