@@ -11,7 +11,7 @@ import sys
 import json
 import re
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 
 # Configure utf-8 stdout for reliable cross-platform logging (Windows / Linux CI)
 if hasattr(sys.stdout, 'reconfigure'):
@@ -149,7 +149,97 @@ def fetch_metrics_from_embed(shortcode):
         return likes, comments
     except Exception as e:
         print(f"Notice: Embed metrics fetch for {shortcode} failed: {e}")
-        return None, None
+def fetch_posts_via_playwright():
+    """
+    Uses headless Chromium (Playwright) to browse @uosdigest on Instagram.
+    Bypasses unauthenticated API rate limits and accurately extracts top post shortcodes,
+    direct media URLs, captions, and real-time like/comment counts.
+    """
+    try:
+        from playwright.sync_api import sync_playwright
+        print(f"Launching headless browser to check @{USERNAME} on Instagram...")
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            context = browser.new_context(
+                user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                viewport={'width': 1280, 'height': 800}
+            )
+            page = context.new_page()
+            page.goto(f'https://www.instagram.com/{USERNAME}/', timeout=30000)
+            page.wait_for_timeout(3500)
+            
+            anchors = page.query_selector_all('a[href*="/p/"], a[href*="/reel/"]')
+            shortcodes = []
+            for a in anchors:
+                href = a.get_attribute('href') or ''
+                m = re.search(r'/(?:p|reel)/([A-Za-z0-9_-]+)', href)
+                if m:
+                    sc = m.group(1)
+                    if sc not in shortcodes:
+                        shortcodes.append(sc)
+                if len(shortcodes) >= MAX_POSTS:
+                    break
+            
+            print(f"  [BROWSER] Discovered top {len(shortcodes)} shortcodes: {shortcodes}")
+            if not shortcodes:
+                browser.close()
+                return []
+            
+            fetched = []
+            for sc in shortcodes:
+                try:
+                    page.goto(f'https://www.instagram.com/reel/{sc}/', timeout=20000)
+                    page.wait_for_timeout(1500)
+                    desc_meta = page.query_selector('meta[property="og:description"]')
+                    desc = desc_meta.get_attribute('content') if desc_meta else ''
+                    img_meta = page.query_selector('meta[property="og:image"]')
+                    img_url = img_meta.get_attribute('content') if img_meta else ''
+                    title_meta = page.query_selector('meta[property="og:title"]')
+                    title = title_meta.get_attribute('content') if title_meta else ''
+                    
+                    likes_m = re.search(r'([\d,.]+[kKmM]?)\s+likes?', desc, re.I)
+                    comms_m = re.search(r'([\d,.]+[kKmM]?)\s+comments?', desc, re.I)
+                    likes = parse_count(likes_m.group(1)) if likes_m else None
+                    comments = parse_count(comms_m.group(1)) if comms_m else None
+                    
+                    caption = ''
+                    cap_m = re.search(r':\s*"(.*)"', desc, re.S)
+                    if cap_m:
+                        caption = cap_m.group(1).strip()
+                    elif title:
+                        t_m = re.search(r':\s*"(.*)"', title, re.S)
+                        caption = t_m.group(1).strip() if t_m else title
+                    
+                    ts_iso = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+                    date_m = re.search(r'on\s+([A-Za-z]+\s+\d+,\s+\d{4})', desc)
+                    if date_m:
+                        try:
+                            parsed_date = datetime.strptime(date_m.group(1), '%B %d, %Y')
+                            ts_iso = parsed_date.isoformat() + 'Z'
+                        except Exception:
+                            pass
+                    
+                    local_img = save_local_image(sc, img_url) if img_url else f"assets/instagram/{sc}.jpg"
+                    
+                    fetched.append({
+                        'id': sc,
+                        'shortcode': sc,
+                        'permalink': f"https://www.instagram.com/uosdigest/reel/{sc}/",
+                        'imageUrl': local_img,
+                        'caption': caption[:160] + ('...' if len(caption) > 160 else ''),
+                        'timestamp': ts_iso,
+                        'likes': likes,
+                        'comments': comments
+                    })
+                    print(f"  [BROWSER POST] {sc}: {likes} likes, {comments} comments -> {local_img}")
+                except Exception as ex:
+                    print(f"  [BROWSER WARN] Could not scrape reel {sc}: {ex}")
+            
+            browser.close()
+            return fetched
+    except Exception as e:
+        print(f"Notice: Playwright browser fetch encountered: {e}")
+        return []
 
 def fetch_posts_via_instaloader():
     try:
@@ -312,8 +402,11 @@ def main():
     existing = load_existing_posts()
     print(f"Loaded {len(existing)} existing posts from {OUTPUT_FILE}")
 
-    # 1. Fetch new posts from Instagram profile
-    new_posts = fetch_posts_via_instaloader()
+    # 1. Fetch new posts: Try Playwright browser first (bypasses 401 unauthenticated rate limits)
+    new_posts = fetch_posts_via_playwright()
+    if not new_posts:
+        print("Playwright produced no posts; falling back to Instaloader...")
+        new_posts = fetch_posts_via_instaloader()
 
     # 2. Merge into fixed sliding window of latest MAX_POSTS
     updated = merge_and_slide_window(new_posts, existing)

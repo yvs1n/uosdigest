@@ -1,9 +1,9 @@
-name: Daily Instagram Feed Sync
+name: Automated Instagram Feed Sync
 
 on:
   schedule:
-    # Runs everyday at 06:00 UTC (10:00 AM UAE Time)
-    - cron: '0 6 * * *'
+    # Runs automatically every 4 hours in the background
+    - cron: '0 */4 * * *'
   workflow_dispatch:
     # Allows manual trigger from GitHub Actions UI
 
@@ -26,10 +26,11 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
 
-      - name: Install dependencies
+      - name: Install dependencies & Playwright browser
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          python -m playwright install chromium --with-deps
 
 
       - name: Fetch latest Instagram posts
@@ -42,10 +43,7 @@ jobs:
 
       - name: Commit and push changes if updated
         run: |
-          if git diff --quiet data/instagram.json && git status --porcelain assets/instagram | grep -q .; then
-            echo "Assets or data changes detected..."
-          fi
-          if git diff --quiet data/instagram.json && [ -z "$(git status --porcelain assets/instagram)" ]; then
+          if [ -z "$(git status --porcelain data/instagram.json assets/instagram)" ]; then
             echo "No new posts or images to commit."
           else
             echo "New posts or images detected! Committing and pushing to repository..."
