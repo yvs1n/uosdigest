@@ -150,19 +150,15 @@
           </div>
         </div>
 
-        <!-- Cover Spread (Fully Adaptable to Screen Size) -->
+        <!-- Cover Spread (Fully Adaptable & Mobile Responsive) -->
         <div style="display: flex; justify-content: center; width: 100%;">
-          <div id="hero-cover-card" class="pub-cover-wrap" style="width: 100%; max-width: 32rem;" onclick="window.openCoverFullscreen()">
-            <div class="cover-fullscreen-badge">
-              ⛶ Fullscreen Cover
+          <div class="hero-cover-slot">
+            <div id="hero-cover-card" class="hero-cover-frame" onclick="window.openCoverFullscreen()">
+              <img id="hero-cover-img" src="" alt="Publication Cover" class="hero-cover-img" />
             </div>
-            <img id="hero-cover-img" src="" alt="" class="pub-cover-img" />
-            <div style="margin-top: 0.5rem; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-sans); font-size: 0.72rem; color: #6B7280; font-weight: 600;">
-              <span>University of Sharjah Press</span>
-              <span style="color: var(--uos-maroon); font-weight: 800; display: inline-flex; align-items: center; gap: 0.25rem;">
-                EXPAND FULL SCREEN ↗
-              </span>
-            </div>
+            <button type="button" class="hero-cover-btn" onclick="window.openCoverFullscreen()">
+              ⛶ View Fullscreen Cover
+            </button>
           </div>
         </div>
       </div>
