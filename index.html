@@ -62,14 +62,13 @@
             <a href="#campus-voice" class="nav-link">Campus Voice</a>
             <a href="#team" class="nav-link">Team</a>
             <a href="#newsletter" class="nav-link">Subscribe</a>
-            <a href="admin.html" class="nav-link" style="color: var(--uos-gold); font-weight: bold;">Editor ↗</a>
           </nav>
 
           <div style="display: flex; gap: 0.5rem; align-items: center;">
             <a href="#publications" class="btn-maroon" style="padding: 0.45rem 0.85rem; font-size: 0.75rem;">
               Read Issues ↓
             </a>
-            <button class="btn-white" onclick="window.openJoinModal()" style="padding: 0.45rem 0.85rem; font-size: 0.75rem;">
+            <button id="nav-join-btn" class="btn-white" onclick="window.openJoinModal()" style="padding: 0.45rem 0.85rem; font-size: 0.75rem;">
               Join Team
             </button>
             <button class="mobile-menu-toggle" id="mobile-menu-btn" onclick="window.toggleMobileMenu()">
@@ -379,7 +378,7 @@
             The students writing the stories, taking the photos, and laying out the pages every semester.
           </p>
         </div>
-        <button class="btn-maroon" onclick="window.openJoinModal()">
+        <button id="team-join-btn" class="btn-maroon" onclick="window.openJoinModal()">
           ✨ Applications Open — Join Editorial Team
         </button>
       </div>
@@ -635,10 +634,21 @@
     <div class="modal-box">
       <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--uos-border); padding-bottom: 1rem; margin-bottom: 1.5rem;">
         <div>
-          <span style="background: var(--uos-maroon); color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.2rem 0.5rem;">APPLICATIONS OPEN</span>
+          <span id="join-modal-badge" style="background: var(--uos-maroon); color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.2rem 0.5rem;">APPLICATIONS OPEN</span>
           <h3 style="font-weight: 900; font-size: 1.5rem; margin-top: 0.25rem;">Join The Press Club Team</h3>
         </div>
         <button class="btn-white" onclick="window.closeJoinModal()">✕</button>
+      </div>
+
+      <!-- Paused Notification Box -->
+      <div id="join-paused-notice" style="display: none; background: #FEF3C7; border: 2px solid #F59E0B; padding: 1.25rem; margin-bottom: 1.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 800; color: #92400E; margin-bottom: 0.35rem; font-size: 0.95rem;">
+          <span>⏸️</span>
+          <span>Applications Are Currently Paused</span>
+        </div>
+        <p style="font-size: 0.82rem; color: #78350F; line-height: 1.5; margin: 0;">
+          We are not accepting student applications at this moment. Please check back for later updates and future recruitment announcements!
+        </p>
       </div>
 
       <form id="join-form">
@@ -667,7 +677,7 @@
           <label class="form-label">Story Pitch / Brief Statement *</label>
           <textarea id="join-pitch" rows="3" required placeholder="What story or topic would you like to cover?" class="form-textarea"></textarea>
         </div>
-        <button type="submit" class="btn-maroon" style="width: 100%; justify-content: center; padding: 0.75rem;">
+        <button id="join-submit-btn" type="submit" class="btn-maroon" style="width: 100%; justify-content: center; padding: 0.75rem;">
           Submit Application ↗
         </button>
       </form>
@@ -706,7 +716,7 @@
   </div>
 
   <!-- Vanilla JavaScript ES Modules -->
-  <script type="module" src="js/app.js?v=20260912_2"></script>
+  <script type="module" src="js/app.js?v=20260912_3"></script>
 
 </body>
 </html>

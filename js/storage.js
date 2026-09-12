@@ -36,22 +36,37 @@ export const defaultSettings = {
   campusVoiceEnabled: true,
   campusVoicePausedMessage: 'Voting is concluded for this edition of the campus pulse survey.',
   applicationRoles: [
-    'Journalist / Writer',
-    'Photographer',
-    'Layout / Graphic Designer',
-    'Radio Host / Podcaster',
-    'Social Media & Video Producer',
-    'Investigative Reporter'
+    { text: 'Journalist / Writer', hidden: false },
+    { text: 'Photographer', hidden: false },
+    { text: 'Layout / Graphic Designer', hidden: false },
+    { text: 'Radio Host / Podcaster', hidden: false },
+    { text: 'Social Media & Video Producer', hidden: false },
+    { text: 'Investigative Reporter', hidden: false }
   ],
   tipCategories: [
-    'Campus News & Administration',
-    'Academics & Research',
-    'Special Investigation',
-    'Arts, Culture & Fashion',
-    'Sports & Inter-Collegiate Athletics',
-    'Opinion / Student Perspective'
+    { text: 'Campus News & Administration', hidden: false },
+    { text: 'Academics & Research', hidden: false },
+    { text: 'Special Investigation', hidden: false },
+    { text: 'Arts, Culture & Fashion', hidden: false },
+    { text: 'Sports & Inter-Collegiate Athletics', hidden: false },
+    { text: 'Opinion / Student Perspective', hidden: false }
   ]
 };
+
+function normalizeOptionList(list, defaultList) {
+  if (!Array.isArray(list) || list.length === 0) {
+    list = defaultList;
+  }
+  return list.map(item => {
+    if (typeof item === 'string') {
+      return { text: item, hidden: false };
+    }
+    return {
+      text: item.text || String(item),
+      hidden: !!item.hidden
+    };
+  });
+}
 
 // Asynchronous background write to Firebase Firestore
 async function saveToFirestore(docName, payload) {
@@ -153,12 +168,8 @@ export async function initLiveSync(onDataChange) {
               });
             }
             if (key === 'settings' && typeof cloudData === 'object' && cloudData !== null) {
-              if (!cloudData.applicationRoles || !Array.isArray(cloudData.applicationRoles)) {
-                cloudData.applicationRoles = [...defaultSettings.applicationRoles];
-              }
-              if (!cloudData.tipCategories || !Array.isArray(cloudData.tipCategories)) {
-                cloudData.tipCategories = [...defaultSettings.tipCategories];
-              }
+              cloudData.applicationRoles = normalizeOptionList(cloudData.applicationRoles, defaultSettings.applicationRoles);
+              cloudData.tipCategories = normalizeOptionList(cloudData.tipCategories, defaultSettings.tipCategories);
             }
             if (isPrimitive) {
               localStorage.setItem(localKey, String(cloudData));
@@ -249,12 +260,8 @@ export function getSettings() {
     const data = localStorage.getItem(KEYS.SETTINGS);
     if (data) {
       const parsed = JSON.parse(data);
-      if (!parsed.applicationRoles || !Array.isArray(parsed.applicationRoles) || parsed.applicationRoles.length === 0) {
-        parsed.applicationRoles = [...defaultSettings.applicationRoles];
-      }
-      if (!parsed.tipCategories || !Array.isArray(parsed.tipCategories) || parsed.tipCategories.length === 0) {
-        parsed.tipCategories = [...defaultSettings.tipCategories];
-      }
+      parsed.applicationRoles = normalizeOptionList(parsed.applicationRoles, defaultSettings.applicationRoles);
+      parsed.tipCategories = normalizeOptionList(parsed.tipCategories, defaultSettings.tipCategories);
       return parsed;
     }
   } catch (e) {}
@@ -266,30 +273,28 @@ export function saveSettings(settings) {
   saveToFirestore('settings', settings);
 }
 
-export function getApplicationRoles() {
+export function getApplicationRoles(onlyVisible = false) {
   const s = getSettings();
-  return s.applicationRoles && Array.isArray(s.applicationRoles) && s.applicationRoles.length > 0
-    ? s.applicationRoles
-    : [...defaultSettings.applicationRoles];
+  const list = normalizeOptionList(s.applicationRoles, defaultSettings.applicationRoles);
+  return onlyVisible ? list.filter(item => !item.hidden) : list;
 }
 
 export function saveApplicationRoles(roles) {
   const s = getSettings();
-  s.applicationRoles = roles;
+  s.applicationRoles = normalizeOptionList(roles, defaultSettings.applicationRoles);
   saveSettings(s);
   return s.applicationRoles;
 }
 
-export function getTipCategories() {
+export function getTipCategories(onlyVisible = false) {
   const s = getSettings();
-  return s.tipCategories && Array.isArray(s.tipCategories) && s.tipCategories.length > 0
-    ? s.tipCategories
-    : [...defaultSettings.tipCategories];
+  const list = normalizeOptionList(s.tipCategories, defaultSettings.tipCategories);
+  return onlyVisible ? list.filter(item => !item.hidden) : list;
 }
 
 export function saveTipCategories(categories) {
   const s = getSettings();
-  s.tipCategories = categories;
+  s.tipCategories = normalizeOptionList(categories, defaultSettings.tipCategories);
   saveSettings(s);
   return s.tipCategories;
 }
@@ -517,11 +522,26 @@ export function deletePollQuestion(pollId) {
   return polls;
 }
 
+export function togglePollQuestionHidden(pollId) {
+  const polls = getPolls();
+  const poll = polls.find(p => p.id === pollId);
+  if (poll) {
+    poll.hidden = !poll.hidden;
+    savePolls(polls);
+  }
+  return polls;
+}
+
 // 7. Survey Voter Log Entries
 export function getSurveyVoters() {
   try {
     const data = localStorage.getItem(KEYS.SURVEY_VOTERS);
-    if (data) return JSON.parse(data);
+    if (data) {
+      const parsed = JSON.parse(data);
+      if (Array.isArray(parsed)) {
+        return parsed.map((v, i) => v.id ? v : { ...v, id: `vote-${i}-${Date.now()}` });
+      }
+    }
   } catch (e) {}
   return JSON.parse(JSON.stringify(initialSurveyVoters));
 }
@@ -529,6 +549,7 @@ export function getSurveyVoters() {
 export function addSurveyVoter(pollId, voterName, optionId, optionText) {
   const voters = getSurveyVoters();
   const newVoter = {
+    id: 'vote-' + Date.now() + '-' + Math.random().toString(36).substr(2, 6),
     pollId,
     voterName,
     optionId,
@@ -539,6 +560,43 @@ export function addSurveyVoter(pollId, voterName, optionId, optionText) {
   localStorage.setItem(KEYS.SURVEY_VOTERS, JSON.stringify(voters));
   saveToFirestore('survey_voters', voters);
   return voters;
+}
+
+export function deleteSingleSurveyVote(voteIdOrIndex) {
+  const voters = getSurveyVoters();
+  let targetIndex = -1;
+  if (typeof voteIdOrIndex === 'number') {
+    targetIndex = voteIdOrIndex;
+  } else if (typeof voteIdOrIndex === 'string') {
+    targetIndex = voters.findIndex(v => v.id === voteIdOrIndex);
+    if (targetIndex === -1) {
+      const parsed = parseInt(voteIdOrIndex, 10);
+      if (!isNaN(parsed) && voters[parsed]) targetIndex = parsed;
+    }
+  }
+
+  if (targetIndex >= 0 && targetIndex < voters.length) {
+    const removedVote = voters.splice(targetIndex, 1)[0];
+    localStorage.setItem(KEYS.SURVEY_VOTERS, JSON.stringify(voters));
+    saveToFirestore('survey_voters', voters);
+
+    if (removedVote && removedVote.pollId) {
+      const polls = getPolls();
+      const poll = polls.find(p => p.id === removedVote.pollId);
+      if (poll) {
+        if (poll.options) {
+          const opt = poll.options.find(o => o.id === removedVote.optionId || o.text === removedVote.optionText);
+          if (opt && opt.votes > 0) {
+            opt.votes = Math.max(0, opt.votes - 1);
+          }
+        }
+        poll.totalVotes = Math.max(0, (poll.totalVotes || 1) - 1);
+        savePolls(polls);
+      }
+    }
+    return true;
+  }
+  return false;
 }
 
 // 8. Ittisal Radio Episodes (Dynamic Cloud Sync)

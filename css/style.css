@@ -503,6 +503,19 @@ body {
   transform: scale(0.98);
 }
 
+.btn-paused {
+  background-color: #E5E7EB !important;
+  color: #6B7280 !important;
+  border: 1px solid #D1CFCA !important;
+  box-shadow: none !important;
+  cursor: pointer !important;
+}
+
+.btn-paused:hover {
+  background-color: #D1D5DB !important;
+  color: #374151 !important;
+}
+
 /* Modals */
 .modal-overlay {
   position: fixed;

@@ -2,7 +2,7 @@
  * University of Sharjah - The UOS Times Broadsheet Controller (Pure Vanilla JS)
  */
 
-import { getTimesArticles, getTipCategories, initLiveSync } from './storage.js?v=20260912_2';
+import { getTimesArticles, getTipCategories, initLiveSync } from './storage.js?v=20260912_3';
 
 let articles = [];
 let activeCategory = 'all';
@@ -335,10 +335,13 @@ window.printArticle = () => {
 function populateTipCategories() {
   const catSelect = document.getElementById('tip-category');
   if (catSelect) {
-    const cats = getTipCategories();
+    const cats = getTipCategories(true);
     const currentVal = catSelect.value;
-    catSelect.innerHTML = cats.map(c => `<option value="${c}">${c}</option>`).join('');
-    if (currentVal && cats.includes(currentVal)) {
+    catSelect.innerHTML = cats.map(c => {
+      const val = typeof c === 'string' ? c : c.text;
+      return `<option value="${val}">${val}</option>`;
+    }).join('');
+    if (currentVal && cats.some(c => (typeof c === 'string' ? c : c.text) === currentVal)) {
       catSelect.value = currentVal;
     }
   }

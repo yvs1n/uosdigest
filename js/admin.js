@@ -32,7 +32,9 @@ import {
   savePolls,
   addPollQuestion,
   deletePollQuestion,
+  togglePollQuestionHidden,
   getSurveyVoters,
+  deleteSingleSurveyVote,
   getTimesArticles,
   saveTimesArticles,
   addTimesArticle,
@@ -41,7 +43,7 @@ import {
   toggleTimesArticleFeatured,
   exportToCSV,
   initLiveSync
-} from './storage.js?v=20260912_2';
+} from './storage.js?v=20260912_3';
 import { uploadPdfToStorage, uploadImageToStorage } from './firebase.js';
 
 let isAuthenticated = localStorage.getItem('uos_digest_admin_auth') === 'true';
@@ -277,10 +279,10 @@ function renderTabContent() {
     contentArea.innerHTML = `
       <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1.5rem; border-bottom: 2px solid #111111; flex-wrap: wrap; gap: 1rem;">
         <div>
-          <h2 style="font-weight: 900; font-size: 1.5rem;">Campus Pulse & Opinion Surveys (${polls.length})</h2>
-          <p style="font-family: var(--font-mono); font-size: 0.75rem; color: #6B7280;">Manage survey questions and inspect verified student voter records</p>
+          <h2 style="font-weight: 900; font-size: 1.5rem;">Student Polls & Surveys (${polls.length})</h2>
+          <p style="font-family: var(--font-mono); font-size: 0.75rem; color: #6B7280;">Manage questions students can vote on, see the results, hide questions from the site, or remove votes</p>
         </div>
-        <button class="btn-maroon" onclick="window.promptAddPollQuestion()">+ Add Survey Question</button>
+        <button class="btn-maroon" onclick="window.promptAddPollQuestion()">+ Add New Question</button>
       </div>
 
       <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem;">
@@ -288,24 +290,32 @@ function renderTabContent() {
           const pollVoters = voters.filter(v => v.pollId === p.id);
           return `
             <div style="padding: 1.5rem; border: 2px solid #111111; background: #FFFFFF;">
-              <div style="display: flex; justify-content: space-between; align-items: start; border-bottom: 1px solid #E2E0D8; padding-bottom: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+              <div style="display: flex; justify-content: space-between; align-items: start; border-bottom: 1px solid #E2E0D8; padding-bottom: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;">
                 <div>
-                  <span style="font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; color: #7A132B; text-transform: uppercase;">
-                    Question ${idx + 1} • ${p.edition}
-                  </span>
+                  <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem;">
+                    <span style="font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; color: #7A132B; text-transform: uppercase;">
+                      Question ${idx + 1} • ${p.edition}
+                    </span>
+                    <span style="font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.15rem 0.4rem; border-radius: 2px; ${p.hidden ? 'background: #E5E7EB; color: #4B5563; border: 1px solid #D1CFCA;' : 'background: #DCFCE7; color: #166534; border: 1px solid #86EFAC;'}">
+                      ${p.hidden ? '🚫 Hidden from Website' : '👁️ Visible on Website'}
+                    </span>
+                  </div>
                   <h3 style="font-family: var(--font-serif); font-weight: bold; font-size: 1.25rem; margin-top: 0.25rem;">
                     "${p.question}"
                   </h3>
                   <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #6B7280;">
-                    Total Verified Votes: <strong>${p.totalVotes}</strong> (${pollVoters.length} Name-Logged)
+                    Total Votes Cast: <strong>${p.totalVotes}</strong> (${pollVoters.length} Name-Logged)
                   </span>
                 </div>
                 <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                  <button class="btn-white" style="font-size: 0.7rem;" onclick="window.resetPollVotesToZero('${p.id}')">
-                    ↺ Reset Votes to 0
+                  <button class="btn-white" style="font-size: 0.72rem; font-weight: bold;" onclick="window.togglePollQuestionVisibility('${p.id}')">
+                    ${p.hidden ? '👁️ Show on Website' : '🚫 Hide from Website'}
                   </button>
-                  <button class="btn-white" style="color: #991B1B; font-size: 0.7rem;" onclick="window.removePollQuestion('${p.id}')">
-                    Delete Question
+                  <button class="btn-white" style="font-size: 0.72rem;" onclick="window.resetPollVotesToZero('${p.id}')" title="Reset all votes to 0">
+                    ↺ Clear All Votes (0)
+                  </button>
+                  <button class="btn-white" style="color: #991B1B; border-color: #FCA5A5; font-size: 0.72rem;" onclick="window.removePollQuestion('${p.id}')">
+                    🗑️ Delete Question
                   </button>
                 </div>
               </div>
@@ -326,21 +336,31 @@ function renderTabContent() {
                 }).join('')}
               </div>
 
-              <!-- Logged Student Voters for this question -->
-              <div style="background: var(--uos-paper); padding: 1rem; border: 1px solid var(--uos-border); font-family: var(--font-mono); font-size: 0.7rem;">
-                <span style="font-weight: bold; color: var(--uos-maroon); display: block; margin-bottom: 0.5rem;">
-                  Logged Student Submissions (${pollVoters.length}):
-                </span>
+              <!-- Individual Student Votes -->
+              <div style="background: var(--uos-paper); padding: 1rem; border: 1px solid var(--uos-border); font-family: var(--font-mono); font-size: 0.72rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                  <span style="font-weight: bold; color: var(--uos-maroon);">
+                    Individual Student Votes (${pollVoters.length}):
+                  </span>
+                  <span style="font-size: 0.65rem; color: #6B7280;">You can remove any single student vote below</span>
+                </div>
                 ${pollVoters.length ? `
-                  <div style="display: flex; flex-direction: column; gap: 0.35rem; max-height: 8rem; overflow-y: auto;">
-                    ${pollVoters.map(v => `
-                      <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #D1CFCA; padding-bottom: 0.25rem;">
-                        <strong>${v.voterName}</strong>
-                        <span style="color: #4B5563;">→ "${v.optionText}"</span>
+                  <div style="display: flex; flex-direction: column; gap: 0.4rem; max-height: 12rem; overflow-y: auto;">
+                    ${pollVoters.map((v, vIdx) => `
+                      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #D1CFCA; padding: 0.35rem 0;">
+                        <div>
+                          <strong>${v.voterName}</strong>
+                          <span style="color: #4B5563;"> voted for </span>
+                          <strong style="color: #7A132B;">"${v.optionText}"</strong>
+                          <span style="color: #9CA3AF; font-size: 0.65rem; margin-left: 0.5rem;">[${new Date(v.date).toLocaleDateString()}]</span>
+                        </div>
+                        <button class="btn-white" style="padding: 0.2rem 0.55rem; font-size: 0.65rem; color: #DC2626; border-color: #FCA5A5; cursor: pointer;" onclick="window.deleteSingleVote('${v.id || vIdx}', '${p.id}', '${v.voterName.replace(/'/g, "\\'")}')">
+                          🗑️ Remove Vote
+                        </button>
                       </div>
                     `).join('')}
                   </div>
-                ` : '<span style="color: #9CA3AF;">No specific voter names logged yet.</span>'}
+                ` : '<span style="color: #9CA3AF;">No individual student votes have been recorded yet for this question.</span>'}
               </div>
             </div>
           `;
@@ -348,22 +368,46 @@ function renderTabContent() {
       </div>
     `;
   } else if (currentTab === 'forms') {
-    const roles = getApplicationRoles();
-    const tipCats = getTipCategories();
+    const roles = getApplicationRoles(false);
+    const tipCats = getTipCategories(false);
 
     contentArea.innerHTML = `
       <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1.5rem; border-bottom: 2px solid #111111; flex-wrap: wrap; gap: 1rem;">
         <div>
           <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
             <span style="background: var(--uos-maroon); color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.15rem 0.5rem;">
-              FORM MASTER CONTROLS
+              APPLICATION & FORM SETTINGS
             </span>
-            <span style="font-family: var(--font-mono); font-size: 0.7rem; color: #6B7280;">Live Firebase Sync</span>
+            <span style="font-family: var(--font-mono); font-size: 0.7rem; color: #6B7280;">Live Instant Sync</span>
           </div>
-          <h2 style="font-weight: 900; font-size: 1.5rem;">Website Form Controls & Application Options</h2>
+          <h2 style="font-weight: 900; font-size: 1.5rem;">Application & Form Options</h2>
           <p style="font-family: var(--font-mono); font-size: 0.75rem; color: #6B7280;">
-            Customize recruitment roles, story tip categories, and master submission availability
+            Pause or open student applications, and choose which options students see in the forms
           </p>
+        </div>
+      </div>
+
+      <!-- MASTER RECRUITMENT STATUS CARD -->
+      <div style="background: ${settings.joinClubEnabled ? '#F0FDF4' : '#FEF2F2'}; border: 2px solid ${settings.joinClubEnabled ? '#16A34A' : '#DC2626'}; padding: 1.5rem; margin-top: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem;">
+              <span style="background: ${settings.joinClubEnabled ? '#16A34A' : '#DC2626'}; color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.2rem 0.5rem;">
+                ${settings.joinClubEnabled ? '● APPLICATIONS OPEN' : '⏸️ APPLICATIONS PAUSED'}
+              </span>
+            </div>
+            <h3 style="font-weight: 900; font-size: 1.25rem; color: #111111;">
+              Student Recruitment Applications: ${settings.joinClubEnabled ? 'Open & Accepting Applicants' : 'Paused (Buttons Grayed Out)'}
+            </h3>
+            <p style="font-size: 0.85rem; color: #4B5563; margin-top: 0.25rem; max-width: 42rem;">
+              ${settings.joinClubEnabled 
+                ? 'Students can currently click "Join Team" or "Applications Open" to submit an application.' 
+                : 'Applications are paused. The buttons on the website are grayed out, display "Applications Paused", and advise students to check back for later updates.'}
+            </p>
+          </div>
+          <button class="${settings.joinClubEnabled ? 'btn-white' : 'btn-maroon'}" style="padding: 0.75rem 1.5rem; font-size: 0.85rem; font-weight: bold; cursor: pointer; ${settings.joinClubEnabled ? 'color: #DC2626; border-color: #DC2626;' : 'background: #16A34A; border-color: #15803D;'}" onclick="window.toggleSetting('joinClubEnabled')">
+            ${settings.joinClubEnabled ? '⏸️ Pause Applications Now' : '▶️ Resume / Open Applications'}
+          </button>
         </div>
       </div>
 
@@ -372,13 +416,13 @@ function renderTabContent() {
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--uos-border); padding-bottom: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
           <div>
             <span style="font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; color: var(--uos-maroon); text-transform: uppercase;">
-              INDEX.HTML APPLICATION MODAL
+              APPLICATION FORM OPTIONS
             </span>
             <h3 style="font-weight: 900; font-size: 1.2rem; margin-top: 0.2rem;">
-              Recruitment Application Options (${roles.length})
+              Recruitment Application Roles (${roles.length})
             </h3>
             <p style="font-size: 0.78rem; color: #6B7280;">
-              These options appear in the "Role" dropdown when students apply or submit pitches.
+              Jobs students can apply for. You can hide a role to temporarily remove it from the form, or delete it permanently.
             </p>
           </div>
           <button class="btn-white" onclick="window.resetApplicationRoles()" style="font-size: 0.7rem;">
@@ -397,17 +441,25 @@ function renderTabContent() {
         <!-- Current Roles List -->
         <div style="display: flex; flex-direction: column; gap: 0.5rem;">
           ${roles.map((r, idx) => `
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: #FAF9F5; border: 1px solid #D1CFCA; font-family: var(--font-mono); font-size: 0.78rem;">
-              <div style="display: flex; align-items: center; gap: 0.75rem;">
-                <span style="background: var(--uos-maroon); color: #FFFFFF; font-size: 0.65rem; font-weight: bold; padding: 0.15rem 0.4rem; border-radius: 2px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: ${r.hidden ? '#F3F4F6' : '#FAF9F5'}; border: 1px solid ${r.hidden ? '#E5E7EB' : '#D1CFCA'}; font-family: var(--font-mono); font-size: 0.78rem;">
+              <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                <span style="background: ${r.hidden ? '#6B7280' : 'var(--uos-maroon)'}; color: #FFFFFF; font-size: 0.65rem; font-weight: bold; padding: 0.15rem 0.4rem; border-radius: 2px;">
                   0${idx + 1}
                 </span>
-                <strong style="font-family: var(--font-sans); font-size: 0.9rem; color: #111111;">${r}</strong>
+                <strong style="font-family: var(--font-sans); font-size: 0.9rem; color: ${r.hidden ? '#6B7280' : '#111111'}; text-decoration: ${r.hidden ? 'line-through' : 'none'};">
+                  ${r.text}
+                </strong>
+                <span style="font-size: 0.65rem; font-weight: bold; padding: 0.1rem 0.4rem; border-radius: 2px; ${r.hidden ? 'background: #E5E7EB; color: #4B5563;' : 'background: #DCFCE7; color: #166534;'}">
+                  ${r.hidden ? '🚫 Hidden from Students' : '👁️ Visible on Website'}
+                </span>
               </div>
               <div style="display: flex; align-items: center; gap: 0.35rem;">
+                <button type="button" class="btn-white" style="padding: 0.25rem 0.6rem; font-size: 0.68rem; font-weight: bold;" onclick="window.toggleApplicationRoleHidden(${idx})">
+                  ${r.hidden ? '👁️ Show Option' : '🚫 Hide Option'}
+                </button>
                 <button type="button" class="btn-white" style="padding: 0.25rem 0.5rem; font-size: 0.65rem; ${idx === 0 ? 'opacity:0.4;cursor:not-allowed;' : ''}" onclick="window.moveApplicationRole(${idx}, -1)" ${idx === 0 ? 'disabled' : ''} title="Move Up">▲</button>
                 <button type="button" class="btn-white" style="padding: 0.25rem 0.5rem; font-size: 0.65rem; ${idx === roles.length - 1 ? 'opacity:0.4;cursor:not-allowed;' : ''}" onclick="window.moveApplicationRole(${idx}, 1)" ${idx === roles.length - 1 ? 'disabled' : ''} title="Move Down">▼</button>
-                <button type="button" class="btn-white" style="padding: 0.25rem 0.6rem; font-size: 0.65rem; color: #DC2626; border-color: #FCA5A5;" onclick="window.deleteApplicationRole(${idx})" title="Delete Role">✕ Remove</button>
+                <button type="button" class="btn-white" style="padding: 0.25rem 0.6rem; font-size: 0.68rem; color: #DC2626; border-color: #FCA5A5;" onclick="window.deleteApplicationRole(${idx})" title="Delete Permanently">🗑️ Delete</button>
               </div>
             </div>
           `).join('')}
@@ -419,89 +471,87 @@ function renderTabContent() {
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--uos-border); padding-bottom: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
           <div>
             <span style="background: var(--uos-times-green); color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.15rem 0.5rem;">
-              TIMES.HTML TIP SUBMISSION MODAL
+              NEWSPAPER TIP CATEGORIES
             </span>
             <h3 style="font-weight: 900; font-size: 1.2rem; margin-top: 0.2rem; font-family: var(--font-times);">
-              Newsroom Tip Desk Options (${tipCats.length})
+              Newsroom Tip Topics (${tipCats.length})
             </h3>
             <p style="font-size: 0.78rem; color: #6B7280;">
-              Categories that students and readers can select when submitting anonymous or verified tips.
+              Categories readers can select when submitting news tips. Hide any category or delete it permanently.
             </p>
           </div>
           <button class="btn-white" onclick="window.resetTipCategories()" style="font-size: 0.7rem;">
-            ↺ Reset to Default Desks
+            ↺ Reset to Default Topics
           </button>
         </div>
 
-        <!-- Add New Desk Form -->
+        <!-- Add New Topic Form -->
         <form onsubmit="window.handleAddTipCat(event)" style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
-          <input id="new-cat-name" type="text" required placeholder="e.g. Health Sciences & Medical Campus, Student Housing..." class="form-input" style="flex: 1; min-width: 16rem;" />
+          <input id="new-cat-name" type="text" required placeholder="e.g. Health Sciences, Student Housing, Sustainability..." class="form-input" style="flex: 1; min-width: 16rem;" />
           <button type="submit" class="btn-times" style="padding: 0.6rem 1.25rem; font-size: 0.75rem; white-space: nowrap;">
-            + Add Tip Desk
+            + Add Tip Topic
           </button>
         </form>
 
         <!-- Current Categories List -->
         <div style="display: flex; flex-direction: column; gap: 0.5rem;">
           ${tipCats.map((c, idx) => `
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: #FAF9F5; border: 1px solid #D1CFCA; font-family: var(--font-mono); font-size: 0.78rem;">
-              <div style="display: flex; align-items: center; gap: 0.75rem;">
-                <span style="background: var(--uos-times-green); color: #FFFFFF; font-size: 0.65rem; font-weight: bold; padding: 0.15rem 0.4rem; border-radius: 2px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: ${c.hidden ? '#F3F4F6' : '#FAF9F5'}; border: 1px solid ${c.hidden ? '#E5E7EB' : '#D1CFCA'}; font-family: var(--font-mono); font-size: 0.78rem;">
+              <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                <span style="background: ${c.hidden ? '#6B7280' : 'var(--uos-times-green)'}; color: #FFFFFF; font-size: 0.65rem; font-weight: bold; padding: 0.15rem 0.4rem; border-radius: 2px;">
                   0${idx + 1}
                 </span>
-                <strong style="font-family: var(--font-sans); font-size: 0.9rem; color: #111111;">${c}</strong>
+                <strong style="font-family: var(--font-sans); font-size: 0.9rem; color: ${c.hidden ? '#6B7280' : '#111111'}; text-decoration: ${c.hidden ? 'line-through' : 'none'};">
+                  ${c.text}
+                </strong>
+                <span style="font-size: 0.65rem; font-weight: bold; padding: 0.1rem 0.4rem; border-radius: 2px; ${c.hidden ? 'background: #E5E7EB; color: #4B5563;' : 'background: #DCFCE7; color: #166534;'}">
+                  ${c.hidden ? '🚫 Hidden from Readers' : '👁️ Visible on Website'}
+                </span>
               </div>
               <div style="display: flex; align-items: center; gap: 0.35rem;">
+                <button type="button" class="btn-white" style="padding: 0.25rem 0.6rem; font-size: 0.68rem; font-weight: bold;" onclick="window.toggleTipCategoryHidden(${idx})">
+                  ${c.hidden ? '👁️ Show Option' : '🚫 Hide Option'}
+                </button>
                 <button type="button" class="btn-white" style="padding: 0.25rem 0.5rem; font-size: 0.65rem; ${idx === 0 ? 'opacity:0.4;cursor:not-allowed;' : ''}" onclick="window.moveTipCategory(${idx}, -1)" ${idx === 0 ? 'disabled' : ''} title="Move Up">▲</button>
                 <button type="button" class="btn-white" style="padding: 0.25rem 0.5rem; font-size: 0.65rem; ${idx === tipCats.length - 1 ? 'opacity:0.4;cursor:not-allowed;' : ''}" onclick="window.moveTipCategory(${idx}, 1)" ${idx === tipCats.length - 1 ? 'disabled' : ''} title="Move Down">▼</button>
-                <button type="button" class="btn-white" style="padding: 0.25rem 0.6rem; font-size: 0.65rem; color: #DC2626; border-color: #FCA5A5;" onclick="window.deleteTipCategory(${idx})" title="Delete Category">✕ Remove</button>
+                <button type="button" class="btn-white" style="padding: 0.25rem 0.6rem; font-size: 0.68rem; color: #DC2626; border-color: #FCA5A5;" onclick="window.deleteTipCategory(${idx})" title="Delete Permanently">🗑️ Delete</button>
               </div>
             </div>
           `).join('')}
         </div>
       </div>
 
-      <!-- SECTION 3: MASTER PORTAL AVAILABILITY TOGGLES -->
+      <!-- SECTION 3: OTHER WEBSITE AVAILABILITY TOGGLES -->
       <div style="margin-top: 2rem;">
-        <h3 style="font-weight: 900; font-size: 1.2rem; margin-bottom: 0.75rem;">Master Portal Availability Toggles</h3>
+        <h3 style="font-weight: 900; font-size: 1.2rem; margin-bottom: 0.75rem;">Other Website Sections (Turn On / Off)</h3>
         <div style="display: flex; flex-direction: column; gap: 1rem;">
           <div style="padding: 1.25rem; background: #FFFFFF; border: 1px solid #E2E0D8; display: flex; justify-content: space-between; align-items: center;">
             <div>
-              <h4 style="font-weight: bold; font-size: 0.95rem;">Newsletter Dispatch Subscription</h4>
-              <span style="font-size: 0.75rem; color: #6B7280;">Registration card on footer</span>
+              <h4 style="font-weight: bold; font-size: 0.95rem;">Email Newsletter Sign-Ups</h4>
+              <span style="font-size: 0.75rem; color: #6B7280;">Allows students and readers to subscribe in the footer</span>
             </div>
             <button class="btn-maroon" onclick="window.toggleSetting('newsletterEnabled')">
-              ${settings.newsletterEnabled ? '● ACTIVE & OPEN' : '○ PAUSED'}
+              ${settings.newsletterEnabled ? '● ACTIVE (OPEN)' : '○ PAUSED'}
             </button>
           </div>
 
           <div style="padding: 1.25rem; background: #FFFFFF; border: 1px solid #E2E0D8; display: flex; justify-content: space-between; align-items: center;">
             <div>
-              <h4 style="font-weight: bold; font-size: 0.95rem;">Press Club Recruitment & Pitching</h4>
-              <span style="font-size: 0.75rem; color: #6B7280;">Writer and photographer applications</span>
-            </div>
-            <button class="btn-maroon" onclick="window.toggleSetting('joinClubEnabled')">
-              ${settings.joinClubEnabled ? '● ACTIVE & OPEN' : '○ PAUSED'}
-            </button>
-          </div>
-
-          <div style="padding: 1.25rem; background: #FFFFFF; border: 1px solid #E2E0D8; display: flex; justify-content: space-between; align-items: center;">
-            <div>
-              <h4 style="font-weight: bold; font-size: 0.95rem;">Ittisal Radio Studio Pitching</h4>
-              <span style="font-size: 0.75rem; color: #6B7280;">Podcast sound lab recording bookings</span>
+              <h4 style="font-weight: bold; font-size: 0.95rem;">Radio Studio Podcast Pitches</h4>
+              <span style="font-size: 0.75rem; color: #6B7280;">Allows students to pitch podcast episodes</span>
             </div>
             <button class="btn-maroon" onclick="window.toggleSetting('podcastApplyEnabled')">
-              ${settings.podcastApplyEnabled ? '● ACTIVE & OPEN' : '○ PAUSED'}
+              ${settings.podcastApplyEnabled ? '● ACTIVE (OPEN)' : '○ PAUSED'}
             </button>
           </div>
 
           <div style="padding: 1.25rem; background: #FFFFFF; border: 1px solid #E2E0D8; display: flex; justify-content: space-between; align-items: center;">
             <div>
-              <h4 style="font-weight: bold; font-size: 0.95rem;">Campus Voice Opinion Survey</h4>
-              <span style="font-size: 0.75rem; color: #6B7280;">Student polling section</span>
+              <h4 style="font-weight: bold; font-size: 0.95rem;">Student Polls on Main Website</h4>
+              <span style="font-size: 0.75rem; color: #6B7280;">Allows voting in the Campus Voice poll section</span>
             </div>
             <button class="btn-maroon" onclick="window.toggleSetting('campusVoiceEnabled')">
-              ${settings.campusVoiceEnabled ? '● ACTIVE & OPEN' : '○ PAUSED'}
+              ${settings.campusVoiceEnabled ? '● ACTIVE (OPEN)' : '○ PAUSED'}
             </button>
           </div>
         </div>
@@ -977,30 +1027,40 @@ window.toggleSetting = (key) => {
   renderTabContent();
 };
 
+window.toggleApplicationRoleHidden = (idx) => {
+  const roles = getApplicationRoles(false);
+  if (roles[idx]) {
+    roles[idx].hidden = !roles[idx].hidden;
+    saveApplicationRoles(roles);
+    renderTabContent();
+  }
+};
+
 window.handleAddRole = (e) => {
   e.preventDefault();
   const input = document.getElementById('new-role-name');
   if (!input) return;
   const val = input.value.trim();
   if (!val) return;
-  const roles = getApplicationRoles();
-  if (roles.some(r => r.toLowerCase() === val.toLowerCase())) {
-    alert('This application role already exists.');
+  const roles = getApplicationRoles(false);
+  if (roles.some(r => r.text.toLowerCase() === val.toLowerCase())) {
+    alert('This application role already exists in the list.');
     return;
   }
-  roles.push(val);
+  roles.push({ text: val, hidden: false });
   saveApplicationRoles(roles);
+  input.value = '';
   renderTabContent();
 };
 
 window.deleteApplicationRole = (idx) => {
-  const roles = getApplicationRoles();
+  const roles = getApplicationRoles(false);
   if (roles.length <= 1) {
-    alert('You must have at least one application role.');
+    alert('You must keep at least one role.');
     return;
   }
-  const roleName = roles[idx];
-  if (confirm(`Remove "${roleName}" from the recruitment application options?`)) {
+  const roleName = roles[idx].text;
+  if (confirm(`Permanently remove "${roleName}"? Students will no longer see this option.`)) {
     roles.splice(idx, 1);
     saveApplicationRoles(roles);
     renderTabContent();
@@ -1008,7 +1068,7 @@ window.deleteApplicationRole = (idx) => {
 };
 
 window.moveApplicationRole = (idx, dir) => {
-  const roles = getApplicationRoles();
+  const roles = getApplicationRoles(false);
   const target = idx + dir;
   if (target < 0 || target >= roles.length) return;
   const temp = roles[idx];
@@ -1019,8 +1079,17 @@ window.moveApplicationRole = (idx, dir) => {
 };
 
 window.resetApplicationRoles = () => {
-  if (confirm('Reset all recruitment application options to the defaults?')) {
+  if (confirm('Reset all roles back to the original default list?')) {
     saveApplicationRoles([...defaultSettings.applicationRoles]);
+    renderTabContent();
+  }
+};
+
+window.toggleTipCategoryHidden = (idx) => {
+  const cats = getTipCategories(false);
+  if (cats[idx]) {
+    cats[idx].hidden = !cats[idx].hidden;
+    saveTipCategories(cats);
     renderTabContent();
   }
 };
@@ -1031,24 +1100,25 @@ window.handleAddTipCat = (e) => {
   if (!input) return;
   const val = input.value.trim();
   if (!val) return;
-  const cats = getTipCategories();
-  if (cats.some(c => c.toLowerCase() === val.toLowerCase())) {
-    alert('This tip desk category already exists.');
+  const cats = getTipCategories(false);
+  if (cats.some(c => c.text.toLowerCase() === val.toLowerCase())) {
+    alert('This tip topic already exists in the list.');
     return;
   }
-  cats.push(val);
+  cats.push({ text: val, hidden: false });
   saveTipCategories(cats);
+  input.value = '';
   renderTabContent();
 };
 
 window.deleteTipCategory = (idx) => {
-  const cats = getTipCategories();
+  const cats = getTipCategories(false);
   if (cats.length <= 1) {
-    alert('You must have at least one tip category.');
+    alert('You must keep at least one tip topic.');
     return;
   }
-  const catName = cats[idx];
-  if (confirm(`Remove "${catName}" from the newsroom tip categories?`)) {
+  const catName = cats[idx].text;
+  if (confirm(`Permanently remove "${catName}"?`)) {
     cats.splice(idx, 1);
     saveTipCategories(cats);
     renderTabContent();
@@ -1056,7 +1126,7 @@ window.deleteTipCategory = (idx) => {
 };
 
 window.moveTipCategory = (idx, dir) => {
-  const cats = getTipCategories();
+  const cats = getTipCategories(false);
   const target = idx + dir;
   if (target < 0 || target >= cats.length) return;
   const temp = cats[idx];
@@ -1067,7 +1137,7 @@ window.moveTipCategory = (idx, dir) => {
 };
 
 window.resetTipCategories = () => {
-  if (confirm('Reset all newsroom tip desk categories to the defaults?')) {
+  if (confirm('Reset all tip topics back to the original default list?')) {
     saveTipCategories([...defaultSettings.tipCategories]);
     renderTabContent();
   }
@@ -1109,20 +1179,33 @@ window.promptAddPollQuestion = () => {
   addPollQuestion({
     question: question.trim(),
     edition: edition || 'Active Campus Survey',
-    options
+    options,
+    hidden: false
   });
   renderTabContent();
 };
 
+window.togglePollQuestionVisibility = (pollId) => {
+  togglePollQuestionHidden(pollId);
+  renderTabContent();
+};
+
+window.deleteSingleVote = (voterId, pollId, studentName) => {
+  if (confirm(`Remove the vote from "${studentName}"? This will decrease the vote count by 1.`)) {
+    deleteSingleSurveyVote(voterId);
+    renderTabContent();
+  }
+};
+
 window.removePollQuestion = (pollId) => {
-  if (confirm('Remove this survey question?')) {
+  if (confirm('Permanently delete this question and all its results?')) {
     deletePollQuestion(pollId);
     renderTabContent();
   }
 };
 
 window.resetPollVotesToZero = (pollId) => {
-  if (confirm('Reset all votes for this question to zero and clear its voter history?')) {
+  if (confirm('Clear all votes for this question and reset the count to 0?')) {
     const polls = getPolls();
     const poll = polls.find(p => p.id === pollId);
     if (poll) {

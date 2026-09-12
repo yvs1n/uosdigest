@@ -17,7 +17,7 @@ import {
   addPodcastSubmission,
   getRadioEpisodes,
   initLiveSync
-} from './storage.js?v=20260912_2';
+} from './storage.js?v=20260912_3';
 import { initialTeamMembers, initialInstagramPosts } from './data.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCampusVoiceSection();
   renderTeamSection();
   initNewsletterForm();
+  updateJoinApplicationState();
   initModals();
   checkUrlParams();
 
@@ -42,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (category === 'settings') {
       initNewsletterForm();
       initCampusVoiceSection();
+      updateJoinApplicationState();
       if (typeof window.populateJoinRoles === 'function') window.populateJoinRoles();
     }
   });
@@ -452,12 +454,10 @@ function formatTime(sec) {
 let currentPollIndex = 0;
 
 function initCampusVoiceSection() {
-  const polls = getPolls();
+  const allPolls = getPolls();
+  const polls = allPolls.filter(p => !p.hidden);
   const allVoters = getSurveyVoters();
   const settings = getSettings();
-
-  const currentPoll = polls[currentPollIndex] || polls[0];
-  if (!currentPoll) return;
 
   const pollQuestion = document.getElementById('poll-question');
   const pollEdition = document.getElementById('poll-edition');
@@ -468,6 +468,25 @@ function initCampusVoiceSection() {
   const voterDropdown = document.getElementById('survey-voter-dropdown');
   const voterDisplay = document.getElementById('selected-voter-choice-display');
   const voterBadge = document.getElementById('voter-count-badge');
+
+  if (!polls.length) {
+    if (pollQuestion) pollQuestion.textContent = '"No survey questions are currently active."';
+    if (pollEdition) pollEdition.textContent = 'Campus Pulse Surveys';
+    if (pollNavIndicator) pollNavIndicator.innerHTML = '';
+    if (pollOptionsContainer) {
+      pollOptionsContainer.innerHTML = '<div style="padding: 1.5rem; background: #FAF9F5; border: 1px solid #D1CFCA; text-align: center; font-family: var(--font-mono); font-size: 0.8rem; color: #6B7280;">No questions are currently open for student voting. Check back soon for the next edition!</div>';
+    }
+    if (voterBadge) voterBadge.textContent = '0 Verified Votes';
+    if (voterDropdown) voterDropdown.innerHTML = '<option value="">No active surveys</option>';
+    if (voterDisplay) voterDisplay.textContent = 'Surveys will open in upcoming campus issues.';
+    return;
+  }
+
+  if (currentPollIndex >= polls.length) {
+    currentPollIndex = 0;
+  }
+  const currentPoll = polls[currentPollIndex] || polls[0];
+  if (!currentPoll) return;
 
   if (pollQuestion) pollQuestion.textContent = `"${currentPoll.question}"`;
   if (pollEdition) pollEdition.textContent = `Active Survey • ${currentPoll.edition}`;
@@ -632,17 +651,18 @@ function initCampusVoiceSection() {
     // Save to Voter Log
     addSurveyVoter(currentPoll.id, voterName, optId, optText);
 
-    // Increment vote count accurately as integer
-    currentPoll.options = currentPoll.options.map(o => {
-      const v = Number(o.votes) || 0;
-      return o.id === optId ? { ...o, votes: v + 1 } : { ...o, votes: v };
-    });
+    // Increment vote count in master polls list
+    const masterPolls = getPolls();
+    const targetPoll = masterPolls.find(p => p.id === currentPoll.id);
+    if (targetPoll) {
+      targetPoll.options = targetPoll.options.map(o => {
+        const v = Number(o.votes) || 0;
+        return o.id === optId ? { ...o, votes: v + 1 } : { ...o, votes: v };
+      });
+      targetPoll.totalVotes = targetPoll.options.reduce((sum, o) => sum + o.votes, 0);
+      savePolls(masterPolls);
+    }
 
-    // Calculate total answers dynamically from sum of all options
-    currentPoll.totalVotes = currentPoll.options.reduce((sum, o) => sum + o.votes, 0);
-
-    polls[currentPollIndex] = currentPoll;
-    savePolls(polls);
     initCampusVoiceSection();
   };
 }
@@ -727,6 +747,67 @@ function initNewsletterForm() {
   }
 }
 
+export function updateJoinApplicationState() {
+  const settings = getSettings();
+  const isEnabled = settings.joinClubEnabled;
+  const navBtn = document.getElementById('nav-join-btn');
+  const teamBtn = document.getElementById('team-join-btn');
+  const modalBadge = document.getElementById('join-modal-badge');
+  const pausedNotice = document.getElementById('join-paused-notice');
+  const joinSubmitBtn = document.getElementById('join-submit-btn');
+
+  if (!isEnabled) {
+    if (navBtn) {
+      navBtn.textContent = 'Applications Paused';
+      navBtn.classList.add('btn-paused');
+      navBtn.setAttribute('title', 'Applications are currently paused. Please look for later updates.');
+    }
+    if (teamBtn) {
+      teamBtn.innerHTML = '⏸️ Applications Paused — Check Back Later';
+      teamBtn.classList.add('btn-paused');
+      teamBtn.setAttribute('title', 'Applications are currently paused. Please look for later updates.');
+    }
+    if (modalBadge) {
+      modalBadge.textContent = 'APPLICATIONS PAUSED';
+      modalBadge.style.background = '#6B7280';
+    }
+    if (pausedNotice) {
+      pausedNotice.style.display = 'block';
+    }
+    if (joinSubmitBtn) {
+      joinSubmitBtn.disabled = true;
+      joinSubmitBtn.textContent = 'Applications Paused — Check Back Later';
+      joinSubmitBtn.style.opacity = '0.6';
+      joinSubmitBtn.style.cursor = 'not-allowed';
+    }
+  } else {
+    if (navBtn) {
+      navBtn.textContent = 'Join Team';
+      navBtn.classList.remove('btn-paused');
+      navBtn.removeAttribute('title');
+    }
+    if (teamBtn) {
+      teamBtn.innerHTML = '✨ Applications Open — Join Editorial Team';
+      teamBtn.classList.remove('btn-paused');
+      teamBtn.removeAttribute('title');
+    }
+    if (modalBadge) {
+      modalBadge.textContent = 'APPLICATIONS OPEN';
+      modalBadge.style.background = 'var(--uos-maroon)';
+    }
+    if (pausedNotice) {
+      pausedNotice.style.display = 'none';
+    }
+    if (joinSubmitBtn) {
+      joinSubmitBtn.disabled = false;
+      joinSubmitBtn.textContent = 'Submit Application ↗';
+      joinSubmitBtn.style.opacity = '1';
+      joinSubmitBtn.style.cursor = 'pointer';
+    }
+  }
+}
+window.updateJoinApplicationState = updateJoinApplicationState;
+
 // 8. Modals (Join, Podcast)
 function initModals() {
   const joinModal = document.getElementById('join-modal');
@@ -737,10 +818,13 @@ function initModals() {
   const populateJoinRoles = () => {
     const roleSelect = document.getElementById('join-role');
     if (roleSelect) {
-      const roles = getApplicationRoles();
+      const roles = getApplicationRoles(true);
       const currentVal = roleSelect.value;
-      roleSelect.innerHTML = roles.map(r => `<option value="${r}">${r}</option>`).join('');
-      if (currentVal && roles.includes(currentVal)) {
+      roleSelect.innerHTML = roles.map(r => {
+        const val = typeof r === 'string' ? r : r.text;
+        return `<option value="${val}">${val}</option>`;
+      }).join('');
+      if (currentVal && roles.some(r => (typeof r === 'string' ? r : r.text) === currentVal)) {
         roleSelect.value = currentVal;
       }
     }
@@ -749,6 +833,7 @@ function initModals() {
   populateJoinRoles();
 
   window.openJoinModal = () => {
+    updateJoinApplicationState();
     populateJoinRoles();
     if (joinModal) joinModal.classList.add('active');
   };
@@ -766,6 +851,10 @@ function initModals() {
   if (joinForm) {
     joinForm.onsubmit = (e) => {
       e.preventDefault();
+      if (!getSettings().joinClubEnabled) {
+        alert('Student applications are currently paused. Please look for later updates!');
+        return;
+      }
       const name = document.getElementById('join-name').value;
       const email = document.getElementById('join-email').value;
       const studentId = document.getElementById('join-id').value;
