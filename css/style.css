@@ -505,15 +505,18 @@ body {
 
 .btn-paused {
   background-color: #E5E7EB !important;
-  color: #6B7280 !important;
+  color: #9CA3AF !important;
   border: 1px solid #D1CFCA !important;
   box-shadow: none !important;
-  cursor: pointer !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+  opacity: 0.7 !important;
+  user-select: none !important;
 }
 
 .btn-paused:hover {
-  background-color: #D1D5DB !important;
-  color: #374151 !important;
+  background-color: #E5E7EB !important;
+  color: #9CA3AF !important;
 }
 
 /* Modals */

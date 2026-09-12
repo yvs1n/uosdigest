@@ -43,7 +43,7 @@ import {
   toggleTimesArticleFeatured,
   exportToCSV,
   initLiveSync
-} from './storage.js?v=20260912_3';
+} from './storage.js?v=20260912_4';
 import { uploadPdfToStorage, uploadImageToStorage } from './firebase.js';
 
 let isAuthenticated = localStorage.getItem('uos_digest_admin_auth') === 'true';
@@ -522,36 +522,68 @@ function renderTabContent() {
       </div>
 
       <!-- SECTION 3: OTHER WEBSITE AVAILABILITY TOGGLES -->
+      <!-- SECTION 3: OTHER WEBSITE SECTIONS -->
       <div style="margin-top: 2rem;">
         <h3 style="font-weight: 900; font-size: 1.2rem; margin-bottom: 0.75rem;">Other Website Sections (Turn On / Off)</h3>
         <div style="display: flex; flex-direction: column; gap: 1rem;">
-          <div style="padding: 1.25rem; background: #FFFFFF; border: 1px solid #E2E0D8; display: flex; justify-content: space-between; align-items: center;">
+          
+          <!-- Newsletter Toggle Card -->
+          <div style="padding: 1.25rem; background: ${settings.newsletterEnabled ? '#F0FDF4' : '#FEF2F2'}; border: 2px solid ${settings.newsletterEnabled ? '#16A34A' : '#DC2626'}; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
             <div>
-              <h4 style="font-weight: bold; font-size: 0.95rem;">Email Newsletter Sign-Ups</h4>
-              <span style="font-size: 0.75rem; color: #6B7280;">Allows students and readers to subscribe in the footer</span>
+              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                <span style="background: ${settings.newsletterEnabled ? '#16A34A' : '#DC2626'}; color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.2rem 0.5rem;">
+                  ${settings.newsletterEnabled ? '● SUBSCRIPTIONS OPEN' : '⏸️ TEMPORARILY PAUSED'}
+                </span>
+              </div>
+              <h4 style="font-weight: bold; font-size: 1rem; color: #111111; margin: 0;">Email Newsletter Subscriptions</h4>
+              <p style="font-size: 0.8rem; color: #4B5563; margin: 0.25rem 0 0 0;">
+                ${settings.newsletterEnabled 
+                  ? 'Readers can fill out the form to subscribe to digital PDF editions.' 
+                  : 'Subscriptions are paused. The website displays: "The newsletter is temporarily paused. Please check back for later updates!"'}
+              </p>
             </div>
-            <button class="btn-maroon" onclick="window.toggleSetting('newsletterEnabled')">
-              ${settings.newsletterEnabled ? '● ACTIVE (OPEN)' : '○ PAUSED'}
+            <button class="${settings.newsletterEnabled ? 'btn-white' : 'btn-maroon'}" style="padding: 0.6rem 1.25rem; font-size: 0.8rem; font-weight: bold; cursor: pointer; ${settings.newsletterEnabled ? 'color: #DC2626; border-color: #DC2626;' : 'background: #16A34A; border-color: #15803D;'}" onclick="window.toggleSetting('newsletterEnabled')">
+              ${settings.newsletterEnabled ? '⏸️ Pause Newsletter' : '▶️ Resume / Open Newsletter'}
             </button>
           </div>
 
-          <div style="padding: 1.25rem; background: #FFFFFF; border: 1px solid #E2E0D8; display: flex; justify-content: space-between; align-items: center;">
+          <!-- Podcast Pitches Toggle Card -->
+          <div style="padding: 1.25rem; background: ${settings.podcastApplyEnabled ? '#F0FDF4' : '#FEF2F2'}; border: 2px solid ${settings.podcastApplyEnabled ? '#16A34A' : '#DC2626'}; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
             <div>
-              <h4 style="font-weight: bold; font-size: 0.95rem;">Radio Studio Podcast Pitches</h4>
-              <span style="font-size: 0.75rem; color: #6B7280;">Allows students to pitch podcast episodes</span>
+              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                <span style="background: ${settings.podcastApplyEnabled ? '#16A34A' : '#DC2626'}; color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.2rem 0.5rem;">
+                  ${settings.podcastApplyEnabled ? '● PITCHES OPEN' : '⏸️ PITCHING PAUSED'}
+                </span>
+              </div>
+              <h4 style="font-weight: bold; font-size: 1rem; color: #111111; margin: 0;">Radio Studio & Podcast Episode Pitching</h4>
+              <p style="font-size: 0.8rem; color: #4B5563; margin: 0.25rem 0 0 0;">
+                ${settings.podcastApplyEnabled 
+                  ? 'Students can click "🎙️ Pitch a Podcast Episode" to propose radio concepts.' 
+                  : 'Pitching is paused. The button on the website displays "⏸️ Pitching Paused" and is unclickable.'}
+              </p>
             </div>
-            <button class="btn-maroon" onclick="window.toggleSetting('podcastApplyEnabled')">
-              ${settings.podcastApplyEnabled ? '● ACTIVE (OPEN)' : '○ PAUSED'}
+            <button class="${settings.podcastApplyEnabled ? 'btn-white' : 'btn-maroon'}" style="padding: 0.6rem 1.25rem; font-size: 0.8rem; font-weight: bold; cursor: pointer; ${settings.podcastApplyEnabled ? 'color: #DC2626; border-color: #DC2626;' : 'background: #16A34A; border-color: #15803D;'}" onclick="window.toggleSetting('podcastApplyEnabled')">
+              ${settings.podcastApplyEnabled ? '⏸️ Pause Pitching Now' : '▶️ Resume / Open Pitching'}
             </button>
           </div>
 
-          <div style="padding: 1.25rem; background: #FFFFFF; border: 1px solid #E2E0D8; display: flex; justify-content: space-between; align-items: center;">
+          <!-- Campus Polls Toggle Card -->
+          <div style="padding: 1.25rem; background: ${settings.campusVoiceEnabled ? '#F0FDF4' : '#FEF2F2'}; border: 2px solid ${settings.campusVoiceEnabled ? '#16A34A' : '#DC2626'}; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
             <div>
-              <h4 style="font-weight: bold; font-size: 0.95rem;">Student Polls on Main Website</h4>
-              <span style="font-size: 0.75rem; color: #6B7280;">Allows voting in the Campus Voice poll section</span>
+              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                <span style="background: ${settings.campusVoiceEnabled ? '#16A34A' : '#DC2626'}; color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.2rem 0.5rem;">
+                  ${settings.campusVoiceEnabled ? '● VOTING OPEN' : '⏸️ VOTING PAUSED'}
+                </span>
+              </div>
+              <h4 style="font-weight: bold; font-size: 1rem; color: #111111; margin: 0;">Student Campus Voice Polls</h4>
+              <p style="font-size: 0.8rem; color: #4B5563; margin: 0.25rem 0 0 0;">
+                ${settings.campusVoiceEnabled 
+                  ? 'Students can vote on active questions in the Campus Voice section.' 
+                  : 'Survey voting is paused on the website.'}
+              </p>
             </div>
-            <button class="btn-maroon" onclick="window.toggleSetting('campusVoiceEnabled')">
-              ${settings.campusVoiceEnabled ? '● ACTIVE (OPEN)' : '○ PAUSED'}
+            <button class="${settings.campusVoiceEnabled ? 'btn-white' : 'btn-maroon'}" style="padding: 0.6rem 1.25rem; font-size: 0.8rem; font-weight: bold; cursor: pointer; ${settings.campusVoiceEnabled ? 'color: #DC2626; border-color: #DC2626;' : 'background: #16A34A; border-color: #15803D;'}" onclick="window.toggleSetting('campusVoiceEnabled')">
+              ${settings.campusVoiceEnabled ? '⏸️ Pause Polls' : '▶️ Resume Polls'}
             </button>
           </div>
         </div>
@@ -1023,6 +1055,9 @@ window.removePublication = (id) => {
 window.toggleSetting = (key) => {
   const settings = getSettings();
   settings[key] = !settings[key];
+  if (key === 'newsletterEnabled') {
+    localStorage.setItem('uos_digest_newsletter_toggled_manually', 'true');
+  }
   saveSettings(settings);
   renderTabContent();
 };

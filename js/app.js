@@ -17,7 +17,7 @@ import {
   addPodcastSubmission,
   getRadioEpisodes,
   initLiveSync
-} from './storage.js?v=20260912_3';
+} from './storage.js?v=20260912_4';
 import { initialTeamMembers, initialInstagramPosts } from './data.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderTeamSection();
   initNewsletterForm();
   updateJoinApplicationState();
+  updatePodcastPitchState();
   initModals();
   checkUrlParams();
 
@@ -41,9 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (category === 'radio_episodes') {
       initRadioSection();
     } else if (category === 'settings') {
-      initNewsletterForm();
+      updateNewsletterState();
       initCampusVoiceSection();
       updateJoinApplicationState();
+      updatePodcastPitchState();
       if (typeof window.populateJoinRoles === 'function') window.populateJoinRoles();
     }
   });
@@ -694,20 +696,39 @@ function renderTeamSection() {
   }
 }
 
-// 7. Newsletter Form
+// 7. Newsletter Form & State
+export function updateNewsletterState() {
+  const settings = getSettings();
+  const form = document.getElementById('newsletter-form');
+  const pausedBox = document.getElementById('newsletter-paused-box');
+  const pausedMsg = document.getElementById('newsletter-paused-msg');
+
+  if (pausedMsg) {
+    pausedMsg.textContent = settings.newsletterPausedMessage || 'The newsletter is temporarily paused. Please check back for later updates!';
+  }
+
+  if (!settings.newsletterEnabled) {
+    if (form) form.style.display = 'none';
+    if (pausedBox) pausedBox.style.display = 'block';
+  } else {
+    if (form) form.style.display = 'block';
+    if (pausedBox) pausedBox.style.display = 'none';
+  }
+}
+window.updateNewsletterState = updateNewsletterState;
+
 function initNewsletterForm() {
   const form = document.getElementById('newsletter-form');
-  const settings = getSettings();
-  const formContainer = document.getElementById('newsletter-form-container');
-
-  if (!settings.newsletterEnabled && formContainer) {
-    formContainer.innerHTML = `<div style="padding: 2rem; background: #FAF9F5; border: 1px solid #D1CFCA; text-align: center; font-family: var(--font-mono); font-size: 0.8rem;">${settings.newsletterPausedMessage}</div>`;
-    return;
-  }
+  updateNewsletterState();
 
   if (form) {
     form.onsubmit = (e) => {
       e.preventDefault();
+      const settings = getSettings();
+      if (!settings.newsletterEnabled) {
+        alert('The newsletter is temporarily paused. Please check back for later updates!');
+        return;
+      }
       const firstName = document.getElementById('sub-first-name').value;
       const lastName = document.getElementById('sub-last-name').value;
       const email = document.getElementById('sub-email').value;
@@ -747,6 +768,7 @@ function initNewsletterForm() {
   }
 }
 
+// 8. Join Applications State (Disabled / Unclickable when paused)
 export function updateJoinApplicationState() {
   const settings = getSettings();
   const isEnabled = settings.joinClubEnabled;
@@ -760,12 +782,20 @@ export function updateJoinApplicationState() {
     if (navBtn) {
       navBtn.textContent = 'Applications Paused';
       navBtn.classList.add('btn-paused');
-      navBtn.setAttribute('title', 'Applications are currently paused. Please look for later updates.');
+      navBtn.disabled = true;
+      navBtn.setAttribute('aria-disabled', 'true');
+      navBtn.style.pointerEvents = 'none';
+      navBtn.style.cursor = 'not-allowed';
+      navBtn.setAttribute('title', 'Applications are currently paused. Please check back for later updates.');
     }
     if (teamBtn) {
-      teamBtn.innerHTML = '⏸️ Applications Paused — Check Back Later';
+      teamBtn.innerHTML = '⏸️ Applications Paused';
       teamBtn.classList.add('btn-paused');
-      teamBtn.setAttribute('title', 'Applications are currently paused. Please look for later updates.');
+      teamBtn.disabled = true;
+      teamBtn.setAttribute('aria-disabled', 'true');
+      teamBtn.style.pointerEvents = 'none';
+      teamBtn.style.cursor = 'not-allowed';
+      teamBtn.setAttribute('title', 'Applications are currently paused. Please check back for later updates.');
     }
     if (modalBadge) {
       modalBadge.textContent = 'APPLICATIONS PAUSED';
@@ -776,19 +806,36 @@ export function updateJoinApplicationState() {
     }
     if (joinSubmitBtn) {
       joinSubmitBtn.disabled = true;
-      joinSubmitBtn.textContent = 'Applications Paused — Check Back Later';
+      joinSubmitBtn.textContent = 'Applications Paused';
       joinSubmitBtn.style.opacity = '0.6';
       joinSubmitBtn.style.cursor = 'not-allowed';
+      joinSubmitBtn.style.pointerEvents = 'none';
     }
+    ['join-name', 'join-email', 'join-id', 'join-role', 'join-pitch'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.disabled = true;
+        el.style.pointerEvents = 'none';
+        el.style.cursor = 'not-allowed';
+      }
+    });
   } else {
     if (navBtn) {
       navBtn.textContent = 'Join Team';
       navBtn.classList.remove('btn-paused');
+      navBtn.disabled = false;
+      navBtn.removeAttribute('aria-disabled');
+      navBtn.style.pointerEvents = '';
+      navBtn.style.cursor = 'pointer';
       navBtn.removeAttribute('title');
     }
     if (teamBtn) {
       teamBtn.innerHTML = '✨ Applications Open — Join Editorial Team';
       teamBtn.classList.remove('btn-paused');
+      teamBtn.disabled = false;
+      teamBtn.removeAttribute('aria-disabled');
+      teamBtn.style.pointerEvents = '';
+      teamBtn.style.cursor = 'pointer';
       teamBtn.removeAttribute('title');
     }
     if (modalBadge) {
@@ -803,12 +850,98 @@ export function updateJoinApplicationState() {
       joinSubmitBtn.textContent = 'Submit Application ↗';
       joinSubmitBtn.style.opacity = '1';
       joinSubmitBtn.style.cursor = 'pointer';
+      joinSubmitBtn.style.pointerEvents = '';
     }
+    ['join-name', 'join-email', 'join-id', 'join-role', 'join-pitch'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.disabled = false;
+        el.style.pointerEvents = '';
+        el.style.cursor = '';
+      }
+    });
   }
 }
 window.updateJoinApplicationState = updateJoinApplicationState;
 
-// 8. Modals (Join, Podcast)
+// 9. Podcast & Pitching State (Disabled / Unclickable when paused)
+export function updatePodcastPitchState() {
+  const settings = getSettings();
+  const isEnabled = settings.podcastApplyEnabled;
+  const pitchBtn = document.getElementById('pitch-podcast-btn');
+  const modalBadge = document.getElementById('pod-modal-badge');
+  const pausedNotice = document.getElementById('podcast-paused-notice');
+  const podSubmitBtn = document.getElementById('pod-submit-btn');
+
+  if (!isEnabled) {
+    if (pitchBtn) {
+      pitchBtn.innerHTML = '⏸️ Pitching Paused';
+      pitchBtn.classList.add('btn-paused');
+      pitchBtn.disabled = true;
+      pitchBtn.setAttribute('aria-disabled', 'true');
+      pitchBtn.style.pointerEvents = 'none';
+      pitchBtn.style.cursor = 'not-allowed';
+      pitchBtn.setAttribute('title', 'Podcast pitching is currently paused. Please check back for later updates.');
+    }
+    if (modalBadge) {
+      modalBadge.textContent = 'PITCHING PAUSED';
+      modalBadge.style.background = '#6B7280';
+    }
+    if (pausedNotice) {
+      pausedNotice.style.display = 'block';
+    }
+    if (podSubmitBtn) {
+      podSubmitBtn.disabled = true;
+      podSubmitBtn.textContent = 'Pitching Paused — Check Back Later';
+      podSubmitBtn.style.opacity = '0.6';
+      podSubmitBtn.style.cursor = 'not-allowed';
+      podSubmitBtn.style.pointerEvents = 'none';
+    }
+    ['pod-name', 'pod-email', 'pod-topic'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.disabled = true;
+        el.style.pointerEvents = 'none';
+        el.style.cursor = 'not-allowed';
+      }
+    });
+  } else {
+    if (pitchBtn) {
+      pitchBtn.innerHTML = '🎙️ Pitch a Podcast Episode';
+      pitchBtn.classList.remove('btn-paused');
+      pitchBtn.disabled = false;
+      pitchBtn.removeAttribute('aria-disabled');
+      pitchBtn.style.pointerEvents = '';
+      pitchBtn.style.cursor = 'pointer';
+      pitchBtn.removeAttribute('title');
+    }
+    if (modalBadge) {
+      modalBadge.textContent = 'STUDIO RECORDING';
+      modalBadge.style.background = 'var(--uos-maroon)';
+    }
+    if (pausedNotice) {
+      pausedNotice.style.display = 'none';
+    }
+    if (podSubmitBtn) {
+      podSubmitBtn.disabled = false;
+      podSubmitBtn.textContent = 'Submit Podcast Proposal ↗';
+      podSubmitBtn.style.opacity = '1';
+      podSubmitBtn.style.cursor = 'pointer';
+      podSubmitBtn.style.pointerEvents = '';
+    }
+    ['pod-name', 'pod-email', 'pod-topic'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.disabled = false;
+        el.style.pointerEvents = '';
+        el.style.cursor = '';
+      }
+    });
+  }
+}
+window.updatePodcastPitchState = updatePodcastPitchState;
+
+// 10. Modals (Join, Podcast)
 function initModals() {
   const joinModal = document.getElementById('join-modal');
   const podcastModal = document.getElementById('podcast-modal');
@@ -833,6 +966,10 @@ function initModals() {
   populateJoinRoles();
 
   window.openJoinModal = () => {
+    const currentSettings = getSettings();
+    if (!currentSettings.joinClubEnabled) {
+      return; // Do NOT open when paused / closed!
+    }
     updateJoinApplicationState();
     populateJoinRoles();
     if (joinModal) joinModal.classList.add('active');
@@ -842,6 +979,11 @@ function initModals() {
   };
 
   window.openPodcastModal = () => {
+    const currentSettings = getSettings();
+    if (!currentSettings.podcastApplyEnabled) {
+      return; // Do NOT open when paused / closed!
+    }
+    updatePodcastPitchState();
     if (podcastModal) podcastModal.classList.add('active');
   };
   window.closePodcastModal = () => {
@@ -870,6 +1012,10 @@ function initModals() {
   if (podcastForm) {
     podcastForm.onsubmit = (e) => {
       e.preventDefault();
+      if (!getSettings().podcastApplyEnabled) {
+        alert('Podcast and radio pitching is currently paused. Please look for later updates!');
+        return;
+      }
       const name = document.getElementById('pod-name').value;
       const email = document.getElementById('pod-email').value;
       const topic = document.getElementById('pod-topic').value;

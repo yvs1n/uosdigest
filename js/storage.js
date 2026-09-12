@@ -27,12 +27,12 @@ const KEYS = {
 };
 
 export const defaultSettings = {
-  newsletterEnabled: true,
-  newsletterPausedMessage: 'The newsletter subscription portal is temporarily paused for the semester break. Please check back soon!',
+  newsletterEnabled: false,
+  newsletterPausedMessage: 'The newsletter is temporarily paused. Please check back for later updates!',
   joinClubEnabled: true,
-  joinClubPausedMessage: 'Press Club applications are currently closed for this recruitment cycle. Stay tuned for the next call for editors.',
+  joinClubPausedMessage: 'Press Club applications are currently paused. Please check back for later updates!',
   podcastApplyEnabled: true,
-  podcastApplyPausedMessage: 'The Ittisal Radio recording booth is currently fully booked for this academic term.',
+  podcastApplyPausedMessage: 'Podcast and radio pitching is currently paused. Please check back for later updates!',
   campusVoiceEnabled: true,
   campusVoicePausedMessage: 'Voting is concluded for this edition of the campus pulse survey.',
   applicationRoles: [
@@ -262,7 +262,17 @@ export function getSettings() {
       const parsed = JSON.parse(data);
       parsed.applicationRoles = normalizeOptionList(parsed.applicationRoles, defaultSettings.applicationRoles);
       parsed.tipCategories = normalizeOptionList(parsed.tipCategories, defaultSettings.tipCategories);
-      return parsed;
+      if (!parsed.newsletterPausedMessage || parsed.newsletterPausedMessage.includes('semester break')) {
+        parsed.newsletterPausedMessage = 'The newsletter is temporarily paused. Please check back for later updates!';
+      }
+      if (!parsed.podcastApplyPausedMessage || parsed.podcastApplyPausedMessage.includes('fully booked')) {
+        parsed.podcastApplyPausedMessage = 'Podcast and radio pitching is currently paused. Please check back for later updates!';
+      }
+      // If newsletter has not been explicitly enabled by admin in this cycle, default to temporarily paused
+      if (parsed.newsletterEnabled === undefined || localStorage.getItem('uos_digest_newsletter_toggled_manually') !== 'true') {
+        parsed.newsletterEnabled = false;
+      }
+      return { ...defaultSettings, ...parsed };
     }
   } catch (e) {}
   return { ...defaultSettings };
