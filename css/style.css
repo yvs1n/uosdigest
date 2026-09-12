@@ -347,17 +347,18 @@ body {
 
 /* Swiss Section Header */
 .section-header-tag {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
   color: var(--uos-maroon);
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-weight: bold;
+  letter-spacing: 0.08em;
+  font-weight: 800;
   display: inline-block;
   margin-bottom: 0.5rem;
 }
 
 .section-title {
+  font-family: var(--font-sans);
   font-size: clamp(1.75rem, 5vw, 2.75rem);
   font-weight: 900;
   letter-spacing: -0.03em;
@@ -497,6 +498,128 @@ body {
   justify-content: center;
   padding: 0.75rem;
   overflow-y: auto;
+}
+
+/* Publication Cover Spread (Adaptable to any screen size) */
+#hero-cover-card {
+  aspect-ratio: auto;
+  height: auto;
+  max-width: 32rem;
+  width: 100%;
+}
+
+#hero-cover-card .pub-cover-img {
+  width: 100%;
+  height: auto;
+  max-height: min(78vh, 760px);
+  object-fit: contain;
+}
+
+.pub-cover-wrap {
+  position: relative;
+  width: 100%;
+  border: 2px solid var(--uos-ink);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+  padding: 0.5rem;
+  background: #FFFFFF;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.pub-cover-wrap:hover {
+  transform: translateY(-4px);
+  border-color: var(--uos-maroon);
+  box-shadow: 0 25px 35px -5px rgba(122, 19, 43, 0.2);
+}
+
+.pub-cover-img {
+  width: 100%;
+  height: auto;
+  max-height: min(78vh, 760px);
+  object-fit: contain;
+  display: block;
+  border: 1px solid var(--uos-border);
+  background-color: #F8F7F4;
+}
+
+.cover-fullscreen-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(17, 17, 17, 0.88);
+  backdrop-filter: blur(4px);
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.35rem 0.65rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: background-color 0.2s ease, transform 0.15s ease;
+  z-index: 5;
+}
+
+.pub-cover-wrap:hover .cover-fullscreen-badge {
+  background: var(--uos-maroon);
+  transform: scale(1.05);
+}
+
+/* Adaptive Fullscreen Cover Modal Lightbox */
+.cover-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: rgba(10, 10, 10, 0.94);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: fadeInModal 0.2s ease;
+}
+
+.cover-modal-overlay.active {
+  display: flex;
+}
+
+.cover-modal-container {
+  max-width: 96vw;
+  max-height: 94vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.cover-modal-img {
+  max-width: 92vw;
+  max-height: 82vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  display: block;
+}
+
+.cover-modal-bar {
+  width: 100%;
+  margin-top: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(20, 20, 20, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .modal-overlay.active {

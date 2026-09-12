@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Bitter:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Serif+Text:ital@0;1&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="css/style.css?v=20260907_3">
+  <link rel="stylesheet" href="css/style.css?v=20260912_1">
 </head>
 <body>
 
@@ -34,7 +34,7 @@
           <span style="color: var(--uos-gold-muted); opacity: 0.5;" class="top-bar-date">•</span>
           <span id="institutional-date" class="top-bar-date" style="color: rgba(255,255,255,0.85);"></span>
           <span style="color: var(--uos-gold-muted); opacity: 0.5;">•</span>
-          <a href="https://instagram.com/thepressclub.uos" target="_blank" style="color: var(--uos-gold-muted); text-decoration: none;">@thepressclub.uos ↗</a>
+          <a href="https://instagram.com/uosdigest" target="_blank" style="color: var(--uos-gold-muted); text-decoration: none;">uos digest ↗</a>
         </div>
       </div>
     </div>
@@ -93,11 +93,11 @@
   <!-- 01: Lead Hero Publication Section -->
   <section id="hero" class="swiss-grid-bg" style="padding: 3.5rem 0; border-bottom: 2px solid var(--uos-ink);">
     <div class="container">
-      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--uos-ink); padding-bottom: 0.5rem; margin-bottom: 2.5rem; font-family: var(--font-mono); font-size: 0.75rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--uos-ink); padding-bottom: 0.5rem; margin-bottom: 2.5rem; font-family: var(--font-sans); font-size: 0.8rem; font-weight: 700;">
         <span class="section-header-tag" style="margin-bottom: 0;">
           [ 01 / LEAD PUBLICATION ]
         </span>
-        <span style="color: var(--uos-maroon); font-weight: bold;">
+        <span style="color: var(--uos-maroon); font-weight: 800;">
           ● Spring Semester • 2025–2026
         </span>
       </div>
@@ -150,13 +150,18 @@
           </div>
         </div>
 
-        <!-- Cover Spread -->
-        <div style="display: flex; justify-content: center;">
-          <div id="hero-cover-card" class="pub-cover-wrap" style="width: 100%; max-width: 24rem; border: 2px solid var(--uos-ink); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15); padding: 0.5rem; background: #FFFFFF;">
-            <img id="hero-cover-img" src="" alt="" class="pub-cover-img" style="border: 1px solid var(--uos-border);" />
-            <div style="margin-top: 0.5rem; display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.65rem; color: #6B7280;">
+        <!-- Cover Spread (Fully Adaptable to Screen Size) -->
+        <div style="display: flex; justify-content: center; width: 100%;">
+          <div id="hero-cover-card" class="pub-cover-wrap" style="width: 100%; max-width: 32rem;" onclick="window.openCoverFullscreen()">
+            <div class="cover-fullscreen-badge">
+              ⛶ Fullscreen Cover
+            </div>
+            <img id="hero-cover-img" src="" alt="" class="pub-cover-img" />
+            <div style="margin-top: 0.5rem; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-sans); font-size: 0.72rem; color: #6B7280; font-weight: 600;">
               <span>University of Sharjah Press</span>
-              <span style="color: var(--uos-maroon); font-weight: bold;">CLICK TO READ ↗</span>
+              <span style="color: var(--uos-maroon); font-weight: 800; display: inline-flex; align-items: center; gap: 0.25rem;">
+                EXPAND FULL SCREEN ↗
+              </span>
             </div>
           </div>
         </div>
@@ -494,6 +499,40 @@
     </div>
   </footer>
 
+  <!-- MODAL 0: Adaptive Fullscreen Cover Viewer Lightbox -->
+  <div id="cover-modal" class="cover-modal-overlay" onclick="if(event.target === this) window.closeCoverModal()">
+    <div class="cover-modal-container">
+      <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; color: #FFFFFF;">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span style="background: var(--uos-maroon); color: #FFFFFF; font-family: var(--font-sans); font-size: 0.65rem; font-weight: 800; padding: 0.2rem 0.5rem; letter-spacing: 0.05em;">COVER VIEW</span>
+          <span id="cover-modal-title" style="font-weight: 800; font-size: 0.95rem; font-family: var(--font-sans);">UOS Digest, Issue #3</span>
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+          <button class="btn-white" onclick="window.triggerBrowserFullscreen()" style="padding: 0.35rem 0.75rem; font-size: 0.72rem; font-family: var(--font-sans);" title="Toggle Fullscreen">
+            ⛶ Maximize
+          </button>
+          <button class="btn-maroon" onclick="window.closeCoverModal()" style="padding: 0.35rem 0.75rem; font-size: 0.72rem; font-family: var(--font-sans);">
+            ✕ Close
+          </button>
+        </div>
+      </div>
+      <img id="cover-modal-img" src="" alt="Publication Cover" class="cover-modal-img" />
+      <div class="cover-modal-bar">
+        <div>
+          <span id="cover-modal-subtitle" style="color: var(--uos-gold-muted); font-style: italic; font-family: var(--font-bitter); font-size: 0.85rem;"></span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+          <button id="cover-modal-read-btn" class="btn-maroon" style="padding: 0.4rem 0.85rem; font-size: 0.75rem; font-family: var(--font-sans);">
+            📖 Read Full PDF Document ↗
+          </button>
+          <a id="cover-modal-download-btn" href="#" download class="btn-white" style="padding: 0.4rem 0.85rem; font-size: 0.75rem; font-family: var(--font-sans); text-decoration: none;">
+            ↓ Download PDF
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL 1: Completely Custom PDF Document Previewer -->
   <div id="reader-modal" class="modal-overlay">
     <div class="modal-reader-box" style="display: flex; flex-direction: column; width: 95vw; max-width: 1400px; height: 92vh; background: #FFFFFF; border: 2px solid var(--uos-ink); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);">
@@ -669,7 +708,7 @@
   </div>
 
   <!-- Vanilla JavaScript ES Modules -->
-  <script type="module" src="js/app.js?v=20260907_3"></script>
+  <script type="module" src="js/app.js?v=20260912_1"></script>
 
 </body>
 </html>

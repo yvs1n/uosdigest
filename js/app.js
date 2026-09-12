@@ -101,7 +101,7 @@ export function renderHeroAndPublications() {
     heroReadBtn.onclick = () => openReader(featured);
   }
   if (heroCoverCard) {
-    heroCoverCard.onclick = () => openReader(featured);
+    heroCoverCard.onclick = () => window.openCoverFullscreen(featured);
   }
   if (heroDownloadBtn) {
     heroDownloadBtn.href = featured.pdfFileUrl || `/pdf/${featured.id}.pdf`;
@@ -240,6 +240,66 @@ window.toggleReaderFullscreen = () => {
     document.exitFullscreen().catch(() => {});
   }
 };
+
+// Fullscreen Cover Lightbox Modal
+let currentCoverPub = null;
+
+window.openCoverFullscreen = (pub) => {
+  const targetPub = pub || currentReaderPub || getPublications().find(p => p.featured) || getPublications()[0];
+  if (!targetPub) return;
+  currentCoverPub = targetPub;
+
+  const modal = document.getElementById('cover-modal');
+  const img = document.getElementById('cover-modal-img');
+  const title = document.getElementById('cover-modal-title');
+  const subtitle = document.getElementById('cover-modal-subtitle');
+  const readBtn = document.getElementById('cover-modal-read-btn');
+  const downloadBtn = document.getElementById('cover-modal-download-btn');
+
+  if (img) {
+    img.src = targetPub.coverImage;
+    img.alt = targetPub.title;
+  }
+  if (title) title.textContent = targetPub.title;
+  if (subtitle) subtitle.textContent = targetPub.subtitle ? `"${targetPub.subtitle}"` : '';
+  if (readBtn) {
+    readBtn.onclick = () => {
+      window.closeCoverModal();
+      openReader(targetPub);
+    };
+  }
+  if (downloadBtn) {
+    downloadBtn.href = targetPub.pdfFileUrl || `/pdf/${targetPub.id}.pdf`;
+    downloadBtn.setAttribute('download', `${targetPub.title}.pdf`);
+  }
+
+  if (modal) modal.classList.add('active');
+};
+
+window.closeCoverModal = () => {
+  const modal = document.getElementById('cover-modal');
+  if (modal) modal.classList.remove('active');
+  if (document.fullscreenElement) {
+    document.exitFullscreen().catch(() => {});
+  }
+};
+
+window.triggerBrowserFullscreen = () => {
+  const modal = document.getElementById('cover-modal');
+  if (!modal) return;
+  if (!document.fullscreenElement) {
+    modal.requestFullscreen().catch(() => {});
+  } else {
+    document.exitFullscreen().catch(() => {});
+  }
+};
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    window.closeCoverModal();
+    window.closeReaderModal();
+  }
+});
 
 window.toggleMobileMenu = () => {
   const drawer = document.getElementById('mobile-nav-drawer');
@@ -604,7 +664,7 @@ function renderTeamSection() {
         </div>
 
         <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid #E2E0D8; display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.7rem;">
-          <a href="${m.instagram}" target="_blank" style="color: #7A132B; text-decoration: none; font-weight: bold;">@thepressclub.uos</a>
+          <a href="https://instagram.com/uosdigest" target="_blank" style="color: var(--uos-maroon); text-decoration: none; font-weight: bold;">@uosdigest</a>
           <span style="color: #9CA3AF;">UOS PRESS</span>
         </div>
       </div>
