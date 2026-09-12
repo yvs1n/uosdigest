@@ -2,7 +2,7 @@
  * University of Sharjah - The UOS Times Broadsheet Controller (Pure Vanilla JS)
  */
 
-import { getTimesArticles, initLiveSync } from './storage.js';
+import { getTimesArticles, getTipCategories, initLiveSync } from './storage.js?v=20260912_2';
 
 let articles = [];
 let activeCategory = 'all';
@@ -16,6 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (key === 'times_articles') {
       articles = getTimesArticles();
       renderAll();
+    } else if (key === 'settings') {
+      populateTipCategories();
     }
   });
 });
@@ -330,7 +332,20 @@ window.printArticle = () => {
 };
 
 // 5. Story Tip Submission Modal
+function populateTipCategories() {
+  const catSelect = document.getElementById('tip-category');
+  if (catSelect) {
+    const cats = getTipCategories();
+    const currentVal = catSelect.value;
+    catSelect.innerHTML = cats.map(c => `<option value="${c}">${c}</option>`).join('');
+    if (currentVal && cats.includes(currentVal)) {
+      catSelect.value = currentVal;
+    }
+  }
+}
+
 window.openTipModal = () => {
+  populateTipCategories();
   const modal = document.getElementById('times-tip-modal');
   if (modal) modal.classList.add('active');
 };
@@ -341,6 +356,7 @@ window.closeTipModal = () => {
 };
 
 function initTipForm() {
+  populateTipCategories();
   const form = document.getElementById('times-tip-form');
   if (form) {
     form.onsubmit = (e) => {

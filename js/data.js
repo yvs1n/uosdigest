@@ -89,7 +89,7 @@ export const initialPublications = [
     pageCount: 12,
     description: "The founding issue of The UOS Times broadsheet, establishing student voice, investigative beat reporting, and campus affairs.",
     highlights: [
-      "Inauguration of the College Press Club Bureau",
+      "Inauguration of the College Press Club Newsroom",
       "Special report on youth in media innovation",
       "Sharjah heritage and student architectural documentation"
     ],
@@ -386,7 +386,7 @@ After a scoreless extra time period, goalkeeper Salem Al-Kaabi produced two hero
     subtitle: "The tactile permanence of paper creates a communal intellectual archive that ephemeral social feeds cannot replicate.",
     category: "Opinion",
     author: "Editorial Board",
-    authorRole: "The Press Club Bureau",
+    authorRole: "The Press Club Editorial Board",
     date: "August 15, 2026",
     readTime: "4 min read",
     featured: false,

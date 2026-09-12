@@ -1,5 +1,5 @@
 /**
- * University of Sharjah - Admin Editorial Bureau Logic (Pure Vanilla JS)
+ * University of Sharjah - Admin Editorial Board Logic (Pure Vanilla JS)
  */
 
 import { 
@@ -11,7 +11,12 @@ import {
   getFeaturedId, 
   setFeaturedId, 
   getSettings, 
-  saveSettings, 
+  saveSettings,
+  getApplicationRoles,
+  saveApplicationRoles,
+  getTipCategories,
+  saveTipCategories,
+  defaultSettings, 
   getSubscribers, 
   updateSubscriber,
   deleteSubscriber,
@@ -36,7 +41,7 @@ import {
   toggleTimesArticleFeatured,
   exportToCSV,
   initLiveSync
-} from './storage.js';
+} from './storage.js?v=20260912_2';
 import { uploadPdfToStorage, uploadImageToStorage } from './firebase.js';
 
 let isAuthenticated = localStorage.getItem('uos_digest_admin_auth') === 'true';
@@ -343,51 +348,162 @@ function renderTabContent() {
       </div>
     `;
   } else if (currentTab === 'forms') {
+    const roles = getApplicationRoles();
+    const tipCats = getTipCategories();
+
     contentArea.innerHTML = `
-      <div style="padding-bottom: 1.5rem; border-bottom: 2px solid #111111;">
-        <h2 style="font-weight: 900; font-size: 1.5rem;">Website Form Master Controls</h2>
-        <p style="font-family: var(--font-mono); font-size: 0.75rem; color: #6B7280;">Live master toggles to pause or resume student submissions across the site</p>
+      <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1.5rem; border-bottom: 2px solid #111111; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+            <span style="background: var(--uos-maroon); color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.15rem 0.5rem;">
+              FORM MASTER CONTROLS
+            </span>
+            <span style="font-family: var(--font-mono); font-size: 0.7rem; color: #6B7280;">Live Firebase Sync</span>
+          </div>
+          <h2 style="font-weight: 900; font-size: 1.5rem;">Website Form Controls & Application Options</h2>
+          <p style="font-family: var(--font-mono); font-size: 0.75rem; color: #6B7280;">
+            Customize recruitment roles, story tip categories, and master submission availability
+          </p>
+        </div>
       </div>
 
-      <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
-        <div style="padding: 1.25rem; background: #FFFFFF; border: 1px solid #E2E0D8; display: flex; justify-content: space-between; align-items: center;">
+      <!-- SECTION 1: RECRUITMENT APPLICATION ROLES -->
+      <div style="margin-top: 2rem; background: #FFFFFF; border: 2px solid var(--uos-ink); padding: 1.75rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--uos-border); padding-bottom: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
           <div>
-            <h3 style="font-weight: bold; font-size: 1rem;">Newsletter Dispatch Subscription</h3>
-            <span style="font-size: 0.75rem; color: #6B7280;">Registration card on footer</span>
+            <span style="font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; color: var(--uos-maroon); text-transform: uppercase;">
+              INDEX.HTML APPLICATION MODAL
+            </span>
+            <h3 style="font-weight: 900; font-size: 1.2rem; margin-top: 0.2rem;">
+              Recruitment Application Options (${roles.length})
+            </h3>
+            <p style="font-size: 0.78rem; color: #6B7280;">
+              These options appear in the "Role" dropdown when students apply or submit pitches.
+            </p>
           </div>
-          <button class="btn-maroon" onclick="window.toggleSetting('newsletterEnabled')">
-            ${settings.newsletterEnabled ? '● ACTIVE & OPEN' : '○ PAUSED'}
+          <button class="btn-white" onclick="window.resetApplicationRoles()" style="font-size: 0.7rem;">
+            ↺ Reset to Default Roles
           </button>
         </div>
 
-        <div style="padding: 1.25rem; background: #FFFFFF; border: 1px solid #E2E0D8; display: flex; justify-content: space-between; align-items: center;">
+        <!-- Add New Role Form -->
+        <form onsubmit="window.handleAddRole(event)" style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+          <input id="new-role-name" type="text" required placeholder="e.g. Video Editor / Motion Designer, Opinion Columnist..." class="form-input" style="flex: 1; min-width: 16rem;" />
+          <button type="submit" class="btn-maroon" style="padding: 0.6rem 1.25rem; font-size: 0.75rem; white-space: nowrap;">
+            + Add Application Role
+          </button>
+        </form>
+
+        <!-- Current Roles List -->
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          ${roles.map((r, idx) => `
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: #FAF9F5; border: 1px solid #D1CFCA; font-family: var(--font-mono); font-size: 0.78rem;">
+              <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <span style="background: var(--uos-maroon); color: #FFFFFF; font-size: 0.65rem; font-weight: bold; padding: 0.15rem 0.4rem; border-radius: 2px;">
+                  0${idx + 1}
+                </span>
+                <strong style="font-family: var(--font-sans); font-size: 0.9rem; color: #111111;">${r}</strong>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.35rem;">
+                <button type="button" class="btn-white" style="padding: 0.25rem 0.5rem; font-size: 0.65rem; ${idx === 0 ? 'opacity:0.4;cursor:not-allowed;' : ''}" onclick="window.moveApplicationRole(${idx}, -1)" ${idx === 0 ? 'disabled' : ''} title="Move Up">▲</button>
+                <button type="button" class="btn-white" style="padding: 0.25rem 0.5rem; font-size: 0.65rem; ${idx === roles.length - 1 ? 'opacity:0.4;cursor:not-allowed;' : ''}" onclick="window.moveApplicationRole(${idx}, 1)" ${idx === roles.length - 1 ? 'disabled' : ''} title="Move Down">▼</button>
+                <button type="button" class="btn-white" style="padding: 0.25rem 0.6rem; font-size: 0.65rem; color: #DC2626; border-color: #FCA5A5;" onclick="window.deleteApplicationRole(${idx})" title="Delete Role">✕ Remove</button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- SECTION 2: THE UOS TIMES STORY TIP CATEGORIES -->
+      <div style="margin-top: 2rem; background: #FFFFFF; border: 2px solid var(--uos-times-green); padding: 1.75rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--uos-border); padding-bottom: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
           <div>
-            <h3 style="font-weight: bold; font-size: 1rem;">Press Club Recruitment & Pitching</h3>
-            <span style="font-size: 0.75rem; color: #6B7280;">Writer and photographer applications</span>
+            <span style="background: var(--uos-times-green); color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.15rem 0.5rem;">
+              TIMES.HTML TIP SUBMISSION MODAL
+            </span>
+            <h3 style="font-weight: 900; font-size: 1.2rem; margin-top: 0.2rem; font-family: var(--font-times);">
+              Newsroom Tip Desk Options (${tipCats.length})
+            </h3>
+            <p style="font-size: 0.78rem; color: #6B7280;">
+              Categories that students and readers can select when submitting anonymous or verified tips.
+            </p>
           </div>
-          <button class="btn-maroon" onclick="window.toggleSetting('joinClubEnabled')">
-            ${settings.joinClubEnabled ? '● ACTIVE & OPEN' : '○ PAUSED'}
+          <button class="btn-white" onclick="window.resetTipCategories()" style="font-size: 0.7rem;">
+            ↺ Reset to Default Desks
           </button>
         </div>
 
-        <div style="padding: 1.25rem; background: #FFFFFF; border: 1px solid #E2E0D8; display: flex; justify-content: space-between; align-items: center;">
-          <div>
-            <h3 style="font-weight: bold; font-size: 1rem;">Ittisal Radio Studio Pitching</h3>
-            <span style="font-size: 0.75rem; color: #6B7280;">Podcast sound lab recording bookings</span>
-          </div>
-          <button class="btn-maroon" onclick="window.toggleSetting('podcastApplyEnabled')">
-            ${settings.podcastApplyEnabled ? '● ACTIVE & OPEN' : '○ PAUSED'}
+        <!-- Add New Desk Form -->
+        <form onsubmit="window.handleAddTipCat(event)" style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+          <input id="new-cat-name" type="text" required placeholder="e.g. Health Sciences & Medical Campus, Student Housing..." class="form-input" style="flex: 1; min-width: 16rem;" />
+          <button type="submit" class="btn-times" style="padding: 0.6rem 1.25rem; font-size: 0.75rem; white-space: nowrap;">
+            + Add Tip Desk
           </button>
-        </div>
+        </form>
 
-        <div style="padding: 1.25rem; background: #FFFFFF; border: 1px solid #E2E0D8; display: flex; justify-content: space-between; align-items: center;">
-          <div>
-            <h3 style="font-weight: bold; font-size: 1rem;">Campus Voice Opinion Survey</h3>
-            <span style="font-size: 0.75rem; color: #6B7280;">Student polling section</span>
+        <!-- Current Categories List -->
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          ${tipCats.map((c, idx) => `
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: #FAF9F5; border: 1px solid #D1CFCA; font-family: var(--font-mono); font-size: 0.78rem;">
+              <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <span style="background: var(--uos-times-green); color: #FFFFFF; font-size: 0.65rem; font-weight: bold; padding: 0.15rem 0.4rem; border-radius: 2px;">
+                  0${idx + 1}
+                </span>
+                <strong style="font-family: var(--font-sans); font-size: 0.9rem; color: #111111;">${c}</strong>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.35rem;">
+                <button type="button" class="btn-white" style="padding: 0.25rem 0.5rem; font-size: 0.65rem; ${idx === 0 ? 'opacity:0.4;cursor:not-allowed;' : ''}" onclick="window.moveTipCategory(${idx}, -1)" ${idx === 0 ? 'disabled' : ''} title="Move Up">▲</button>
+                <button type="button" class="btn-white" style="padding: 0.25rem 0.5rem; font-size: 0.65rem; ${idx === tipCats.length - 1 ? 'opacity:0.4;cursor:not-allowed;' : ''}" onclick="window.moveTipCategory(${idx}, 1)" ${idx === tipCats.length - 1 ? 'disabled' : ''} title="Move Down">▼</button>
+                <button type="button" class="btn-white" style="padding: 0.25rem 0.6rem; font-size: 0.65rem; color: #DC2626; border-color: #FCA5A5;" onclick="window.deleteTipCategory(${idx})" title="Delete Category">✕ Remove</button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- SECTION 3: MASTER PORTAL AVAILABILITY TOGGLES -->
+      <div style="margin-top: 2rem;">
+        <h3 style="font-weight: 900; font-size: 1.2rem; margin-bottom: 0.75rem;">Master Portal Availability Toggles</h3>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <div style="padding: 1.25rem; background: #FFFFFF; border: 1px solid #E2E0D8; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <h4 style="font-weight: bold; font-size: 0.95rem;">Newsletter Dispatch Subscription</h4>
+              <span style="font-size: 0.75rem; color: #6B7280;">Registration card on footer</span>
+            </div>
+            <button class="btn-maroon" onclick="window.toggleSetting('newsletterEnabled')">
+              ${settings.newsletterEnabled ? '● ACTIVE & OPEN' : '○ PAUSED'}
+            </button>
           </div>
-          <button class="btn-maroon" onclick="window.toggleSetting('campusVoiceEnabled')">
-            ${settings.campusVoiceEnabled ? '● ACTIVE & OPEN' : '○ PAUSED'}
-          </button>
+
+          <div style="padding: 1.25rem; background: #FFFFFF; border: 1px solid #E2E0D8; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <h4 style="font-weight: bold; font-size: 0.95rem;">Press Club Recruitment & Pitching</h4>
+              <span style="font-size: 0.75rem; color: #6B7280;">Writer and photographer applications</span>
+            </div>
+            <button class="btn-maroon" onclick="window.toggleSetting('joinClubEnabled')">
+              ${settings.joinClubEnabled ? '● ACTIVE & OPEN' : '○ PAUSED'}
+            </button>
+          </div>
+
+          <div style="padding: 1.25rem; background: #FFFFFF; border: 1px solid #E2E0D8; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <h4 style="font-weight: bold; font-size: 0.95rem;">Ittisal Radio Studio Pitching</h4>
+              <span style="font-size: 0.75rem; color: #6B7280;">Podcast sound lab recording bookings</span>
+            </div>
+            <button class="btn-maroon" onclick="window.toggleSetting('podcastApplyEnabled')">
+              ${settings.podcastApplyEnabled ? '● ACTIVE & OPEN' : '○ PAUSED'}
+            </button>
+          </div>
+
+          <div style="padding: 1.25rem; background: #FFFFFF; border: 1px solid #E2E0D8; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <h4 style="font-weight: bold; font-size: 0.95rem;">Campus Voice Opinion Survey</h4>
+              <span style="font-size: 0.75rem; color: #6B7280;">Student polling section</span>
+            </div>
+            <button class="btn-maroon" onclick="window.toggleSetting('campusVoiceEnabled')">
+              ${settings.campusVoiceEnabled ? '● ACTIVE & OPEN' : '○ PAUSED'}
+            </button>
+          </div>
         </div>
       </div>
     `;
@@ -564,7 +680,7 @@ window.openAddPubModal = () => {
     document.getElementById('pub-form-cover').value = '';
     document.getElementById('pub-form-pages').value = '32';
     document.getElementById('pub-form-pdf-path').value = '/pdf/uos digest issue 3 for print.pdf';
-    document.getElementById('pub-form-desc').value = 'Published by The Press Club Bureau, College of Communication, University of Sharjah.';
+    document.getElementById('pub-form-desc').value = 'Published by The Press Club, College of Communication, University of Sharjah.';
     document.getElementById('pub-form-highlights').value = 'Lead investigative report\nStudent visual folio\nCampus column';
 
     modal.classList.add('active');
@@ -786,16 +902,16 @@ window.sendApplicantEmail = (id) => {
 
   if (j.status === 'approved') {
     subject = `University of Sharjah Press Club Application — Approved`;
-    body = `Dear ${j.name},\n\nWe are delighted to inform you that your application for the role of ${j.role} at The Press Club, College of Communication, has been APPROVED.\n\nWe would love to invite you to our editorial bureau onboarding briefing:\n• Location: College of Communication (M-10 Bureau)\n• Role: ${j.role}\n\nPlease reply to this email to confirm your attendance.\n\nWarm regards,\nPress Club Editorial Board\nUniversity of Sharjah\npress@sharjah.ac.ae`;
+    body = `Dear ${j.name},\n\nWe are delighted to inform you that your application for the role of ${j.role} at The Press Club, College of Communication, has been APPROVED.\n\nWe would love to invite you to our editorial onboarding briefing:\n• Location: College of Communication (M-10 Editorial Lab)\n• Role: ${j.role}\n\nPlease reply to this email to confirm your attendance.\n\nWarm regards,\nPress Club Editorial Board\nUniversity of Sharjah\npress@sharjah.ac.ae`;
   } else if (j.status === 'waitlist') {
     subject = `University of Sharjah Press Club Application — Waitlist Update`;
     body = `Dear ${j.name},\n\nThank you for applying to The Press Club, College of Communication. We received an exceptionally high volume of applicants for ${j.role}.\n\nYour application has been placed on our PRIORITY WAITLIST for the upcoming edition cycle. We will reach out as soon as an opening becomes available.\n\nWarm regards,\nPress Club Editorial Board\nUniversity of Sharjah`;
   } else if (j.status === 'declined') {
     subject = `University of Sharjah Press Club Application Update`;
-    body = `Dear ${j.name},\n\nThank you for taking the time to apply and pitch to The Press Club. After careful review, we regret to inform you that we are unable to offer you a bureau position for this recruitment cycle.\n\nWe encourage you to submit freelance pitches and student articles for our campus letters and photo folios.\n\nWarm regards,\nPress Club Editorial Board\nUniversity of Sharjah`;
+    body = `Dear ${j.name},\n\nThank you for taking the time to apply and pitch to The Press Club. After careful review, we regret to inform you that we are unable to offer you an editorial position for this recruitment cycle.\n\nWe encourage you to submit freelance pitches and student articles for our campus letters and photo folios.\n\nWarm regards,\nPress Club Editorial Board\nUniversity of Sharjah`;
   } else {
     subject = `University of Sharjah Press Club Application Review`;
-    body = `Dear ${j.name},\n\nThank you for your pitch regarding: "${j.pitch}". Our editors are currently reviewing your submission and will get in touch with you shortly.\n\nBest regards,\nPress Club Bureau`;
+    body = `Dear ${j.name},\n\nThank you for your pitch regarding: "${j.pitch}". Our editors are currently reviewing your submission and will get in touch with you shortly.\n\nBest regards,\nPress Club Editorial Team`;
   }
 
   const mailtoUrl = `mailto:${encodeURIComponent(j.email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -859,6 +975,102 @@ window.toggleSetting = (key) => {
   settings[key] = !settings[key];
   saveSettings(settings);
   renderTabContent();
+};
+
+window.handleAddRole = (e) => {
+  e.preventDefault();
+  const input = document.getElementById('new-role-name');
+  if (!input) return;
+  const val = input.value.trim();
+  if (!val) return;
+  const roles = getApplicationRoles();
+  if (roles.some(r => r.toLowerCase() === val.toLowerCase())) {
+    alert('This application role already exists.');
+    return;
+  }
+  roles.push(val);
+  saveApplicationRoles(roles);
+  renderTabContent();
+};
+
+window.deleteApplicationRole = (idx) => {
+  const roles = getApplicationRoles();
+  if (roles.length <= 1) {
+    alert('You must have at least one application role.');
+    return;
+  }
+  const roleName = roles[idx];
+  if (confirm(`Remove "${roleName}" from the recruitment application options?`)) {
+    roles.splice(idx, 1);
+    saveApplicationRoles(roles);
+    renderTabContent();
+  }
+};
+
+window.moveApplicationRole = (idx, dir) => {
+  const roles = getApplicationRoles();
+  const target = idx + dir;
+  if (target < 0 || target >= roles.length) return;
+  const temp = roles[idx];
+  roles[idx] = roles[target];
+  roles[target] = temp;
+  saveApplicationRoles(roles);
+  renderTabContent();
+};
+
+window.resetApplicationRoles = () => {
+  if (confirm('Reset all recruitment application options to the defaults?')) {
+    saveApplicationRoles([...defaultSettings.applicationRoles]);
+    renderTabContent();
+  }
+};
+
+window.handleAddTipCat = (e) => {
+  e.preventDefault();
+  const input = document.getElementById('new-cat-name');
+  if (!input) return;
+  const val = input.value.trim();
+  if (!val) return;
+  const cats = getTipCategories();
+  if (cats.some(c => c.toLowerCase() === val.toLowerCase())) {
+    alert('This tip desk category already exists.');
+    return;
+  }
+  cats.push(val);
+  saveTipCategories(cats);
+  renderTabContent();
+};
+
+window.deleteTipCategory = (idx) => {
+  const cats = getTipCategories();
+  if (cats.length <= 1) {
+    alert('You must have at least one tip category.');
+    return;
+  }
+  const catName = cats[idx];
+  if (confirm(`Remove "${catName}" from the newsroom tip categories?`)) {
+    cats.splice(idx, 1);
+    saveTipCategories(cats);
+    renderTabContent();
+  }
+};
+
+window.moveTipCategory = (idx, dir) => {
+  const cats = getTipCategories();
+  const target = idx + dir;
+  if (target < 0 || target >= cats.length) return;
+  const temp = cats[idx];
+  cats[idx] = cats[target];
+  cats[target] = temp;
+  saveTipCategories(cats);
+  renderTabContent();
+};
+
+window.resetTipCategories = () => {
+  if (confirm('Reset all newsroom tip desk categories to the defaults?')) {
+    saveTipCategories([...defaultSettings.tipCategories]);
+    renderTabContent();
+  }
 };
 
 window.exportSubscribers = () => {
@@ -946,7 +1158,7 @@ window.openAddTimesModal = () => {
     document.getElementById('times-form-subtitle').value = '';
     document.getElementById('times-form-category').value = 'Campus News';
     document.getElementById('times-form-readtime').value = '3 min read';
-    document.getElementById('times-form-author').value = 'UOS News Bureau';
+    document.getElementById('times-form-author').value = 'UOS Student Newsroom';
     document.getElementById('times-form-role').value = 'Staff Reporter';
     document.getElementById('times-form-date').value = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
     document.getElementById('times-form-image-url').value = '';

@@ -35,6 +35,22 @@ export const defaultSettings = {
   podcastApplyPausedMessage: 'The Ittisal Radio recording booth is currently fully booked for this academic term.',
   campusVoiceEnabled: true,
   campusVoicePausedMessage: 'Voting is concluded for this edition of the campus pulse survey.',
+  applicationRoles: [
+    'Journalist / Writer',
+    'Photographer',
+    'Layout / Graphic Designer',
+    'Radio Host / Podcaster',
+    'Social Media & Video Producer',
+    'Investigative Reporter'
+  ],
+  tipCategories: [
+    'Campus News & Administration',
+    'Academics & Research',
+    'Special Investigation',
+    'Arts, Culture & Fashion',
+    'Sports & Inter-Collegiate Athletics',
+    'Opinion / Student Perspective'
+  ]
 };
 
 // Asynchronous background write to Firebase Firestore
@@ -103,6 +119,14 @@ export async function initLiveSync(onDataChange) {
               saveToFirestore('publications', cloudData);
             }
           }
+          if (key === 'settings' && typeof cloudData === 'object' && cloudData !== null) {
+            if (!cloudData.applicationRoles || !Array.isArray(cloudData.applicationRoles)) {
+              cloudData.applicationRoles = [...defaultSettings.applicationRoles];
+            }
+            if (!cloudData.tipCategories || !Array.isArray(cloudData.tipCategories)) {
+              cloudData.tipCategories = [...defaultSettings.tipCategories];
+            }
+          }
           if (isPrimitive) {
             localStorage.setItem(localKey, String(cloudData));
           } else {
@@ -127,6 +151,14 @@ export async function initLiveSync(onDataChange) {
                   p.highlights = def.highlights;
                 }
               });
+            }
+            if (key === 'settings' && typeof cloudData === 'object' && cloudData !== null) {
+              if (!cloudData.applicationRoles || !Array.isArray(cloudData.applicationRoles)) {
+                cloudData.applicationRoles = [...defaultSettings.applicationRoles];
+              }
+              if (!cloudData.tipCategories || !Array.isArray(cloudData.tipCategories)) {
+                cloudData.tipCategories = [...defaultSettings.tipCategories];
+              }
             }
             if (isPrimitive) {
               localStorage.setItem(localKey, String(cloudData));
@@ -215,14 +247,51 @@ export function setFeaturedId(id) {
 export function getSettings() {
   try {
     const data = localStorage.getItem(KEYS.SETTINGS);
-    if (data) return JSON.parse(data);
+    if (data) {
+      const parsed = JSON.parse(data);
+      if (!parsed.applicationRoles || !Array.isArray(parsed.applicationRoles) || parsed.applicationRoles.length === 0) {
+        parsed.applicationRoles = [...defaultSettings.applicationRoles];
+      }
+      if (!parsed.tipCategories || !Array.isArray(parsed.tipCategories) || parsed.tipCategories.length === 0) {
+        parsed.tipCategories = [...defaultSettings.tipCategories];
+      }
+      return parsed;
+    }
   } catch (e) {}
-  return defaultSettings;
+  return { ...defaultSettings };
 }
 
 export function saveSettings(settings) {
   localStorage.setItem(KEYS.SETTINGS, JSON.stringify(settings));
   saveToFirestore('settings', settings);
+}
+
+export function getApplicationRoles() {
+  const s = getSettings();
+  return s.applicationRoles && Array.isArray(s.applicationRoles) && s.applicationRoles.length > 0
+    ? s.applicationRoles
+    : [...defaultSettings.applicationRoles];
+}
+
+export function saveApplicationRoles(roles) {
+  const s = getSettings();
+  s.applicationRoles = roles;
+  saveSettings(s);
+  return s.applicationRoles;
+}
+
+export function getTipCategories() {
+  const s = getSettings();
+  return s.tipCategories && Array.isArray(s.tipCategories) && s.tipCategories.length > 0
+    ? s.tipCategories
+    : [...defaultSettings.tipCategories];
+}
+
+export function saveTipCategories(categories) {
+  const s = getSettings();
+  s.tipCategories = categories;
+  saveSettings(s);
+  return s.tipCategories;
 }
 
 // 3. Newsletter Subscribers (Add, Edit, Delete)

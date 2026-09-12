@@ -6,6 +6,7 @@ import {
   getPublications, 
   getFeaturedId, 
   getSettings, 
+  getApplicationRoles,
   getSubscribers, 
   addSubscriber, 
   getPolls, 
@@ -16,7 +17,7 @@ import {
   addPodcastSubmission,
   getRadioEpisodes,
   initLiveSync
-} from './storage.js';
+} from './storage.js?v=20260912_2';
 import { initialTeamMembers, initialInstagramPosts } from './data.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -41,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (category === 'settings') {
       initNewsletterForm();
       initCampusVoiceSection();
+      if (typeof window.populateJoinRoles === 'function') window.populateJoinRoles();
     }
   });
 });
@@ -120,9 +122,9 @@ export function renderHeroAndPublications() {
           </span>
         </div>
 
-        <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.4rem;">
+        <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.4rem; flex: 1;">
           <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.65rem; color: #6B7280;">
-            <span>${p.semester}</span>
+            <span>${p.releaseDate || ''}</span>
             <span>${p.pageCount} P.</span>
           </div>
 
@@ -132,7 +134,7 @@ export function renderHeroAndPublications() {
 
           ${p.subtitle ? `<p class="pub-subtitle" style="font-size: 0.78rem; color: #4B5563;">"${p.subtitle}"</p>` : ''}
 
-          <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid #E2E0D8; display: flex; justify-content: space-between; align-items: center;">
+          <div style="margin-top: auto; padding-top: 0.75rem; border-top: 1px solid #E2E0D8; display: flex; justify-content: space-between; align-items: center;">
             <button class="btn-maroon" style="padding: 0.4rem 0.75rem; font-size: 0.7rem;" onclick="window.openPublicationReader('${p.id}')">
               Read PDF ↗
             </button>
@@ -180,11 +182,11 @@ export function openReader(pub) {
 
   if (specTitle) specTitle.textContent = pub.title;
   if (specTheme) specTheme.textContent = pub.subtitle ? `"${pub.subtitle}"` : (pub.theme || '');
-  if (specTerm) specTerm.textContent = `${pub.semester} (${pub.academicYear || '2025–2026'})`;
+  if (specTerm) specTerm.textContent = pub.academicYear || 'Academic Year 2025–2026';
   if (specDate) specDate.textContent = pub.releaseDate || 'February 2026';
   if (specPages) specPages.textContent = `${pub.pageCount} Pages`;
   if (specPath) specPath.textContent = pub.pdfFileUrl || `/pdf/${pub.id}.pdf`;
-  if (specDesc) specDesc.textContent = pub.description || 'Published by The Press Club Bureau, College of Communication.';
+  if (specDesc) specDesc.textContent = pub.description || 'Published by The Press Club, College of Communication.';
 
   if (specHighlights) {
     specHighlights.innerHTML = (pub.highlights || []).map((h, i) => `
@@ -199,7 +201,7 @@ export function openReader(pub) {
   if (issueSelect) {
     issueSelect.innerHTML = pubs.map(p => `
       <option value="${p.id}" ${p.id === pub.id ? 'selected' : ''}>
-        ${p.publicationName} #${p.issueNumber} (${p.releaseDate || p.semester})
+        ${p.publicationName} #${p.issueNumber} (${p.releaseDate || 'Print Edition'})
       </option>
     `).join('');
 
@@ -404,7 +406,7 @@ function initRadioSection() {
     if (found) {
       currentEp = found;
       if (epTitle) epTitle.textContent = found.title;
-      if (epHost) epHost.textContent = `Bureau Host: ${found.host} • ${found.date}`;
+      if (epHost) epHost.textContent = `Podcast Host: ${found.host} • ${found.date}`;
       if (epCover) epCover.src = found.coverImage;
       if (epDesc) epDesc.textContent = found.description;
       if (spotifyLinkBtn) spotifyLinkBtn.href = found.spotifyUrl;
@@ -732,7 +734,22 @@ function initModals() {
   const joinForm = document.getElementById('join-form');
   const podcastForm = document.getElementById('podcast-form');
 
+  const populateJoinRoles = () => {
+    const roleSelect = document.getElementById('join-role');
+    if (roleSelect) {
+      const roles = getApplicationRoles();
+      const currentVal = roleSelect.value;
+      roleSelect.innerHTML = roles.map(r => `<option value="${r}">${r}</option>`).join('');
+      if (currentVal && roles.includes(currentVal)) {
+        roleSelect.value = currentVal;
+      }
+    }
+  };
+  window.populateJoinRoles = populateJoinRoles;
+  populateJoinRoles();
+
   window.openJoinModal = () => {
+    populateJoinRoles();
     if (joinModal) joinModal.classList.add('active');
   };
   window.closeJoinModal = () => {
