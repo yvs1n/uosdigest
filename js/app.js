@@ -119,11 +119,14 @@ export function renderHeroAndPublications() {
   if (gridContainer) {
     gridContainer.innerHTML = pubs.map(p => `
       <div class="pub-card">
-        <div class="pub-cover-wrap" onclick="window.openPublicationReader('${p.id}')">
+        <div class="pub-cover-wrap" onclick="window.openCoverFullscreenById('${p.id}')" title="Click to view full screen cover">
           <img src="${p.coverImage}" alt="${p.title}" class="pub-cover-img" />
-          <span style="position: absolute; top: 0.5rem; left: 0.5rem; background-color: #7A132B; color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.2rem 0.5rem;">
+          <span style="position: absolute; top: 0.5rem; left: 0.5rem; background-color: #7A132B; color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.2rem 0.5rem; z-index: 2;">
             ${p.publicationName} #${p.issueNumber}
           </span>
+          <div class="pub-cover-overlay">
+            <span>⛶ View Full Screen Cover</span>
+          </div>
         </div>
 
         <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.4rem; flex: 1;">
@@ -138,8 +141,11 @@ export function renderHeroAndPublications() {
 
           ${p.subtitle ? `<p class="pub-subtitle" style="font-size: 0.78rem; color: #4B5563;">"${p.subtitle}"</p>` : ''}
 
-          <div style="margin-top: auto; padding-top: 0.75rem; border-top: 1px solid #E2E0D8; display: flex; justify-content: space-between; align-items: center;">
-            <button class="btn-maroon" style="padding: 0.4rem 0.75rem; font-size: 0.7rem;" onclick="window.openPublicationReader('${p.id}')">
+          <div style="margin-top: auto; padding-top: 0.75rem; border-top: 1px solid #E2E0D8; display: flex; justify-content: space-between; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+            <button class="btn-white" style="padding: 0.35rem 0.65rem; font-size: 0.7rem; font-weight: bold;" onclick="window.openCoverFullscreenById('${p.id}')">
+              ⛶ View Cover
+            </button>
+            <button class="btn-maroon" style="padding: 0.35rem 0.75rem; font-size: 0.7rem;" onclick="window.openPublicationReader('${p.id}')">
               Read PDF ↗
             </button>
             <a href="${p.pdfFileUrl || `/pdf/${p.id}.pdf`}" download="${p.title}.pdf" style="font-family: var(--font-mono); font-size: 0.7rem; color: #7A132B; text-decoration: none; font-weight: bold;">
@@ -152,11 +158,17 @@ export function renderHeroAndPublications() {
   }
 }
 
-// Global hook for publication cards
+// Global hooks for publication cards
 window.openPublicationReader = (pubId) => {
   const pubs = getPublications();
   const found = pubs.find(p => p.id === pubId);
   if (found) openReader(found);
+};
+
+window.openCoverFullscreenById = (pubId) => {
+  const pubs = getPublications();
+  const found = pubs.find(p => p.id === pubId);
+  if (found) window.openCoverFullscreen(found);
 };
 
 // 3. Completely Custom Local Document PDF Reader

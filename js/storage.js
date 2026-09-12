@@ -205,6 +205,10 @@ export function getPublications() {
             storedPub.highlights = defaults.highlights;
             needsResave = true;
           }
+          if (defaults.coverImage && (!storedPub.coverImage || storedPub.coverImage.includes('odoo.com') || storedPub.coverImage.includes('Screenshot%20202') || storedPub.coverImage.includes('IMG_100'))) {
+            storedPub.coverImage = defaults.coverImage;
+            needsResave = true;
+          }
           return { ...defaults, ...storedPub };
         });
         if (needsResave) {
