@@ -119,13 +119,13 @@ export function renderHeroAndPublications() {
   if (gridContainer) {
     gridContainer.innerHTML = pubs.map(p => `
       <div class="pub-card">
-        <div class="pub-cover-wrap" onclick="window.openCoverFullscreenById('${p.id}')" title="Click to view full screen cover">
+        <div class="pub-cover-wrap" onclick="window.openPublicationReader('${p.id}')" title="Click to read PDF document">
           <img src="${p.coverImage}" alt="${p.title}" class="pub-cover-img" />
           <span style="position: absolute; top: 0.5rem; left: 0.5rem; background-color: #7A132B; color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.2rem 0.5rem; z-index: 2;">
             ${p.publicationName} #${p.issueNumber}
           </span>
           <div class="pub-cover-overlay">
-            <span>⛶ View Full Screen Cover</span>
+            <span>📖 Read PDF Issue ↗</span>
           </div>
         </div>
 

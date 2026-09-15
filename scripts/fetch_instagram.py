@@ -42,10 +42,40 @@ def parse_count(val):
     except Exception:
         return None
 
-def save_local_image(shortcode, image_url):
+def apply_video_play_overlay(image_path):
+    """
+    Overlays a translucent circular play button badge on video/reel covers
+    so that newly scraped videos always match the authentic Instagram reel play overlay.
+    """
+    try:
+        from PIL import Image, ImageDraw
+        with Image.open(image_path) as base:
+            base = base.convert('RGBA')
+            w, h = base.size
+            cx, cy = w // 2, h // 2
+            r = int(w * 0.138)
+            overlay = Image.new('RGBA', (w, h), (0, 0, 0, 0))
+            draw = ImageDraw.Draw(overlay)
+            draw.ellipse([cx - r, cy - r, cx + r, cy + r], fill=(0, 0, 0, 115))
+            tri_h = int(r * 0.95)
+            tri_w = int(r * 0.95)
+            offset_x = int(r * 0.08)
+            x_left = cx - int(tri_w * 0.45) + offset_x
+            x_right = cx + int(tri_w * 0.55) + offset_x
+            y_top = cy - int(tri_h * 0.55)
+            y_bottom = cy + int(tri_h * 0.55)
+            draw.polygon([(x_left, y_top), (x_left, y_bottom), (x_right, cy)], fill=(255, 255, 255, 245))
+            result = Image.alpha_composite(base, overlay)
+            result.convert('RGB').save(image_path, 'JPEG', quality=95)
+            print(f"  [OVERLAY] Applied play button overlay to {image_path}")
+    except Exception as e:
+        print(f"  [OVERLAY WARN] Could not apply play button overlay: {e}")
+
+def save_local_image(shortcode, image_url, is_video=True):
     """
     Downloads remote image into local assets/instagram/<shortcode>.jpg
     so images are permanent and never expire with 403 Forbidden.
+    Automatically applies play button overlay if it is a reel/video.
     """
     if not image_url or not image_url.startswith('http'):
         return image_url
@@ -63,6 +93,8 @@ def save_local_image(shortcode, image_url):
             with open(local_abs, 'wb') as f:
                 f.write(res.content)
             print(f"  [IMAGE] Saved permanent local image: {local_rel} ({len(res.content)} bytes)")
+            if is_video:
+                apply_video_play_overlay(local_abs)
             return local_rel
     except Exception as e:
         print(f"  [IMAGE WARN] Could not save local image for {shortcode}: {e}")
