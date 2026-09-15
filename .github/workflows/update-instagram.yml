@@ -2,8 +2,8 @@ name: Automated Instagram Feed Sync
 
 on:
   schedule:
-    # Runs automatically every 4 hours in the background
-    - cron: '0 */4 * * *'
+    # Runs automatically every 2 hours in the background
+    - cron: '0 */2 * * *'
   workflow_dispatch:
     # Allows manual trigger from GitHub Actions UI
 
@@ -32,7 +32,6 @@ jobs:
           pip install -r requirements.txt
           python -m playwright install chromium --with-deps
 
-
       - name: Fetch latest Instagram posts
         env:
           INSTAGRAM_USERNAME: 'uosdigest'
@@ -51,5 +50,6 @@ jobs:
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git add data/instagram.json assets/instagram/
             git commit -m "chore(instagram): update @uosdigest feed and assets [skip ci]"
-            git push
+            git pull --rebase origin main || true
+            git push origin main
           fi

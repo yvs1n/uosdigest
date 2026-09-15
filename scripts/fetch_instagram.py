@@ -159,27 +159,74 @@ def fetch_posts_via_playwright():
         from playwright.sync_api import sync_playwright
         print(f"Launching headless browser to check @{USERNAME} on Instagram...")
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True)
+            browser = p.chromium.launch(
+                headless=True,
+                args=[
+                    '--disable-blink-features=AutomationControlled',
+                    '--no-sandbox',
+                    '--disable-setuid-sandbox',
+                    '--disable-infobars',
+                    '--disable-dev-shm-usage',
+                    '--disable-extensions'
+                ]
+            )
             context = browser.new_context(
-                user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                viewport={'width': 1280, 'height': 800}
+                user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+                viewport={'width': 1280, 'height': 800},
+                locale='en-US'
             )
             page = context.new_page()
-            page.goto(f'https://www.instagram.com/{USERNAME}/', timeout=30000)
-            page.wait_for_timeout(3500)
-            
-            anchors = page.query_selector_all('a[href*="/p/"], a[href*="/reel/"]')
+            page.add_init_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+
+            # Try profile root, and if needed reels tab
+            urls_to_try = [
+                f'https://www.instagram.com/{USERNAME}/',
+                f'https://www.instagram.com/{USERNAME}/reels/'
+            ]
             shortcodes = []
-            for a in anchors:
-                href = a.get_attribute('href') or ''
-                m = re.search(r'/(?:p|reel)/([A-Za-z0-9_-]+)', href)
-                if m:
-                    sc = m.group(1)
-                    if sc not in shortcodes:
-                        shortcodes.append(sc)
-                if len(shortcodes) >= MAX_POSTS:
-                    break
-            
+
+            for target_url in urls_to_try:
+                try:
+                    print(f"Navigating to {target_url}...")
+                    page.goto(target_url, timeout=30000)
+                    page.wait_for_timeout(3000)
+
+                    # Dismiss any cookie banners or consent popups common on CI datacenters
+                    for btn_text in ['Allow all cookies', 'Allow essential and optional cookies', 'Accept', 'Decline optional cookies', 'Not now']:
+                        try:
+                            btn = page.locator(f'button:has-text("{btn_text}")')
+                            if btn.count() > 0:
+                                btn.first.click()
+                                page.wait_for_timeout(1000)
+                        except Exception:
+                            pass
+                    try:
+                        page.keyboard.press('Escape')
+                    except Exception:
+                        pass
+
+                    # Gentle scroll to ensure post tiles populate
+                    try:
+                        page.evaluate("window.scrollBy(0, 500)")
+                        page.wait_for_timeout(1500)
+                    except Exception:
+                        pass
+
+                    anchors = page.query_selector_all('a[href*="/p/"], a[href*="/reel/"]')
+                    for a in anchors:
+                        href = a.get_attribute('href') or ''
+                        m = re.search(r'/(?:p|reel)/([A-Za-z0-9_-]+)', href)
+                        if m:
+                            sc = m.group(1)
+                            if sc not in shortcodes:
+                                shortcodes.append(sc)
+                        if len(shortcodes) >= MAX_POSTS:
+                            break
+                    if shortcodes:
+                        break
+                except Exception as route_err:
+                    print(f"Notice: Navigating to {target_url} encountered: {route_err}")
+
             print(f"  [BROWSER] Discovered top {len(shortcodes)} shortcodes: {shortcodes}")
             if not shortcodes:
                 browser.close()
