@@ -368,44 +368,18 @@ def fetch_posts_via_instaloader():
 
 def refresh_metrics_for_posts(posts):
     """
-    Refreshes like numbers and comment numbers for all active posts in the sliding window.
+    Refreshes like numbers and comment numbers for all active posts in the sliding window
+    using lightweight web/embed scrapers without triggering Instagram 429 rate limits.
     """
-    try:
-        import instaloader
-        L = instaloader.Instaloader(
-            download_pictures=False,
-            download_videos=False,
-            download_video_thumbnails=False,
-            download_geotags=False,
-            download_comments=False,
-            save_metadata=False,
-            compress_json=False
-        )
-    except Exception:
-        L = None
-
     for p in posts:
         sc = p.get('shortcode') or p.get('id')
         if not sc:
             continue
 
-        updated_likes = None
-        updated_comments = None
+        updated_likes = p.get('likes')
+        updated_comments = p.get('comments')
 
-        # 1. Try Instaloader Post object directly
-        if L:
-            try:
-                inst_post = instaloader.Post.from_shortcode(L.context, sc)
-                if inst_post.likes is not None:
-                    updated_likes = inst_post.likes
-                if inst_post.comments is not None:
-                    updated_comments = inst_post.comments
-                if inst_post.url:
-                    p['imageUrl'] = save_local_image(sc, inst_post.url)
-            except Exception:
-                pass
-
-        # 2. Fallback to web metadata (og:description and og:image)
+        # 1. Fallback to web metadata (og:description and og:image) if missing
         if updated_likes is None or updated_comments is None:
             wlikes, wcomments, wimg = fetch_metrics_from_web(sc)
             if updated_likes is None and wlikes is not None:
@@ -415,7 +389,7 @@ def refresh_metrics_for_posts(posts):
             if wimg and (not p.get('imageUrl') or p.get('imageUrl').startswith('http')):
                 p['imageUrl'] = save_local_image(sc, wimg)
 
-        # 3. Fallback to public embed scraper if needed
+        # 2. Fallback to public embed scraper if needed
         if updated_likes is None or updated_comments is None:
             elikes, ecomments = fetch_metrics_from_embed(sc)
             if updated_likes is None and elikes is not None:
@@ -435,7 +409,7 @@ def refresh_metrics_for_posts(posts):
             p['comments'] = updated_comments
 
         print(f"  Verified {sc}: likes={p.get('likes')}, comments={p.get('comments')}, image={p.get('imageUrl')}")
-        time.sleep(0.3)
+        time.sleep(0.2)
 
 def merge_and_slide_window(new_posts, existing_posts):
     combined = {}
