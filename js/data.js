@@ -162,36 +162,6 @@ export const initialRadioEpisodes = [
   }
 ];
 
-export const initialTeamMembers = [
-  {
-    id: "samreen-sameer",
-    name: "Samreen Sameer",
-    role: "Social Media Manager & Content Lead",
-    department: "College of Communication",
-    bio: "Overseeing digital campaigns, video vox-pops, and social journalism across Instagram and campus channels.",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80",
-    instagram: "https://instagram.com/thepressclub.uos"
-  },
-  {
-    id: "asma-binyahya",
-    name: "Asma Binyahya",
-    role: "Event Planner & Media Coordinator",
-    department: "College of Communication",
-    bio: "Directing club launches, interactive campus booths, guest lectures, and magazine release exhibitions.",
-    avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80",
-    instagram: "https://instagram.com/thepressclub.uos"
-  },
-  {
-    id: "editorial-lead",
-    name: "Press Club Editorial Board",
-    role: "Managing Editors & Copywriting",
-    department: "College of Communication, University of Sharjah",
-    bio: "Guiding student journalism across UOS Digest and The UOS Times with rigorous editorial standards.",
-    avatar: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80",
-    instagram: "https://instagram.com/thepressclub.uos"
-  }
-];
-
 export const initialPolls = [
   {
     id: "controversial-take-01",

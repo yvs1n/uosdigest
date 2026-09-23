@@ -18,7 +18,7 @@ import {
   getRadioEpisodes,
   initLiveSync
 } from './storage.js?v=20260912_4';
-import { initialTeamMembers, initialInstagramPosts } from './data.js';
+import { initialInstagramPosts } from './data.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   initLiveDate();
@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initInstagramSection();
   initRadioSection();
   initCampusVoiceSection();
-  renderTeamSection();
   initNewsletterForm();
   updateJoinApplicationState();
   updatePodcastPitchState();
@@ -681,34 +680,7 @@ function initCampusVoiceSection() {
   };
 }
 
-// 6. Editorial Board Team
-function renderTeamSection() {
-  const container = document.getElementById('team-grid');
-  if (container) {
-    container.innerHTML = initialTeamMembers.map(m => `
-      <div style="background-color: #FAF9F5; border: 1px solid #E2E0D8; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
-        <div>
-          <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
-            <img src="${m.avatar}" alt="${m.name}" style="width: 4rem; height: 4rem; object-fit: cover; border: 1px solid #111111;" />
-            <div>
-              <h3 style="font-weight: bold; font-size: 1rem; color: #111111;">${m.name}</h3>
-              <p style="font-family: var(--font-mono); font-size: 0.75rem; color: #7A132B; font-weight: bold;">${m.role}</p>
-              <p style="font-family: var(--font-mono); font-size: 0.65rem; color: #6B7280;">${m.department}</p>
-            </div>
-          </div>
-          <p style="font-size: 0.75rem; color: #4B5563; line-height: 1.5;">${m.bio}</p>
-        </div>
-
-        <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid #E2E0D8; display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.7rem;">
-          <a href="https://instagram.com/uosdigest" target="_blank" style="color: var(--uos-maroon); text-decoration: none; font-weight: bold;">@uosdigest</a>
-          <span style="color: #9CA3AF;">UOS PRESS</span>
-        </div>
-      </div>
-    `).join('');
-  }
-}
-
-// 7. Newsletter Form & State
+// 6. Newsletter Form & State
 export function updateNewsletterState() {
   const settings = getSettings();
   const form = document.getElementById('newsletter-form');
@@ -780,12 +752,11 @@ function initNewsletterForm() {
   }
 }
 
-// 8. Join Applications State (Disabled / Unclickable when paused)
+// 7. Join Applications State (Disabled / Unclickable when paused)
 export function updateJoinApplicationState() {
   const settings = getSettings();
   const isEnabled = settings.joinClubEnabled;
   const navBtn = document.getElementById('nav-join-btn');
-  const teamBtn = document.getElementById('team-join-btn');
   const modalBadge = document.getElementById('join-modal-badge');
   const pausedNotice = document.getElementById('join-paused-notice');
   const joinSubmitBtn = document.getElementById('join-submit-btn');
@@ -799,15 +770,6 @@ export function updateJoinApplicationState() {
       navBtn.style.pointerEvents = 'none';
       navBtn.style.cursor = 'not-allowed';
       navBtn.setAttribute('title', 'Applications are currently paused. Please check back for later updates.');
-    }
-    if (teamBtn) {
-      teamBtn.innerHTML = '⏸️ Applications Paused';
-      teamBtn.classList.add('btn-paused');
-      teamBtn.disabled = true;
-      teamBtn.setAttribute('aria-disabled', 'true');
-      teamBtn.style.pointerEvents = 'none';
-      teamBtn.style.cursor = 'not-allowed';
-      teamBtn.setAttribute('title', 'Applications are currently paused. Please check back for later updates.');
     }
     if (modalBadge) {
       modalBadge.textContent = 'APPLICATIONS PAUSED';
@@ -840,15 +802,6 @@ export function updateJoinApplicationState() {
       navBtn.style.pointerEvents = '';
       navBtn.style.cursor = 'pointer';
       navBtn.removeAttribute('title');
-    }
-    if (teamBtn) {
-      teamBtn.innerHTML = '✨ Applications Open — Join Editorial Team';
-      teamBtn.classList.remove('btn-paused');
-      teamBtn.disabled = false;
-      teamBtn.removeAttribute('aria-disabled');
-      teamBtn.style.pointerEvents = '';
-      teamBtn.style.cursor = 'pointer';
-      teamBtn.removeAttribute('title');
     }
     if (modalBadge) {
       modalBadge.textContent = 'APPLICATIONS OPEN';
