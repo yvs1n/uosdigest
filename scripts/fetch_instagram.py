@@ -199,23 +199,59 @@ def fetch_posts_via_playwright():
                     '--disable-setuid-sandbox',
                     '--disable-infobars',
                     '--disable-dev-shm-usage',
-                    '--disable-extensions'
+                    '--disable-extensions',
+                    '--window-size=1920,1080'
                 ]
             )
             context = browser.new_context(
-                user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-                viewport={'width': 1280, 'height': 800},
-                locale='en-US'
+                user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+                viewport={'width': 1920, 'height': 1080},
+                locale='en-US',
+                timezone_id='Asia/Dubai',
+                extra_http_headers={
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Sec-Ch-Ua': '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
+                    'Sec-Ch-Ua-Mobile': '?0',
+                    'Sec-Ch-Ua-Platform': '"Windows"',
+                    'Sec-Fetch-Dest': 'document',
+                    'Sec-Fetch-Mode': 'navigate',
+                    'Sec-Fetch-Site': 'none',
+                    'Sec-Fetch-User': '?1',
+                    'Upgrade-Insecure-Requests': '1'
+                }
             )
+
+            # Optional session cookie injection (e.g. from GitHub Secrets INSTAGRAM_SESSION)
+            session_val = os.environ.get('INSTAGRAM_SESSION', '').strip()
+            if session_val:
+                try:
+                    if '=' in session_val:
+                        for cookie_part in session_val.split(';'):
+                            if '=' in cookie_part:
+                                ck, cv = cookie_part.strip().split('=', 1)
+                                context.add_cookies([{'name': ck, 'value': cv, 'domain': '.instagram.com', 'path': '/'}])
+                    else:
+                        context.add_cookies([{'name': 'sessionid', 'value': session_val, 'domain': '.instagram.com', 'path': '/'}])
+                    print("  [AUTH] Injected Instagram session cookies into browser context")
+                except Exception as c_err:
+                    print(f"  [AUTH WARN] Could not inject session cookies: {c_err}")
+
             page = context.new_page()
-            page.add_init_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+            page.add_init_script("""
+                Object.defineProperty(navigator, 'webdriver', {get: () => undefined});
+                Object.defineProperty(navigator, 'platform', {get: () => 'Win32'});
+                Object.defineProperty(navigator, 'languages', {get: () => ['en-US', 'en']});
+                Object.defineProperty(navigator, 'plugins', {get: () => [1, 2, 3, 4, 5]});
+                window.chrome = { runtime: {}, loadTimes: function() {}, csi: function() {}, app: {} };
+            """)
 
             # Try profile root, and if needed reels tab
             urls_to_try = [
                 f'https://www.instagram.com/{USERNAME}/',
                 f'https://www.instagram.com/{USERNAME}/reels/'
             ]
-            shortcodes = []
+            post_items = []  # list of (shortcode, prefix)
 
             for target_url in urls_to_try:
                 try:
@@ -247,27 +283,28 @@ def fetch_posts_via_playwright():
                     anchors = page.query_selector_all('a[href*="/p/"], a[href*="/reel/"]')
                     for a in anchors:
                         href = a.get_attribute('href') or ''
-                        m = re.search(r'/(?:p|reel)/([A-Za-z0-9_-]+)', href)
+                        m = re.search(r'/(p|reel)/([A-Za-z0-9_-]+)', href)
                         if m:
-                            sc = m.group(1)
-                            if sc not in shortcodes:
-                                shortcodes.append(sc)
-                        if len(shortcodes) >= MAX_POSTS:
+                            prefix = m.group(1)
+                            sc = m.group(2)
+                            if not any(item[0] == sc for item in post_items):
+                                post_items.append((sc, prefix))
+                        if len(post_items) >= MAX_POSTS:
                             break
-                    if shortcodes:
+                    if post_items:
                         break
                 except Exception as route_err:
                     print(f"Notice: Navigating to {target_url} encountered: {route_err}")
 
-            print(f"  [BROWSER] Discovered top {len(shortcodes)} shortcodes: {shortcodes}")
-            if not shortcodes:
+            print(f"  [BROWSER] Discovered top {len(post_items)} posts: {post_items}")
+            if not post_items:
                 browser.close()
                 return []
             
             fetched = []
-            for sc in shortcodes:
+            for sc, prefix in post_items:
                 try:
-                    page.goto(f'https://www.instagram.com/reel/{sc}/', timeout=20000)
+                    page.goto(f'https://www.instagram.com/{prefix}/{sc}/', timeout=20000)
                     page.wait_for_timeout(1500)
                     desc_meta = page.query_selector('meta[property="og:description"]')
                     desc = desc_meta.get_attribute('content') if desc_meta else ''
@@ -298,21 +335,22 @@ def fetch_posts_via_playwright():
                         except Exception:
                             pass
                     
-                    local_img = save_local_image(sc, img_url) if img_url else f"assets/instagram/{sc}.jpg"
+                    is_video = (prefix == 'reel') or ('video' in desc.lower()) or ('video' in title.lower())
+                    local_img = save_local_image(sc, img_url, is_video=is_video) if img_url else f"assets/instagram/{sc}.jpg"
                     
                     fetched.append({
                         'id': sc,
                         'shortcode': sc,
-                        'permalink': f"https://www.instagram.com/uosdigest/reel/{sc}/",
+                        'permalink': f"https://www.instagram.com/uosdigest/{prefix}/{sc}/",
                         'imageUrl': local_img,
                         'caption': caption[:160] + ('...' if len(caption) > 160 else ''),
                         'timestamp': ts_iso,
                         'likes': likes,
                         'comments': comments
                     })
-                    print(f"  [BROWSER POST] {sc}: {likes} likes, {comments} comments -> {local_img}")
+                    print(f"  [BROWSER POST] {sc} ({prefix}): {likes} likes, {comments} comments -> {local_img}")
                 except Exception as ex:
-                    print(f"  [BROWSER WARN] Could not scrape reel {sc}: {ex}")
+                    print(f"  [BROWSER WARN] Could not scrape {prefix} {sc}: {ex}")
             
             browser.close()
             return fetched
