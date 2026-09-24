@@ -88,7 +88,7 @@ export function renderHeroAndPublications() {
   if (heroSubtitle) heroSubtitle.textContent = featured.subtitle ? `"${featured.subtitle}"` : '';
   if (heroDesc) heroDesc.textContent = featured.description;
   if (heroCover) {
-    heroCover.src = featured.coverImage;
+    heroCover.src = getAssetUrl(featured.coverImage);
     heroCover.alt = featured.title;
   }
   if (heroBadge) heroBadge.textContent = featured.publicationName;
@@ -109,9 +109,6 @@ export function renderHeroAndPublications() {
   }
   if (heroCoverCard) {
     heroCoverCard.onclick = () => window.openCoverFullscreen(featured);
-  }
-  if (heroCoverImg) {
-    heroCoverImg.src = getAssetUrl(featured.coverImage);
   }
   if (heroDownloadBtn) {
     const heroPdf = getPdfUrl(featured.pdfFileUrl, featured.id);
