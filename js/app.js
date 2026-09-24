@@ -124,7 +124,10 @@ export function renderHeroAndPublications() {
             ${p.publicationName} #${p.issueNumber}
           </span>
           <div class="pub-cover-overlay">
-            <span>📖 Read PDF Issue ↗</span>
+            <span style="display: inline-flex; align-items: center; gap: 0.4rem;">
+              <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+              Read PDF
+            </span>
           </div>
         </div>
 
@@ -141,14 +144,16 @@ export function renderHeroAndPublications() {
           ${p.subtitle ? `<p class="pub-subtitle" style="font-size: 0.78rem; color: #4B5563;">"${p.subtitle}"</p>` : ''}
 
           <div style="margin-top: auto; padding-top: 0.75rem; border-top: 1px solid #E2E0D8; display: flex; justify-content: space-between; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
-            <button class="btn-white" style="padding: 0.35rem 0.65rem; font-size: 0.7rem; font-weight: bold;" onclick="window.openCoverFullscreenById('${p.id}')">
-              ⛶ View Cover
+            <button class="btn-white" style="padding: 0.35rem 0.65rem; font-size: 0.7rem; font-weight: bold; display: inline-flex; align-items: center; gap: 0.3rem;" onclick="window.openCoverFullscreenById('${p.id}')">
+              <svg class="icon icon-stroke" viewBox="0 0 24 24" width="12" height="12"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              Cover
             </button>
             <button class="btn-maroon" style="padding: 0.35rem 0.75rem; font-size: 0.7rem;" onclick="window.openPublicationReader('${p.id}')">
-              Read PDF ↗
+              Read PDF
             </button>
-            <a href="${p.pdfFileUrl || `/pdf/${p.id}.pdf`}" download="${p.title}.pdf" style="font-family: var(--font-mono); font-size: 0.7rem; color: #7A132B; text-decoration: none; font-weight: bold;">
-              Download ↓
+            <a href="${p.pdfFileUrl || `/pdf/${p.id}.pdf`}" download="${p.title}.pdf" style="font-family: var(--font-mono); font-size: 0.7rem; color: #7A132B; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 0.25rem;">
+              <svg class="icon icon-stroke" viewBox="0 0 24 24" width="12" height="12"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download
             </a>
           </div>
         </div>
@@ -164,13 +169,21 @@ window.openPublicationReader = (pubId) => {
   if (found) openReader(found);
 };
 
+window.openReader = (pubOrId) => {
+  if (typeof pubOrId === 'string') {
+    window.openPublicationReader(pubOrId);
+  } else {
+    openReader(pubOrId);
+  }
+};
+
 window.openCoverFullscreenById = (pubId) => {
   const pubs = getPublications();
   const found = pubs.find(p => p.id === pubId);
   if (found) window.openCoverFullscreen(found);
 };
 
-// 3. Completely Custom Local Document PDF Reader
+// 3. Custom Local Document PDF Reader
 let currentReaderPub = null;
 
 export function openReader(pub) {
@@ -240,11 +253,13 @@ export function openReader(pub) {
   }
 
   modal.classList.add('active');
+  document.body.classList.add('reader-active');
 }
 
 export function closeReader() {
   const modal = document.getElementById('reader-modal');
   if (modal) modal.classList.remove('active');
+  document.body.classList.remove('reader-active');
 }
 
 window.closeReaderModal = closeReader;
@@ -290,12 +305,16 @@ window.openCoverFullscreen = (pub) => {
     downloadBtn.setAttribute('download', `${targetPub.title}.pdf`);
   }
 
-  if (modal) modal.classList.add('active');
+  if (modal) {
+    modal.classList.add('active');
+    document.body.classList.add('reader-active');
+  }
 };
 
 window.closeCoverModal = () => {
   const modal = document.getElementById('cover-modal');
   if (modal) modal.classList.remove('active');
+  document.body.classList.remove('reader-active');
   if (document.fullscreenElement) {
     document.exitFullscreen().catch(() => {});
   }
@@ -350,15 +369,18 @@ async function initInstagramSection() {
 
   grid.innerHTML = posts.map(p => {
     const dateStr = p.timestamp ? new Date(p.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Recent';
-    const likesDisplay = p.likes ? `<span>❤️ ${p.likes}</span>` : '';
-    const commentsDisplay = p.comments ? `<span>💬 ${p.comments}</span>` : '';
+    const likesDisplay = p.likes ? `<span style="display:inline-flex;align-items:center;gap:0.25rem;"><svg class="icon" viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg> ${p.likes}</span>` : '';
+    const commentsDisplay = p.comments ? `<span style="display:inline-flex;align-items:center;gap:0.25rem;"><svg class="icon" viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> ${p.comments}</span>` : '';
 
     return `
       <a href="${p.permalink || 'https://www.instagram.com/uosdigest'}" target="_blank" rel="noopener noreferrer" class="ig-card">
         <div class="ig-card-img-wrap">
           <img src="${p.imageUrl}" alt="${p.caption ? p.caption.replace(/"/g, '&quot;') : 'Instagram Post'}" class="ig-card-img" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80';" />
           <div class="ig-card-badge">
-            <span>📸 @uosdigest</span>
+            <span style="display: inline-flex; align-items: center; gap: 0.35rem;">
+              <svg class="icon icon-stroke" viewBox="0 0 24 24" width="12" height="12"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              @uosdigest
+            </span>
           </div>
         </div>
         <div class="ig-card-body">
@@ -375,8 +397,8 @@ async function initInstagramSection() {
             </p>
           </div>
           <div class="ig-card-footer">
-            <span>VIEW ON INSTAGRAM</span>
-            <span>↗</span>
+            <span>View on Instagram</span>
+            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="11" height="11"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           </div>
         </div>
       </a>
@@ -429,7 +451,7 @@ function initRadioSection() {
         audio.src = found.audioUrl;
         audio.play();
         isPlaying = true;
-        if (playIcon) playIcon.textContent = '❚❚';
+        if (playIcon) playIcon.innerHTML = '<svg class="icon" viewBox="0 0 24 24" width="18" height="18"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
       }
     }
   };
@@ -439,11 +461,11 @@ function initRadioSection() {
       if (isPlaying) {
         audio.pause();
         isPlaying = false;
-        if (playIcon) playIcon.textContent = '▶';
+        if (playIcon) playIcon.innerHTML = '<svg class="icon" viewBox="0 0 24 24" width="18" height="18"><polygon points="5 3 19 12 5 21 5 3"/></svg>';
       } else {
         audio.play().catch(() => {});
         isPlaying = true;
-        if (playIcon) playIcon.textContent = '❚❚';
+        if (playIcon) playIcon.innerHTML = '<svg class="icon" viewBox="0 0 24 24" width="18" height="18"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
       }
     };
 
@@ -594,12 +616,12 @@ function initCampusVoiceSection() {
         html += `
           <div style="margin-top: 1rem; padding: 1rem; background: #FAF9F5; border: 1px solid #D1CFCA; font-family: var(--font-mono); font-size: 0.75rem;">
             <span style="font-weight: bold; color: #7A132B; display: block; margin-bottom: 0.5rem;">
-              Step 2: Enter your name to verify and unlock live survey results
+              Step 2: Enter your name to record your vote and see live results
             </span>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-              <input id="voter-name" type="text" required placeholder="Your full name (Required) *" class="form-input" />
+              <input id="voter-name" type="text" required placeholder="Full Name *" class="form-input" />
               <button onclick="window.submitVerifiedVote()" class="btn-maroon" style="justify-content: center; padding: 0.65rem;">
-                Submit Verified Vote & View Results ↗
+                Submit Vote & View Results
               </button>
             </div>
           </div>
@@ -607,9 +629,9 @@ function initCampusVoiceSection() {
       } else {
         html += `
           <div style="margin-top: 0.75rem; padding: 0.75rem 1rem; background: #ECFDF5; border: 1px solid #A7F3D0; font-family: var(--font-mono); font-size: 0.75rem; color: #065F46; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
-            <span>✓ Your verified vote has been counted and added to the public voter dropdown!</span>
+            <span>Your vote has been counted and added to the results.</span>
             <button onclick="window.resetMyVote()" class="btn-white" style="font-size: 0.65rem; padding: 0.25rem 0.6rem; color: #111111; cursor: pointer;">
-              ↺ Change Vote / Vote Again
+              Change Vote
             </button>
           </div>
         `;
@@ -840,7 +862,7 @@ export function updatePodcastPitchState() {
 
   if (!isEnabled) {
     if (pitchBtn) {
-      pitchBtn.innerHTML = '⏸️ Pitching Paused';
+      pitchBtn.innerHTML = '<svg class="icon" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Pitching Paused';
       pitchBtn.classList.add('btn-paused');
       pitchBtn.disabled = true;
       pitchBtn.setAttribute('aria-disabled', 'true');
@@ -872,7 +894,7 @@ export function updatePodcastPitchState() {
     });
   } else {
     if (pitchBtn) {
-      pitchBtn.innerHTML = '🎙️ Pitch a Podcast Episode';
+      pitchBtn.innerHTML = '<svg class="icon" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg> Pitch a Podcast Episode';
       pitchBtn.classList.remove('btn-paused');
       pitchBtn.disabled = false;
       pitchBtn.removeAttribute('aria-disabled');

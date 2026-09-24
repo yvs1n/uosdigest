@@ -180,9 +180,7 @@ export const initialInstagramPosts = [
     "shortcode": "Ddq3n-WsNCE",
     "permalink": "https://www.instagram.com/uosdigest/reel/Ddq3n-WsNCE/",
     "imageUrl": "assets/instagram/Ddq3n-WsNCE.jpg",
-    "caption": "UOS DIGEST ISSUE 4 RELEASE EVENT: SEPTEMBER 30TH 12PM-4PM, c11 (w7) 
-
-#uos #universityofsharjah #event #uni #uosdigest",
+    "caption": "UOS DIGEST ISSUE 4 RELEASE EVENT: SEPTEMBER 30TH 12PM-4PM, c11 (w7) \n\n#uos #universityofsharjah #event #uni #uosdigest",
     "timestamp": "2026-09-24T12:19:17Z",
     "likes": 72,
     "comments": 7
@@ -192,9 +190,7 @@ export const initialInstagramPosts = [
     "shortcode": "DdoeguOzb1J",
     "permalink": "https://www.instagram.com/uosdigest/reel/DdoeguOzb1J/",
     "imageUrl": "assets/instagram/DdoeguOzb1J.jpg",
-    "caption": "CAMPUS COUTURE EPISODE 14: one word
-
-#uos #universityofsharjah #student #campuslife #uni",
+    "caption": "CAMPUS COUTURE EPISODE 14: one word\n\n#uos #universityofsharjah #student #campuslife #uni",
     "timestamp": "2026-09-23T14:01:21Z",
     "likes": 35,
     "comments": 0
@@ -204,9 +200,7 @@ export const initialInstagramPosts = [
     "shortcode": "DdlI9dvMPqi",
     "permalink": "https://www.instagram.com/uosdigest/p/DdlI9dvMPqi/",
     "imageUrl": "assets/instagram/DdlI9dvMPqi.jpg",
-    "caption": "UOS DIGEST ISSUE #4 COMING TO UR FAV COLLEGE (communications) ON SEPTEMBER 30TH 12-PM-4PM 
-
-SKIP THEM CLASSES, BOOK OUT UR AFTERNOON AND JOIN US FOR THE MOST EP...",
+    "caption": "UOS DIGEST ISSUE #4 COMING TO UR FAV COLLEGE (communications) ON SEPTEMBER 30TH 12-PM-4PM \n\nSKIP THEM CLASSES, BOOK OUT UR AFTERNOON AND JOIN US FOR THE MOST EP...",
     "timestamp": "2026-09-22T06:55:19Z",
     "likes": 123,
     "comments": 16
@@ -226,9 +220,7 @@ SKIP THEM CLASSES, BOOK OUT UR AFTERNOON AND JOIN US FOR THE MOST EP...",
     "shortcode": "DdUC6ZfMdpT",
     "permalink": "https://www.instagram.com/uosdigest/reel/DdUC6ZfMdpT/",
     "imageUrl": "assets/instagram/DdUC6ZfMdpT.jpg",
-    "caption": "tiny mic ft. @sasa_updates !!!!! 
-
-#uos #sasa #tinymic #universityofsharjah",
+    "caption": "tiny mic ft. @sasa_updates !!!!! \n\n#uos #sasa #tinymic #universityofsharjah",
     "timestamp": "2026-09-15T15:35:23Z",
     "likes": 177,
     "comments": 3
@@ -238,11 +230,7 @@ SKIP THEM CLASSES, BOOK OUT UR AFTERNOON AND JOIN US FOR THE MOST EP...",
     "shortcode": "DdQd1KvsaeI",
     "permalink": "https://www.instagram.com/uosdigest/reel/DdQd1KvsaeI/",
     "imageUrl": "assets/instagram/DdQd1KvsaeI.jpg",
-    "caption": "THE PHOTOGRAPHY SPREAD IS BACCKKKK 
-
-SUBMIT 3-5 OF UR FAV PICTURES BY DMING US ON IG @UOSDIGEST BY SEPTEMBER 22ND 
-
-#uosdigest #uni #photography #magazine",
+    "caption": "THE PHOTOGRAPHY SPREAD IS BACCKKKK \n\nSUBMIT 3-5 OF UR FAV PICTURES BY DMING US ON IG @UOSDIGEST BY SEPTEMBER 22ND \n\n#uosdigest #uni #photography #magazine",
     "timestamp": "2026-09-14T06:13:38Z",
     "likes": 68,
     "comments": 5

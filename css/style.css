@@ -58,6 +58,36 @@ body {
   overflow-x: clip;
 }
 
+/* SVG Icon Standards */
+.icon {
+  display: inline-block;
+  vertical-align: -0.15em;
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+.icon-stroke {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Reader Active State: Nav bar is completely hidden while reading */
+body.reader-active {
+  overflow: hidden !important;
+}
+body.reader-active .sticky-nav-container,
+body.reader-active .times-nav-sticky,
+body.reader-active .top-institutional-bar {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
 ::selection {
   background-color: var(--uos-maroon);
   color: #FFFFFF;
@@ -550,7 +580,7 @@ body {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  z-index: 50;
+  z-index: 10000;
   background-color: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(4px);
   display: none;
@@ -636,7 +666,7 @@ body {
 .cover-modal-overlay {
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  z-index: 10001;
   background-color: rgba(10, 10, 10, 0.94);
   backdrop-filter: blur(8px);
   display: none;

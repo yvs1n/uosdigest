@@ -40,33 +40,33 @@
     <div id="admin-login-view" style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem;">
       <div style="background: #FFFFFF; border: 2px solid var(--uos-ink); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15); max-width: 28rem; width: 100%; padding: 2.5rem;">
         <div style="text-align: center; margin-bottom: 2rem;">
-          <div style="width: 3.5rem; height: 3.5rem; background: var(--uos-paper-dark); border: 2px solid var(--uos-maroon); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem auto; font-size: 1.5rem;">
-            🔒
+          <div style="width: 3.5rem; height: 3.5rem; background: var(--uos-paper-dark); border: 2px solid var(--uos-maroon); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem auto; color: var(--uos-maroon);">
+            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="22" height="22"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
           </div>
-          <h2 style="font-weight: 900; font-size: 1.5rem; color: #111111;">Editorial Portal Login</h2>
+          <h2 style="font-weight: 900; font-size: 1.5rem; color: #111111;">Admin Login</h2>
           <p style="font-family: var(--font-mono); font-size: 0.75rem; color: #6B7280; margin-top: 0.25rem;">
-            Authorized University of Sharjah Editors Only
+            Authorized Press Club Editors
           </p>
         </div>
 
         <form id="admin-login-form">
           <div class="form-group">
-            <label class="form-label">Editorial Email Address</label>
+            <label class="form-label">Email Address</label>
             <input id="admin-email" type="email" required placeholder="name@sharjah.ac.ae" class="form-input" />
           </div>
 
           <div class="form-group">
-            <label class="form-label">Security Password</label>
+            <label class="form-label">Password</label>
             <input id="admin-password" type="password" required placeholder="••••••••••••" class="form-input" />
           </div>
 
           <button type="submit" class="btn-maroon" style="width: 100%; justify-content: center; padding: 0.85rem; font-size: 0.85rem; margin-top: 0.5rem;">
-            Authenticate Access ↗
+            Log In
           </button>
         </form>
 
         <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--uos-border); text-align: center; font-family: var(--font-mono); font-size: 0.7rem; color: #9CA3AF;">
-          Official System Key: <code>press@sharjah.ac.ae</code> / <code>uospress2026</code>
+          Key: <code>press@sharjah.ac.ae</code> / <code>uospress2026</code>
         </div>
       </div>
     </div>
@@ -76,15 +76,36 @@
       <!-- Sidebar -->
       <aside style="width: 17rem; background: #FAF9F5; border-right: 2px solid var(--uos-ink); padding: 1.25rem; display: flex; flex-direction: column; gap: 0.35rem;">
         <span style="font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; color: var(--uos-maroon); text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.1em;">
-          ADMIN DASHBOARD
+          DASHBOARD
         </span>
-        <button class="admin-tab-btn active" data-tab="publications" onclick="window.switchAdminTab('publications')">📚 Magazine Issues</button>
-        <button class="admin-tab-btn" data-tab="times" onclick="window.switchAdminTab('times')" style="border-left: 3px solid var(--uos-times-green); font-weight: bold;">📰 Newspaper Articles</button>
-        <button class="admin-tab-btn" data-tab="polls" onclick="window.switchAdminTab('polls')">🗳️ Student Polls & Surveys</button>
-        <button class="admin-tab-btn" data-tab="forms" onclick="window.switchAdminTab('forms')">⚙️ Application & Form Options</button>
-        <button class="admin-tab-btn" data-tab="subscribers" onclick="window.switchAdminTab('subscribers')">📬 Email Subscribers</button>
-        <button class="admin-tab-btn" data-tab="applications" onclick="window.switchAdminTab('applications')">📝 Student Applications</button>
-        <button class="admin-tab-btn" data-tab="podcasts" onclick="window.switchAdminTab('podcasts')">🎙️ Radio & Podcast Pitches</button>
+        <button class="admin-tab-btn active" data-tab="publications" onclick="window.switchAdminTab('publications')">
+          <svg class="icon icon-stroke" viewBox="0 0 24 24" width="14" height="14"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          Magazine Issues
+        </button>
+        <button class="admin-tab-btn" data-tab="times" onclick="window.switchAdminTab('times')" style="border-left: 3px solid var(--uos-times-green); font-weight: bold;">
+          <svg class="icon icon-stroke" viewBox="0 0 24 24" width="14" height="14"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
+          Newspaper Articles
+        </button>
+        <button class="admin-tab-btn" data-tab="polls" onclick="window.switchAdminTab('polls')">
+          <svg class="icon icon-stroke" viewBox="0 0 24 24" width="14" height="14"><path d="m9 12 2 2 4-4"/><path d="M5 7c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v12H5V7Z"/><path d="M22 19H2"/></svg>
+          Student Polls
+        </button>
+        <button class="admin-tab-btn" data-tab="forms" onclick="window.switchAdminTab('forms')">
+          <svg class="icon icon-stroke" viewBox="0 0 24 24" width="14" height="14"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Form Settings
+        </button>
+        <button class="admin-tab-btn" data-tab="subscribers" onclick="window.switchAdminTab('subscribers')">
+          <svg class="icon icon-stroke" viewBox="0 0 24 24" width="14" height="14"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          Subscribers
+        </button>
+        <button class="admin-tab-btn" data-tab="applications" onclick="window.switchAdminTab('applications')">
+          <svg class="icon icon-stroke" viewBox="0 0 24 24" width="14" height="14"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Applications
+        </button>
+        <button class="admin-tab-btn" data-tab="podcasts" onclick="window.switchAdminTab('podcasts')">
+          <svg class="icon icon-stroke" viewBox="0 0 24 24" width="14" height="14"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+          Radio Pitches
+        </button>
       </aside>
 
       <!-- Content Canvas -->
@@ -101,9 +122,11 @@
       <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--uos-border); padding-bottom: 1rem; margin-bottom: 1.5rem;">
         <div>
           <span style="background: var(--uos-maroon); color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.2rem 0.5rem;">ISSUE CURATOR</span>
-          <h3 id="pub-modal-title" style="font-weight: 900; font-size: 1.35rem; margin-top: 0.25rem;">Publish New Issue</h3>
+          <h3 id="pub-modal-title" style="font-weight: 900; font-size: 1.35rem; margin-top: 0.25rem;">Publish Issue</h3>
         </div>
-        <button class="btn-white" onclick="window.closePubModal()">✕</button>
+        <button class="btn-white" onclick="window.closePubModal()" style="padding: 0.35rem 0.65rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.25rem;">
+          <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
 
       <form id="pub-form" style="display: flex; flex-direction: column; gap: 0.85rem;">
@@ -201,7 +224,9 @@
     <div class="modal-box" style="max-width: 28rem;">
       <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--uos-border); padding-bottom: 1rem; margin-bottom: 1.5rem;">
         <h3 style="font-weight: 900; font-size: 1.25rem;">Edit Subscriber</h3>
-        <button class="btn-white" onclick="window.closeSubModal()">✕</button>
+        <button class="btn-white" onclick="window.closeSubModal()" style="padding: 0.35rem 0.65rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.25rem;">
+          <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
 
       <form id="sub-edit-form" style="display: flex; flex-direction: column; gap: 0.75rem;">
@@ -239,7 +264,9 @@
           <span style="background: var(--uos-times-green); color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.2rem 0.5rem;">NEWSROOM DISPATCH</span>
           <h3 id="times-modal-title" style="font-weight: 900; font-size: 1.35rem; margin-top: 0.25rem; font-family: var(--font-times);">Publish Newspaper Article</h3>
         </div>
-        <button class="btn-white" onclick="window.closeTimesModal()">✕</button>
+        <button class="btn-white" onclick="window.closeTimesModal()" style="padding: 0.35rem 0.65rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.25rem;">
+          <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
 
       <form id="times-article-form" style="display: flex; flex-direction: column; gap: 0.85rem;">
@@ -247,40 +274,40 @@
 
         <div class="form-group" style="margin-bottom: 0;">
           <label class="form-label">Article Headline *</label>
-          <input id="times-form-title" type="text" required placeholder="e.g. University Unveils Campus Expansion Plan" class="form-input" style="font-size: 1rem; font-weight: 700;" />
+          <input id="times-form-title" type="text" required placeholder="Headline" class="form-input" style="font-size: 1rem; font-weight: 700;" />
         </div>
 
         <div class="form-group" style="margin-bottom: 0;">
-          <label class="form-label">Subtitle / Broadsheet Dek (Bitter Font) *</label>
-          <input id="times-form-subtitle" type="text" required placeholder="A descriptive summary line expanding on the headline..." class="form-input" style="font-family: var(--font-bitter); font-style: italic;" />
+          <label class="form-label">Subtitle / Dek *</label>
+          <input id="times-form-subtitle" type="text" required placeholder="Summary line expanding on the headline..." class="form-input" style="font-family: var(--font-bitter); font-style: italic;" />
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
           <div class="form-group" style="margin-bottom: 0;">
-            <label class="form-label">News Desk Category *</label>
+            <label class="form-label">Category *</label>
             <select id="times-form-category" class="form-select" required>
               <option value="Campus News">Campus News</option>
               <option value="Academics & Tech">Academics & Tech</option>
               <option value="Investigation">Investigation</option>
               <option value="Arts & Culture">Arts & Culture</option>
-              <option value="Sports">Sports Desk</option>
-              <option value="Opinion">Opinion / Op-Ed</option>
+              <option value="Sports">Sports</option>
+              <option value="Opinion">Opinion</option>
             </select>
           </div>
           <div class="form-group" style="margin-bottom: 0;">
-            <label class="form-label">Estimated Read Time</label>
-            <input id="times-form-readtime" type="text" placeholder="e.g. 4 min read" value="3 min read" class="form-input" />
+            <label class="form-label">Read Time</label>
+            <input id="times-form-readtime" type="text" placeholder="e.g. 4 min" value="3 min" class="form-input" />
           </div>
         </div>
 
         <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 0.75rem;">
           <div class="form-group" style="margin-bottom: 0;">
-            <label class="form-label">Author / Byline *</label>
-            <input id="times-form-author" type="text" required placeholder="e.g. Mariam Al-Hammadi" class="form-input" />
+            <label class="form-label">Author *</label>
+            <input id="times-form-author" type="text" required placeholder="Author name" class="form-input" />
           </div>
           <div class="form-group" style="margin-bottom: 0;">
-            <label class="form-label">Author Desk Role</label>
-            <input id="times-form-role" type="text" placeholder="e.g. Senior News Reporter" class="form-input" />
+            <label class="form-label">Role</label>
+            <input id="times-form-role" type="text" placeholder="e.g. Staff Reporter" class="form-input" />
           </div>
         </div>
 
@@ -296,30 +323,31 @@
         </div>
 
         <div class="form-group" style="margin-bottom: 0;">
-          <label class="form-label">Lead Excerpt / Front Page Summary *</label>
-          <textarea id="times-form-excerpt" rows="2" required placeholder="Short summary appearing on newspaper cards and front-page columns..." class="form-textarea"></textarea>
+          <label class="form-label">Summary Excerpt *</label>
+          <textarea id="times-form-excerpt" rows="2" required placeholder="Short summary for card previews..." class="form-textarea"></textarea>
         </div>
 
         <div class="form-group" style="margin-bottom: 0;">
-          <label class="form-label">Full Article Story Body (Separate paragraphs with double enters) *</label>
-          <textarea id="times-form-content" rows="6" required placeholder="Enter the complete investigative report or newspaper dispatch..." class="form-textarea" style="font-family: var(--font-serif); font-size: 0.95rem; line-height: 1.6;"></textarea>
+          <label class="form-label">Article Body *</label>
+          <textarea id="times-form-content" rows="6" required placeholder="Enter article paragraphs..." class="form-textarea" style="font-family: var(--font-serif); font-size: 0.95rem; line-height: 1.6;"></textarea>
         </div>
 
         <div class="form-group" style="margin-bottom: 0;">
           <label class="form-label">Tags (Comma-separated)</label>
-          <input id="times-form-tags" type="text" placeholder="e.g. Campus, Sustainability, Academic" class="form-input" />
+          <input id="times-form-tags" type="text" placeholder="e.g. Campus, Research" class="form-input" />
         </div>
 
         <div style="background: var(--uos-times-green-tint); border: 1px solid var(--uos-times-green); padding: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
           <input type="checkbox" id="times-form-featured" style="width: 1.1rem; height: 1.1rem; accent-color: var(--uos-times-green);" />
-          <label for="times-form-featured" style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: bold; color: var(--uos-times-green-dark); cursor: pointer;">
-            ★ Feature as Lead Story on The UOS Times Front Page
+          <label for="times-form-featured" style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: bold; color: var(--uos-times-green-dark); cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem;">
+            <svg class="icon" viewBox="0 0 24 24" width="12" height="12"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Feature as Lead Story on Front Page
           </label>
         </div>
 
         <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 0.5rem;">
           <button type="button" class="btn-white" onclick="window.closeTimesModal()">Cancel</button>
-          <button id="times-form-submit-btn" type="submit" class="btn-times">Save & Publish to Newsroom ↗</button>
+          <button id="times-form-submit-btn" type="submit" class="btn-times">Save & Publish</button>
         </div>
       </form>
     </div>

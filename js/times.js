@@ -169,7 +169,7 @@ function renderArticlesGrid() {
   if (!filtered.length) {
     grid.innerHTML = `
       <div style="grid-column: 1 / -1; padding: 4rem 1rem; text-align: center; border: 1px dashed var(--uos-border); background: #FFFFFF;">
-        <span style="font-size: 2rem;">📰</span>
+        <svg class="icon" viewBox="0 0 24 24" style="font-size: 2.5rem; color: #9CA3AF; margin: 0 auto; display: block;"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
         <h3 class="times-headline" style="font-size: 1.35rem; margin-top: 0.5rem;">No dispatches found</h3>
         <p style="color: #6B7280; font-family: var(--font-mono); font-size: 0.8rem; margin-top: 0.25rem;">
           Try adjusting your desk filter or search query.
@@ -367,7 +367,7 @@ function initTipForm() {
       const headline = document.getElementById('tip-headline').value;
       const category = document.getElementById('tip-category').value;
 
-      alert(`✓ Thank you! Your news tip regarding "${headline}" has been transmitted to The UOS Times editorial desk (${category}). Our reporters will review your dispatch.`);
+      alert(`Thank you. Your news tip regarding "${headline}" has been submitted to The UOS Times editorial desk (${category}).`);
       form.reset();
       window.closeTipModal();
     };

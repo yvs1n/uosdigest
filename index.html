@@ -28,8 +28,10 @@
           <span class="top-bar-sub" style="color: rgba(255,255,255,0.85);">College of Communication</span>
         </div>
         <div style="display: flex; align-items: center; gap: 0.85rem; white-space: nowrap; flex-shrink: 0;">
-          <a href="times.html" style="color: var(--uos-gold); font-weight: bold; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem;">
-            📰 The UOS Times ↗
+          <a href="times.html" style="color: var(--uos-gold); font-weight: bold; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;">
+            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
+            <span>The UOS Times</span>
+            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="11" height="11"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           </a>
           <span style="color: var(--uos-gold-muted); opacity: 0.5;" class="top-bar-date">•</span>
           <span id="institutional-date" class="top-bar-date" style="color: rgba(255,255,255,0.85);"></span>
@@ -54,36 +56,41 @@
           <nav class="nav-links">
             <a href="times.html" class="nav-link" style="color: var(--uos-times-green); font-weight: 800; display: inline-flex; align-items: center; gap: 0.35rem;">
               <span style="background: var(--uos-times-green); color: #FFFFFF; padding: 0.1rem 0.35rem; font-size: 0.65rem; border-radius: 2px;">NEW</span>
-              The UOS Times ↗
+              The UOS Times
+              <svg class="icon icon-stroke" viewBox="0 0 24 24" width="11" height="11"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             </a>
             <a href="#publications" class="nav-link">Archive</a>
             <a href="#instagram" class="nav-link">Instagram</a>
-            <a href="#radio" class="nav-link">Ittisal Radio</a>
-            <a href="#campus-voice" class="nav-link">Campus Voice</a>
-            <a href="#newsletter" class="nav-link">Subscribe</a>
+            <a href="#radio" class="nav-link">Radio</a>
+            <a href="#campus-voice" class="nav-link">Polls</a>
+            <a href="#newsletter" class="nav-link">Newsletter</a>
           </nav>
 
           <div style="display: flex; gap: 0.5rem; align-items: center;">
             <a href="#publications" class="btn-maroon" style="padding: 0.45rem 0.85rem; font-size: 0.75rem;">
-              Read Issues ↓
+              Read Issues
             </a>
             <button id="nav-join-btn" class="btn-white" onclick="window.openJoinModal()" style="padding: 0.45rem 0.85rem; font-size: 0.75rem;">
               Join Team
             </button>
             <button class="mobile-menu-toggle" id="mobile-menu-btn" onclick="window.toggleMobileMenu()">
-              ☰ Menu
+              <svg class="icon icon-stroke" viewBox="0 0 24 24" width="14" height="14"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" x2="6"/><line x1="4" x2="20" y1="18" x2="18"/></svg>
+              Menu
             </button>
           </div>
         </div>
 
         <!-- Mobile Navigation Drawer -->
         <div id="mobile-nav-drawer" class="mobile-nav-drawer">
-          <a href="times.html" class="mobile-nav-link" style="color: var(--uos-times-green); font-weight: 800; background: var(--uos-times-green-tint);">📰 The UOS Times (Newspaper Subpage ↗)</a>
-          <a href="#publications" class="mobile-nav-link" onclick="window.toggleMobileMenu()">Publications Archive</a>
-          <a href="#instagram" class="mobile-nav-link" onclick="window.toggleMobileMenu()">Instagram Dispatch (@uosdigest)</a>
-          <a href="#radio" class="mobile-nav-link" onclick="window.toggleMobileMenu()">Ittisal Radio (إذاعة اتصال)</a>
-          <a href="#campus-voice" class="mobile-nav-link" onclick="window.toggleMobileMenu()">Campus Pulse Surveys</a>
-          <a href="#newsletter" class="mobile-nav-link" onclick="window.toggleMobileMenu()">Digital Dispatch Subscription</a>
+          <a href="times.html" class="mobile-nav-link" style="color: var(--uos-times-green); font-weight: 800; background: var(--uos-times-green-tint);">
+            The UOS Times
+            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="12" height="12"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+          <a href="#publications" class="mobile-nav-link" onclick="window.toggleMobileMenu()">Magazine Archive</a>
+          <a href="#instagram" class="mobile-nav-link" onclick="window.toggleMobileMenu()">Instagram Feed</a>
+          <a href="#radio" class="mobile-nav-link" onclick="window.toggleMobileMenu()">Ittisal Radio</a>
+          <a href="#campus-voice" class="mobile-nav-link" onclick="window.toggleMobileMenu()">Campus Polls</a>
+          <a href="#newsletter" class="mobile-nav-link" onclick="window.toggleMobileMenu()">Newsletter</a>
         </div>
       </div>
     </header>
@@ -94,14 +101,17 @@
     <div class="container">
       <div style="border-bottom: 1px solid var(--uos-ink); padding-bottom: 0.5rem; margin-bottom: 2.5rem;">
         <span class="section-header-tag" style="margin-bottom: 0;">
-          [ 01 / LEAD PUBLICATION ]
+          [ 01 / LATEST ISSUE ]
         </span>
       </div>
 
       <div class="grid-2" style="align-items: center;">
         <div>
           <div style="margin-bottom: 1rem; display: inline-flex; align-items: center; gap: 0.5rem; background: #FFFFFF; border: 1px solid var(--uos-border-dark); padding: 0.25rem 0.65rem; font-family: var(--font-mono); font-size: 0.75rem;">
-            <span style="color: var(--uos-maroon); font-weight: bold;">★ CURRENT EDITION</span>
+            <span style="color: var(--uos-maroon); font-weight: bold; display: inline-flex; align-items: center; gap: 0.3rem;">
+              <svg class="icon" viewBox="0 0 24 24" width="11" height="11"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              LATEST EDITION
+            </span>
             <span style="color: #9CA3AF;">/</span>
             <span id="hero-edition-badge">UOS Digest Issue #3</span>
           </div>
@@ -113,7 +123,7 @@
             "Constructed: The Construction of Self, Identity and Culture"
           </p>
           <p id="hero-desc" style="font-size: 1rem; color: #374151; margin-bottom: 1.5rem; line-height: 1.6;">
-            The student magazine of the University of Sharjah. Written, photographed, and designed by students at the College of Communication.
+            The student magazine of the University of Sharjah, published by the College of Communication.
           </p>
 
           <!-- Swiss Spec Table (Fluid Grid) -->
@@ -123,12 +133,12 @@
               <span id="hero-volume-badge" style="font-weight: bold; color: var(--uos-maroon);">Issue #3</span>
             </div>
             <div style="padding: 0.75rem; border-right: 1px solid var(--uos-ink); border-bottom: 1px solid var(--uos-ink);">
-              <span style="font-size: 0.65rem; color: #6B7280; text-transform: uppercase; display: block;">Extent</span>
+              <span style="font-size: 0.65rem; color: #6B7280; text-transform: uppercase; display: block;">Length</span>
               <span id="hero-pages-badge" style="font-weight: bold;">36 Pages</span>
             </div>
             <div style="padding: 0.75rem; border-bottom: 1px solid var(--uos-ink);">
               <span style="font-size: 0.65rem; color: #6B7280; text-transform: uppercase; display: block;">Format</span>
-              <span style="font-weight: bold;">Original Print PDF</span>
+              <span style="font-weight: bold;">Print PDF</span>
             </div>
           </div>
 
@@ -137,11 +147,13 @@
           </div>
 
           <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-            <button id="hero-read-btn" class="btn-maroon" style="padding: 0.85rem 1.5rem; font-size: 0.85rem;">
-              📖 Read Issue Document ↗
+            <button id="hero-read-btn" class="btn-maroon" style="padding: 0.85rem 1.5rem; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+              <svg class="icon icon-stroke" viewBox="0 0 24 24" width="15" height="15"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+              Read Issue
             </button>
-            <a id="hero-download-btn" href="#" download class="btn-white" style="padding: 0.85rem 1.5rem; font-size: 0.85rem;">
-              ↓ Download PDF File
+            <a id="hero-download-btn" href="#" download class="btn-white" style="padding: 0.85rem 1.5rem; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+              <svg class="icon icon-stroke" viewBox="0 0 24 24" width="15" height="15"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download PDF
             </a>
           </div>
         </div>
@@ -153,7 +165,8 @@
               <img id="hero-cover-img" src="" alt="Publication Cover" class="hero-cover-img" />
             </div>
             <button type="button" class="hero-cover-btn" onclick="window.openCoverFullscreen()">
-              ⛶ View Fullscreen Cover
+              <svg class="icon icon-stroke" viewBox="0 0 24 24" width="14" height="14"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+              Fullscreen Cover
             </button>
           </div>
         </div>
@@ -165,10 +178,10 @@
   <section id="publications" style="padding: 5rem 0; background-color: #FFFFFF; border-bottom: 1px solid var(--uos-border);">
     <div class="container">
       <div style="border-bottom: 1px solid var(--uos-border); padding-bottom: 1.5rem; margin-bottom: 2.5rem;">
-        <span class="section-header-tag">[ 02 / PUBLICATIONS ARCHIVE ]</span>
-        <h2 class="section-title">Printed Magazine Archive</h2>
+        <span class="section-header-tag">[ 02 / ARCHIVE ]</span>
+        <h2 class="section-title">Magazine Archive</h2>
         <p style="font-size: 1rem; color: #6B7280; margin-top: 0.5rem;">
-          Every printed issue of UOS Digest published on campus. Read online in the browser or download print-ready PDFs.
+          Previous print issues of UOS Digest. Read online or download PDFs.
         </p>
       </div>
 
@@ -181,19 +194,18 @@
   <!-- 03: Instagram Social Dispatch (@uosdigest) -->
   <section id="instagram" style="padding: 5rem 0; background-color: #FAF9F5; border-bottom: 2px solid var(--uos-ink);">
     <div class="container">
-      <!-- Section Header with Swiss Masthead & Follow Action -->
       <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--uos-border); padding-bottom: 1.5rem; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1.5rem;">
         <div>
           <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; flex-wrap: wrap;">
-            <span class="section-header-tag" style="margin-bottom: 0;">[ 03 / INSTAGRAM DISPATCH • نبض إنستغرام ]</span>
+            <span class="section-header-tag" style="margin-bottom: 0;">[ 03 / INSTAGRAM ]</span>
             <span style="display: inline-flex; align-items: center; gap: 0.35rem; background: #ECFDF5; border: 1px solid #A7F3D0; padding: 0.15rem 0.5rem; font-family: var(--font-mono); font-size: 0.65rem; color: #065F46; font-weight: bold;">
               <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #10B981;"></span>
-              DAILY AUTOMATED SYNC
+              DAILY SYNC
             </span>
           </div>
-          <h2 class="section-title">Live From @uosdigest</h2>
+          <h2 class="section-title">Instagram Feed</h2>
           <p style="font-size: 1rem; color: #6B7280; margin-top: 0.5rem; max-width: 42rem;">
-            Photos, story drops, edition previews, and behind-the-scenes work straight from the newsroom feed.
+            Updates, edition previews, and highlights from @uosdigest.
           </p>
         </div>
 
@@ -206,7 +218,8 @@
             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
             </svg>
-            Follow @uosdigest ↗
+            Follow @uosdigest
+            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="11" height="11"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           </a>
         </div>
       </div>
@@ -225,14 +238,15 @@
 
       <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--uos-border); padding-bottom: 1.5rem; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
         <div>
-          <span class="section-header-tag">[ 04 / ITTISAL RADIO • إذاعة اتصال ]</span>
-          <h2 class="section-title">Student Radio & Podcasts</h2>
+          <span class="section-header-tag">[ 04 / RADIO ]</span>
+          <h2 class="section-title">Ittisal Radio</h2>
           <p style="font-size: 1rem; color: #6B7280; margin-top: 0.5rem;">
-            Interviews, debates, and campus stories recorded live in the College of Communication audio booth.
+            Interviews and discussions from the College of Communication.
           </p>
         </div>
-        <button id="pitch-podcast-btn" class="btn-maroon" onclick="window.openPodcastModal()">
-          🎙️ Pitch a Podcast Episode
+        <button id="pitch-podcast-btn" class="btn-maroon" onclick="window.openPodcastModal()" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+          <svg class="icon icon-stroke" viewBox="0 0 24 24" width="15" height="15"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+          Pitch an Episode
         </button>
       </div>
 
@@ -246,10 +260,10 @@
                 STUDIO CONSOLE
               </span>
               <h3 id="radio-current-title" style="font-weight: bold; font-size: 1.15rem; margin-top: 0.4rem; color: #111111;">
-                Ep. 08: Beyond the Byline — Student Journalism in the Digital Era
+                Ep. 08: Beyond the Byline, Student Journalism in the Digital Era
               </h3>
               <p id="radio-current-host" style="font-family: var(--font-mono); font-size: 0.7rem; color: #6B7280; margin-top: 0.2rem;">
-                Podcast Host: Press Club Media Team • February 2026
+                Host: Press Club Media Team • February 2026
               </p>
             </div>
           </div>
@@ -284,11 +298,13 @@
 
             <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.5rem;">
               <button id="radio-play-btn" class="btn-maroon" style="width: 3rem; height: 3rem; border-radius: 0; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
-                <span id="radio-play-icon">▶</span>
+                <span id="radio-play-icon" style="display: flex; align-items: center; justify-content: center;"><svg class="icon" viewBox="0 0 24 24" width="18" height="18"><polygon points="5 3 19 12 5 21 5 3"/></svg></span>
               </button>
 
-              <a id="radio-spotify-link" href="https://open.spotify.com/show/4rOoJ6Egrf8K2IrywzwOMk" target="_blank" style="background: #1DB954; color: #FFFFFF; font-family: var(--font-mono); font-size: 0.75rem; font-weight: bold; padding: 0.5rem 1rem; text-decoration: none; display: flex; align-items: center; gap: 0.4rem;">
-                🎧 Open Episode on Spotify ↗
+              <a id="radio-spotify-link" href="https://open.spotify.com/show/4rOoJ6Egrf8K2IrywzwOMk" target="_blank" style="background: #1DB954; color: #FFFFFF; font-family: var(--font-mono); font-size: 0.75rem; font-weight: bold; padding: 0.5rem 1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.45rem;">
+                <svg class="icon icon-stroke" viewBox="0 0 24 24" width="14" height="14"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+                <span>Listen on Spotify</span>
+                <svg class="icon icon-stroke" viewBox="0 0 24 24" width="11" height="11"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
               </a>
             </div>
           </div>
@@ -297,7 +313,7 @@
         <!-- Episodes List -->
         <div>
           <div style="border-bottom: 1px solid var(--uos-border); padding-bottom: 0.5rem; margin-bottom: 1rem; font-family: var(--font-mono); font-size: 0.75rem; font-weight: bold; color: var(--uos-maroon);">
-            ARCHIVED AUDIO EPISODES
+            ARCHIVED EPISODES
           </div>
           <div id="radio-episodes-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
             <!-- Populated by JS -->
@@ -312,32 +328,33 @@
     <div class="container">
       <div class="grid-2" style="align-items: start;">
         <div>
-          <span class="section-header-tag">[ 05 / CAMPUS VOX-POP • استطلاع رأي ]</span>
-          <h2 class="section-title">What's Your Take?</h2>
+          <span class="section-header-tag">[ 05 / CAMPUS POLLS ]</span>
+          <h2 class="section-title">Campus Polls</h2>
           <p style="font-size: 1rem; color: #4B5563; margin-top: 0.75rem; line-height: 1.6;">
-            Weekly polling drawn from our student interviews across campus. Drop your vote below to see how other students voted.
+            Vote on current campus topics and see student responses.
           </p>
 
           <!-- Verified Student Voters Dropdown Box -->
           <div style="margin-top: 2rem; padding: 1.5rem; background: var(--uos-paper); border: 2px solid var(--uos-ink);">
             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--uos-border); padding-bottom: 0.75rem; margin-bottom: 1rem;">
-              <span style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: bold; color: var(--uos-maroon); text-transform: uppercase;">
-                🗳️ Verified Student Votes Log
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: bold; color: var(--uos-maroon); text-transform: uppercase; display: inline-flex; align-items: center; gap: 0.4rem;">
+                <svg class="icon icon-stroke" viewBox="0 0 24 24" width="14" height="14"><path d="m9 12 2 2 4-4"/><path d="M5 7c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v12H5V7Z"/><path d="M22 19H2"/></svg>
+                Student Votes Log
               </span>
               <span id="voter-count-badge" style="font-family: var(--font-mono); font-size: 0.7rem; font-weight: bold; background: #FFFFFF; border: 1px solid var(--uos-border-dark); padding: 0.15rem 0.5rem;">
-                0 Verified
+                0 Votes
               </span>
             </div>
 
             <label style="display: block; font-family: var(--font-mono); font-size: 0.75rem; font-weight: bold; color: #374151; margin-bottom: 0.5rem;">
-              Student Submissions (Dropdown Menu):
+              Select a voter to view response:
             </label>
             <select id="survey-voter-dropdown" class="form-select" style="font-family: var(--font-mono); font-size: 0.75rem; width: 100%; margin-bottom: 0.75rem;">
               <!-- Populated by JS -->
             </select>
 
             <div id="selected-voter-choice-display" style="padding: 1rem; background: #FFFFFF; border: 1px solid var(--uos-border); font-family: var(--font-mono); font-size: 0.75rem; color: #111111; line-height: 1.5;">
-              Select a student above to inspect their chosen stance.
+              Select a student above to view their response.
             </div>
           </div>
         </div>
@@ -347,7 +364,7 @@
           <div style="border-bottom: 1px solid var(--uos-border); padding-bottom: 1rem; margin-bottom: 1.5rem;">
             <div id="poll-nav-indicator"></div>
             <span id="poll-edition" style="font-family: var(--font-mono); font-size: 0.7rem; font-weight: bold; color: var(--uos-maroon); text-transform: uppercase;">
-              Active Survey • Edition #3
+              Active Poll • Issue #3
             </span>
             <h3 id="poll-question" class="font-serif" style="font-size: 1.35rem; font-weight: bold; color: #111111; margin-top: 0.25rem;">
               "What is your take on print magazines vs digital scrolling for campus news?"
@@ -368,19 +385,28 @@
       <div style="background: var(--uos-paper); border: 2px solid var(--uos-ink); padding: 3rem;">
         <div class="grid-2" style="align-items: start;">
           <div>
-            <span class="section-header-tag">[ 06 / DIGITAL DISPATCH • النشرة البريدية ]</span>
+            <span class="section-header-tag">[ 06 / NEWSLETTER ]</span>
             <h2 class="section-title" style="font-size: 2.5rem;">
               Get new issues on <br />
               <span style="color: var(--uos-maroon);">release day.</span>
             </h2>
             <p style="font-size: 0.95rem; color: #4B5563; margin-top: 1rem; line-height: 1.6;">
-              We send the digital PDF download link the morning each issue comes off the press. No spam, no weekly marketing emails.
+              We send the digital PDF download link the morning each issue is published.
             </p>
 
-            <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.75rem; color: #374151;">
-              <div>✓ Full PDF edition delivered the morning it goes to print</div>
-              <div>✓ Major calls for student writers, photographers, and pitches</div>
-              <div>✓ 100% Free • Open to students, faculty, and alumni</div>
+            <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.6rem; font-family: var(--font-mono); font-size: 0.75rem; color: #374151;">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <svg class="icon icon-stroke" viewBox="0 0 24 24" width="14" height="14" style="color: var(--uos-maroon);"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Full PDF edition delivered on release day</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <svg class="icon icon-stroke" viewBox="0 0 24 24" width="14" height="14" style="color: var(--uos-maroon);"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Calls for student writers and contributors</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <svg class="icon icon-stroke" viewBox="0 0 24 24" width="14" height="14" style="color: var(--uos-maroon);"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Free for all students, faculty, and alumni</span>
+              </div>
             </div>
           </div>
 
@@ -388,10 +414,12 @@
           <div id="newsletter-form-container" style="background: #FFFFFF; border: 1px solid var(--uos-border); padding: 2rem;">
             <!-- Paused Notification Card (Shown when subscriptions are paused) -->
             <div id="newsletter-paused-box" style="padding: 2.5rem 1.5rem; background: #FAF9F5; border: 2px dashed #D1CFCA; text-align: center;">
-              <div style="font-size: 2rem; margin-bottom: 0.75rem;">⏸️</div>
-              <h3 style="font-weight: 900; font-size: 1.25rem; color: #111111; margin-bottom: 0.4rem;">Digital Dispatch Newsletter</h3>
+              <div style="margin-bottom: 0.75rem;">
+                <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="var(--uos-maroon)"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+              </div>
+              <h3 style="font-weight: 900; font-size: 1.25rem; color: #111111; margin-bottom: 0.4rem;">Newsletter</h3>
               <p id="newsletter-paused-msg" style="font-size: 0.95rem; color: #6B7280; margin: 0; line-height: 1.6;">
-                The newsletter is temporarily paused. Please check back for later updates!
+                Subscriptions are temporarily paused. Please check back later.
               </p>
             </div>
 
@@ -400,11 +428,11 @@
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem;">
                 <div class="form-group" style="margin-bottom: 0;">
                   <label class="form-label">First Name *</label>
-                  <input id="sub-first-name" type="text" required placeholder="Your first name" class="form-input" />
+                  <input id="sub-first-name" type="text" required placeholder="First name" class="form-input" />
                 </div>
                 <div class="form-group" style="margin-bottom: 0;">
-                  <label class="form-label">Last Name (Optional)</label>
-                  <input id="sub-last-name" type="text" placeholder="Your last name" class="form-input" />
+                  <label class="form-label">Last Name</label>
+                  <input id="sub-last-name" type="text" placeholder="Last name" class="form-input" />
                 </div>
               </div>
 
@@ -414,7 +442,7 @@
               </div>
 
               <div class="form-group">
-                <label class="form-label">Primary Interests:</label>
+                <label class="form-label">Interests:</label>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.75rem;">
                   <label style="display: flex; align-items: center; gap: 0.4rem;"><input type="checkbox" name="interest" value="Art" checked /> Art & Design</label>
                   <label style="display: flex; align-items: center; gap: 0.4rem;"><input type="checkbox" name="interest" value="Culture" checked /> Culture</label>
@@ -426,7 +454,7 @@
               </div>
 
               <button type="submit" class="btn-maroon" style="width: 100%; justify-content: center; padding: 0.85rem; font-size: 0.85rem; margin-top: 1rem;">
-                Subscribe to UOS Digest & Times ↗
+                Subscribe
               </button>
             </form>
           </div>
@@ -448,17 +476,17 @@
             </div>
           </div>
           <p style="font-size: 0.75rem; color: #9CA3AF; line-height: 1.6; font-family: var(--font-sans);">
-            Student-run journalism, magazine publishing, and audio production at the University of Sharjah College of Communication.
+            Student magazine publishing, journalism, and audio production at the University of Sharjah College of Communication.
           </p>
         </div>
 
         <div style="font-size: 0.75rem; display: flex; flex-direction: column; gap: 0.5rem;">
           <span style="font-weight: bold; color: #FFFFFF; border-bottom: 1px solid #374151; padding-bottom: 0.5rem; margin-bottom: 0.5rem;">MEDIA HUBS</span>
-          <a href="#publications" style="color: #D1CFCA; text-decoration: none;">Publications Archive</a>
-          <a href="#instagram" style="color: #D1CFCA; text-decoration: none;">Instagram Dispatch (@uosdigest)</a>
-          <a href="#radio" style="color: #D1CFCA; text-decoration: none;">Ittisal Radio (إذاعة اتصال)</a>
-          <a href="#campus-voice" style="color: #D1CFCA; text-decoration: none;">Campus Voice Poll</a>
-          <a href="#newsletter" style="color: #D1CFCA; text-decoration: none;">Dispatch Subscription</a>
+          <a href="#publications" style="color: #D1CFCA; text-decoration: none;">Magazine Archive</a>
+          <a href="#instagram" style="color: #D1CFCA; text-decoration: none;">Instagram Feed</a>
+          <a href="#radio" style="color: #D1CFCA; text-decoration: none;">Ittisal Radio</a>
+          <a href="#campus-voice" style="color: #D1CFCA; text-decoration: none;">Campus Polls</a>
+          <a href="#newsletter" style="color: #D1CFCA; text-decoration: none;">Newsletter</a>
         </div>
 
         <div style="font-size: 0.75rem;">
@@ -474,7 +502,7 @@
 
       <div style="border-top: 1px solid #27272A; padding-top: 1.5rem; display: flex; justify-content: space-between; font-size: 0.7rem; color: #6B7280; flex-wrap: wrap; gap: 0.5rem;">
         <span>© 2024–2026 The Press Club, University of Sharjah. All rights reserved.</span>
-        <span>Swiss International Typographic Standards</span>
+        <span>Swiss Typographic Standards</span>
       </div>
     </div>
   </footer>
@@ -488,11 +516,13 @@
           <span id="cover-modal-title" style="font-weight: 800; font-size: 0.95rem; font-family: var(--font-sans);">UOS Digest, Issue #3</span>
         </div>
         <div style="display: flex; gap: 0.5rem;">
-          <button class="btn-white" onclick="window.triggerBrowserFullscreen()" style="padding: 0.35rem 0.75rem; font-size: 0.72rem; font-family: var(--font-sans);" title="Toggle Fullscreen">
-            ⛶ Maximize
+          <button class="btn-white" onclick="window.triggerBrowserFullscreen()" style="padding: 0.35rem 0.75rem; font-size: 0.72rem; font-family: var(--font-sans); display: inline-flex; align-items: center; gap: 0.35rem;" title="Toggle Fullscreen">
+            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+            Maximize
           </button>
-          <button class="btn-maroon" onclick="window.closeCoverModal()" style="padding: 0.35rem 0.75rem; font-size: 0.72rem; font-family: var(--font-sans);">
-            ✕ Close
+          <button class="btn-maroon" onclick="window.closeCoverModal()" style="padding: 0.35rem 0.75rem; font-size: 0.72rem; font-family: var(--font-sans); display: inline-flex; align-items: center; gap: 0.35rem;">
+            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            Close
           </button>
         </div>
       </div>
@@ -502,18 +532,20 @@
           <span id="cover-modal-subtitle" style="color: var(--uos-gold-muted); font-style: italic; font-family: var(--font-bitter); font-size: 0.85rem;"></span>
         </div>
         <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
-          <button id="cover-modal-read-btn" class="btn-maroon" style="padding: 0.4rem 0.85rem; font-size: 0.75rem; font-family: var(--font-sans);">
-            📖 Read Full PDF Document ↗
+          <button id="cover-modal-read-btn" class="btn-maroon" style="padding: 0.4rem 0.85rem; font-size: 0.75rem; font-family: var(--font-sans); display: inline-flex; align-items: center; gap: 0.4rem;">
+            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            Read PDF
           </button>
-          <a id="cover-modal-download-btn" href="#" download class="btn-white" style="padding: 0.4rem 0.85rem; font-size: 0.75rem; font-family: var(--font-sans); text-decoration: none;">
-            ↓ Download PDF
+          <a id="cover-modal-download-btn" href="#" download class="btn-white" style="padding: 0.4rem 0.85rem; font-size: 0.75rem; font-family: var(--font-sans); text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
+            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
           </a>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- MODAL 1: Completely Custom PDF Document Previewer -->
+  <!-- MODAL 1: Custom PDF Document Previewer -->
   <div id="reader-modal" class="modal-overlay">
     <div class="modal-reader-box" style="display: flex; flex-direction: column; width: 95vw; max-width: 1400px; height: 92vh; background: #FFFFFF; border: 2px solid var(--uos-ink); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);">
       
@@ -529,22 +561,26 @@
 
         <!-- Toolbar controls -->
         <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
-          <label style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--uos-gold-muted);">Jump Issue:</label>
+          <label style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--uos-gold-muted);">Issue:</label>
           <select id="reader-issue-select" class="form-select" style="background: #111111; color: #FFFFFF; border: 1px solid #4B5563; font-family: var(--font-mono); font-size: 0.7rem; padding: 0.25rem 0.5rem;">
             <!-- Populated by JS -->
           </select>
 
-          <a id="reader-download-link" href="#" download class="btn-white" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; text-decoration: none;">
-            ↓ Download Full Print PDF
+          <a id="reader-download-link" href="#" download class="btn-white" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;">
+            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download PDF
           </a>
-          <button class="btn-white" onclick="window.openCoverFullscreen(currentReaderPub)" style="padding: 0.35rem 0.75rem; font-size: 0.75rem;" title="View uncropped full-screen cover">
-            🖼️ View Cover
+          <button class="btn-white" onclick="window.openCoverFullscreen(currentReaderPub)" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;" title="View uncropped full-screen cover">
+            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            Cover
           </button>
-          <button class="btn-white" onclick="window.toggleReaderFullscreen()" style="padding: 0.35rem 0.75rem; font-size: 0.75rem;">
-            ⛶ Fullscreen
+          <button class="btn-white" onclick="window.toggleReaderFullscreen()" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;">
+            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+            Fullscreen
           </button>
-          <button class="btn-maroon" onclick="window.closeReaderModal()" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; background: #111111; border: 1px solid var(--uos-gold);">
-            ✕ Close
+          <button class="btn-maroon" onclick="window.closeReaderModal()" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; background: #111111; border: 1px solid var(--uos-gold); display: inline-flex; align-items: center; gap: 0.35rem;">
+            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            Close
           </button>
         </div>
       </div>
@@ -555,47 +591,47 @@
         <div id="reader-sidebar" style="width: 20rem; background: #FAF9F5; border-right: 2px solid var(--uos-ink); padding: 1.5rem; overflow-y: auto; display: flex; flex-direction: column; justify-content: space-between;">
           <div>
             <div style="font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; color: var(--uos-maroon); text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.1em;">
-              DOCUMENT SPECIFICATION
+              ISSUE DETAILS
             </div>
             <h4 id="reader-spec-title" style="font-weight: bold; font-size: 1.15rem; color: #111111; line-height: 1.3;"></h4>
             <p id="reader-spec-theme" style="font-family: var(--font-serif); font-style: italic; font-size: 0.85rem; color: var(--uos-maroon); margin-top: 0.25rem;"></p>
 
             <div style="margin-top: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.75rem; border-top: 1px solid var(--uos-border); padding-top: 1rem;">
               <div style="display: flex; justify-content: space-between;">
-                <span style="color: #6B7280;">Academic Term:</span>
+                <span style="color: #6B7280;">Term:</span>
                 <strong id="reader-spec-term"></strong>
               </div>
               <div style="display: flex; justify-content: space-between;">
-                <span style="color: #6B7280;">Release Date:</span>
+                <span style="color: #6B7280;">Date:</span>
                 <strong id="reader-spec-date"></strong>
               </div>
               <div style="display: flex; justify-content: space-between;">
-                <span style="color: #6B7280;">Page Count:</span>
+                <span style="color: #6B7280;">Pages:</span>
                 <strong id="reader-spec-pages"></strong>
               </div>
               <div style="display: flex; justify-content: space-between;">
-                <span style="color: #6B7280;">Local Path:</span>
+                <span style="color: #6B7280;">File:</span>
                 <span id="reader-spec-path" style="color: var(--uos-maroon); font-size: 0.65rem; font-weight: bold; max-width: 10rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
               </div>
             </div>
 
             <div style="margin-top: 1.25rem; border-top: 1px solid var(--uos-border); padding-top: 1rem;">
               <span style="font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; color: #6B7280; text-transform: uppercase;">
-                Curatorial Statement:
+                About This Issue:
               </span>
               <p id="reader-spec-desc" style="font-size: 0.8rem; color: #374151; margin-top: 0.4rem; line-height: 1.5;"></p>
             </div>
 
             <div style="margin-top: 1rem;">
               <span style="font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; color: #6B7280; text-transform: uppercase;">
-                Highlights in This Issue:
+                Highlights:
               </span>
               <div id="reader-spec-highlights" style="margin-top: 0.4rem; display: flex; flex-direction: column; gap: 0.35rem; font-family: var(--font-mono); font-size: 0.7rem;"></div>
             </div>
           </div>
 
           <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--uos-border); font-family: var(--font-mono); font-size: 0.65rem; color: #9CA3AF;">
-            The Press Club Editorial Board • College of Communication
+            The Press Club • College of Communication
           </div>
         </div>
 
@@ -609,7 +645,7 @@
 
       <!-- Reader Status Footer -->
       <div style="background-color: var(--uos-paper-dark); padding: 0.5rem 1.25rem; border-top: 1px solid var(--uos-border-dark); font-family: var(--font-mono); font-size: 0.7rem; color: #6B7280; display: flex; justify-content: space-between; align-items: center;">
-        <span>Direct In-Directory Local PDF Document Stream</span>
+        <span>PDF Document Viewer</span>
         <span>University of Sharjah • College of Communication</span>
       </div>
     </div>
@@ -621,26 +657,28 @@
       <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--uos-border); padding-bottom: 1rem; margin-bottom: 1.5rem;">
         <div>
           <span id="join-modal-badge" style="background: var(--uos-maroon); color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.2rem 0.5rem;">APPLICATIONS OPEN</span>
-          <h3 style="font-weight: 900; font-size: 1.5rem; margin-top: 0.25rem;">Join The Press Club Team</h3>
+          <h3 style="font-weight: 900; font-size: 1.5rem; margin-top: 0.25rem;">Join The Press Club</h3>
         </div>
-        <button class="btn-white" onclick="window.closeJoinModal()">✕</button>
+        <button class="btn-white" onclick="window.closeJoinModal()" style="padding: 0.35rem 0.65rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.25rem;">
+          <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
 
       <!-- Paused Notification Box -->
       <div id="join-paused-notice" style="display: none; background: #FEF3C7; border: 2px solid #F59E0B; padding: 1.25rem; margin-bottom: 1.5rem;">
         <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 800; color: #92400E; margin-bottom: 0.35rem; font-size: 0.95rem;">
-          <span>⏸️</span>
-          <span>Applications Are Currently Paused</span>
+          <svg class="icon" viewBox="0 0 24 24" width="18" height="18" fill="#92400E"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+          <span>Applications Currently Paused</span>
         </div>
         <p style="font-size: 0.82rem; color: #78350F; line-height: 1.5; margin: 0;">
-          We are not accepting student applications at this moment. Please check back for later updates and future recruitment announcements!
+          Applications are temporarily closed. Please check back for future announcements.
         </p>
       </div>
 
       <form id="join-form">
         <div class="form-group">
           <label class="form-label">Full Name *</label>
-          <input id="join-name" type="text" required placeholder="e.g. Abdullah Al-Nuaimi" class="form-input" />
+          <input id="join-name" type="text" required placeholder="Full name" class="form-input" />
         </div>
         <div class="form-group">
           <label class="form-label">University Email *</label>
@@ -660,11 +698,11 @@
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">Story Pitch / Brief Statement *</label>
+          <label class="form-label">Story Pitch or Statement *</label>
           <textarea id="join-pitch" rows="3" required placeholder="What story or topic would you like to cover?" class="form-textarea"></textarea>
         </div>
         <button id="join-submit-btn" type="submit" class="btn-maroon" style="width: 100%; justify-content: center; padding: 0.75rem;">
-          Submit Application ↗
+          Submit Application
         </button>
       </form>
     </div>
@@ -676,25 +714,27 @@
       <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--uos-border); padding-bottom: 1rem; margin-bottom: 1.5rem;">
         <div>
           <span id="pod-modal-badge" style="background: var(--uos-maroon); color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.2rem 0.5rem;">STUDIO RECORDING</span>
-          <h3 style="font-weight: 900; font-size: 1.5rem; margin-top: 0.25rem;">Pitch an Ittisal Radio Episode</h3>
+          <h3 style="font-weight: 900; font-size: 1.5rem; margin-top: 0.25rem;">Pitch a Radio Episode</h3>
         </div>
-        <button class="btn-white" onclick="window.closePodcastModal()">✕</button>
+        <button class="btn-white" onclick="window.closePodcastModal()" style="padding: 0.35rem 0.65rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.25rem;">
+          <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
 
       <!-- Paused Notification Box -->
       <div id="podcast-paused-notice" style="display: none; background: #FEF3C7; border: 2px solid #F59E0B; padding: 1.25rem; margin-bottom: 1.5rem;">
         <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 800; color: #92400E; margin-bottom: 0.35rem; font-size: 0.95rem;">
-          <span>⏸️</span>
-          <span>Podcast Pitching Is Currently Paused</span>
+          <svg class="icon" viewBox="0 0 24 24" width="18" height="18" fill="#92400E"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+          <span>Podcast Pitching Currently Paused</span>
         </div>
         <p style="font-size: 0.82rem; color: #78350F; line-height: 1.5; margin: 0;">
-          We are not accepting podcast or audio pitches at this moment. Please check back for later updates and future studio recording opportunities!
+          We are not accepting podcast pitches right now. Please check back later.
         </p>
       </div>
 
       <form id="podcast-form">
         <div class="form-group">
-          <label class="form-label">Producer / Host Name *</label>
+          <label class="form-label">Host Name *</label>
           <input id="pod-name" type="text" required placeholder="Full name" class="form-input" />
         </div>
         <div class="form-group">
@@ -702,18 +742,19 @@
           <input id="pod-email" type="email" required placeholder="u21100000@sharjah.ac.ae" class="form-input" />
         </div>
         <div class="form-group">
-          <label class="form-label">Episode Title & Topic Description *</label>
-          <textarea id="pod-topic" rows="3" required placeholder="What is the concept and who will you interview?" class="form-textarea"></textarea>
+          <label class="form-label">Episode Title & Topic *</label>
+          <textarea id="pod-topic" rows="3" required placeholder="Concept and intended guests..." class="form-textarea"></textarea>
         </div>
         <button id="pod-submit-btn" type="submit" class="btn-maroon" style="width: 100%; justify-content: center; padding: 0.75rem;">
-          Submit Podcast Proposal ↗
+          Submit Pitch
         </button>
       </form>
     </div>
   </div>
 
   <!-- Vanilla JavaScript ES Modules -->
-  <script type="module" src="js/app.js?v=20260923_1"></script>
+  <script type="module" src="js/app.js?v=20260924_1"></script>
 
 </body>
 </html>
+

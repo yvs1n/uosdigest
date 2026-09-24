@@ -140,9 +140,9 @@ function renderTabContent() {
       <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1.5rem; border-bottom: 2px solid #111111; flex-wrap: wrap; gap: 1rem;">
         <div>
           <h2 style="font-weight: 900; font-size: 1.5rem;">Publications Archive (${pubs.length})</h2>
-          <p style="font-family: var(--font-mono); font-size: 0.75rem; color: #6B7280;">Add new issues with direct PDF upload or edit existing published editions</p>
+          <p style="font-family: var(--font-mono); font-size: 0.75rem; color: #6B7280;">Add new issues with PDF upload or edit published editions</p>
         </div>
-        <button class="btn-maroon" onclick="window.openAddPubModal()">+ Publish New Issue (Pop-up) ↗</button>
+        <button class="btn-maroon" onclick="window.openAddPubModal()">+ Publish New Issue</button>
       </div>
 
       <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
@@ -155,7 +155,7 @@ function renderTabContent() {
                   <span style="background: #7A132B; color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.2rem 0.5rem;">
                     ${p.publicationName} #${p.issueNumber}
                   </span>
-                  ${p.id === featuredId ? '<span style="background: #C5A059; color: #111111; font-family: var(--font-mono); font-size: 0.65rem; font-weight: 900; padding: 0.2rem 0.5rem;">★ FEATURED HERO COVER</span>' : ''}
+                  ${p.id === featuredId ? '<span style="background: #C5A059; color: #111111; font-family: var(--font-mono); font-size: 0.65rem; font-weight: 900; padding: 0.2rem 0.5rem;">FEATURED COVER</span>' : ''}
                 </div>
                 <h3 style="font-weight: bold; font-size: 1.1rem; margin-top: 0.35rem;">${p.title}</h3>
                 <p style="font-family: var(--font-serif); font-style: italic; font-size: 0.8rem; color: #4B5563;">"${p.subtitle || ''}"</p>
@@ -167,7 +167,7 @@ function renderTabContent() {
             </div>
 
             <div style="display: flex; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.75rem; flex-wrap: wrap;">
-              <button class="btn-maroon" style="padding: 0.4rem 0.75rem;" onclick="window.openEditPubModal('${p.id}')">✏ Edit Issue</button>
+              <button class="btn-maroon" style="padding: 0.4rem 0.75rem;" onclick="window.openEditPubModal('${p.id}')">Edit Issue</button>
               ${p.id !== featuredId ? `<button class="btn-white" onclick="window.pinFeaturedIssue('${p.id}')">Pin as Featured</button>` : ''}
               <button class="btn-white" style="color: #991B1B;" onclick="window.removePublication('${p.id}')">Delete</button>
             </div>
@@ -194,10 +194,10 @@ function renderTabContent() {
         </div>
         <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
           <a href="times.html" target="_blank" class="btn-times-outline" style="padding: 0.65rem 1rem; font-size: 0.75rem;">
-            Preview Broadsheet ↗
+            Preview Broadsheet
           </a>
           <button id="times-add-btn" class="btn-times" onclick="window.openAddTimesModal()" style="padding: 0.65rem 1.25rem;">
-            + Write New Article ↗
+            + Write New Article
           </button>
         </div>
       </div>
@@ -262,7 +262,7 @@ function renderTabContent() {
                     style="background: ${a.featured ? 'var(--uos-times-green)' : '#FFFFFF'}; color: ${a.featured ? '#FFFFFF' : '#6B7280'}; border: 1px solid ${a.featured ? 'var(--uos-times-green)' : '#D1CFCA'}; padding: 0.25rem 0.5rem; font-family: var(--font-mono); font-size: 0.65rem; cursor: pointer; font-weight: bold;"
                     title="${a.featured ? 'Lead article on front page' : 'Click to feature on front page'}"
                   >
-                    ${a.featured ? '★ LEAD' : '☆ Standard'}
+                    ${a.featured ? 'LEAD' : 'Standard'}
                   </button>
                 </td>
                 <td style="padding: 0.75rem 1rem; text-align: right; white-space: nowrap;">
@@ -280,7 +280,7 @@ function renderTabContent() {
       <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1.5rem; border-bottom: 2px solid #111111; flex-wrap: wrap; gap: 1rem;">
         <div>
           <h2 style="font-weight: 900; font-size: 1.5rem;">Student Polls & Surveys (${polls.length})</h2>
-          <p style="font-family: var(--font-mono); font-size: 0.75rem; color: #6B7280;">Manage questions students can vote on, see the results, hide questions from the site, or remove votes</p>
+          <p style="font-family: var(--font-mono); font-size: 0.75rem; color: #6B7280;">Manage survey questions, review student responses, and adjust visibility</p>
         </div>
         <button class="btn-maroon" onclick="window.promptAddPollQuestion()">+ Add New Question</button>
       </div>
@@ -297,7 +297,7 @@ function renderTabContent() {
                       Question ${idx + 1} • ${p.edition}
                     </span>
                     <span style="font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.15rem 0.4rem; border-radius: 2px; ${p.hidden ? 'background: #E5E7EB; color: #4B5563; border: 1px solid #D1CFCA;' : 'background: #DCFCE7; color: #166534; border: 1px solid #86EFAC;'}">
-                      ${p.hidden ? '🚫 Hidden from Website' : '👁️ Visible on Website'}
+                      ${p.hidden ? 'Hidden' : 'Visible'}
                     </span>
                   </div>
                   <h3 style="font-family: var(--font-serif); font-weight: bold; font-size: 1.25rem; margin-top: 0.25rem;">
@@ -309,13 +309,13 @@ function renderTabContent() {
                 </div>
                 <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
                   <button class="btn-white" style="font-size: 0.72rem; font-weight: bold;" onclick="window.togglePollQuestionVisibility('${p.id}')">
-                    ${p.hidden ? '👁️ Show on Website' : '🚫 Hide from Website'}
+                    ${p.hidden ? 'Show on Website' : 'Hide from Website'}
                   </button>
                   <button class="btn-white" style="font-size: 0.72rem;" onclick="window.resetPollVotesToZero('${p.id}')" title="Reset all votes to 0">
-                    ↺ Clear All Votes (0)
+                    Reset Votes
                   </button>
                   <button class="btn-white" style="color: #991B1B; border-color: #FCA5A5; font-size: 0.72rem;" onclick="window.removePollQuestion('${p.id}')">
-                    🗑️ Delete Question
+                    Delete Question
                   </button>
                 </div>
               </div>
@@ -340,9 +340,9 @@ function renderTabContent() {
               <div style="background: var(--uos-paper); padding: 1rem; border: 1px solid var(--uos-border); font-family: var(--font-mono); font-size: 0.72rem;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
                   <span style="font-weight: bold; color: var(--uos-maroon);">
-                    Individual Student Votes (${pollVoters.length}):
+                    Recorded Student Votes (${pollVoters.length}):
                   </span>
-                  <span style="font-size: 0.65rem; color: #6B7280;">You can remove any single student vote below</span>
+                  <span style="font-size: 0.65rem; color: #6B7280;">Manage student entries</span>
                 </div>
                 ${pollVoters.length ? `
                   <div style="display: flex; flex-direction: column; gap: 0.4rem; max-height: 12rem; overflow-y: auto;">
@@ -355,7 +355,7 @@ function renderTabContent() {
                           <span style="color: #9CA3AF; font-size: 0.65rem; margin-left: 0.5rem;">[${new Date(v.date).toLocaleDateString()}]</span>
                         </div>
                         <button class="btn-white" style="padding: 0.2rem 0.55rem; font-size: 0.65rem; color: #DC2626; border-color: #FCA5A5; cursor: pointer;" onclick="window.deleteSingleVote('${v.id || vIdx}', '${p.id}', '${v.voterName.replace(/'/g, "\\'")}')">
-                          🗑️ Remove Vote
+                          Remove Vote
                         </button>
                       </div>
                     `).join('')}
@@ -393,20 +393,20 @@ function renderTabContent() {
           <div>
             <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem;">
               <span style="background: ${settings.joinClubEnabled ? '#16A34A' : '#DC2626'}; color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.2rem 0.5rem;">
-                ${settings.joinClubEnabled ? '● APPLICATIONS OPEN' : '⏸️ APPLICATIONS PAUSED'}
+                ${settings.joinClubEnabled ? 'APPLICATIONS OPEN' : 'APPLICATIONS PAUSED'}
               </span>
             </div>
             <h3 style="font-weight: 900; font-size: 1.25rem; color: #111111;">
-              Student Recruitment Applications: ${settings.joinClubEnabled ? 'Open & Accepting Applicants' : 'Paused (Buttons Grayed Out)'}
+              Student Recruitment Applications: ${settings.joinClubEnabled ? 'Open & Accepting Applicants' : 'Paused'}
             </h3>
             <p style="font-size: 0.85rem; color: #4B5563; margin-top: 0.25rem; max-width: 42rem;">
               ${settings.joinClubEnabled 
-                ? 'Students can currently click "Join Team" or "Applications Open" to submit an application.' 
-                : 'Applications are paused. The buttons on the website are grayed out, display "Applications Paused", and advise students to check back for later updates.'}
+                ? 'Students can click "Join Team" or "Applications Open" to submit an application.' 
+                : 'Applications are paused. Buttons on the site display "Applications Paused".'}
             </p>
           </div>
           <button class="${settings.joinClubEnabled ? 'btn-white' : 'btn-maroon'}" style="padding: 0.75rem 1.5rem; font-size: 0.85rem; font-weight: bold; cursor: pointer; ${settings.joinClubEnabled ? 'color: #DC2626; border-color: #DC2626;' : 'background: #16A34A; border-color: #15803D;'}" onclick="window.toggleSetting('joinClubEnabled')">
-            ${settings.joinClubEnabled ? '⏸️ Pause Applications Now' : '▶️ Resume / Open Applications'}
+            ${settings.joinClubEnabled ? 'Pause Applications' : 'Open Applications'}
           </button>
         </div>
       </div>
@@ -422,19 +422,19 @@ function renderTabContent() {
               Recruitment Application Roles (${roles.length})
             </h3>
             <p style="font-size: 0.78rem; color: #6B7280;">
-              Jobs students can apply for. You can hide a role to temporarily remove it from the form, or delete it permanently.
+              Roles students can apply for. Hide a role temporarily or delete it permanently.
             </p>
           </div>
           <button class="btn-white" onclick="window.resetApplicationRoles()" style="font-size: 0.7rem;">
-            ↺ Reset to Default Roles
+            Reset Roles
           </button>
         </div>
 
         <!-- Add New Role Form -->
         <form onsubmit="window.handleAddRole(event)" style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
-          <input id="new-role-name" type="text" required placeholder="e.g. Video Editor / Motion Designer, Opinion Columnist..." class="form-input" style="flex: 1; min-width: 16rem;" />
+          <input id="new-role-name" type="text" required placeholder="e.g. Video Editor, Opinion Columnist..." class="form-input" style="flex: 1; min-width: 16rem;" />
           <button type="submit" class="btn-maroon" style="padding: 0.6rem 1.25rem; font-size: 0.75rem; white-space: nowrap;">
-            + Add Application Role
+            + Add Role
           </button>
         </form>
 
@@ -450,16 +450,16 @@ function renderTabContent() {
                   ${r.text}
                 </strong>
                 <span style="font-size: 0.65rem; font-weight: bold; padding: 0.1rem 0.4rem; border-radius: 2px; ${r.hidden ? 'background: #E5E7EB; color: #4B5563;' : 'background: #DCFCE7; color: #166534;'}">
-                  ${r.hidden ? '🚫 Hidden from Students' : '👁️ Visible on Website'}
+                  ${r.hidden ? 'Hidden' : 'Visible'}
                 </span>
               </div>
               <div style="display: flex; align-items: center; gap: 0.35rem;">
                 <button type="button" class="btn-white" style="padding: 0.25rem 0.6rem; font-size: 0.68rem; font-weight: bold;" onclick="window.toggleApplicationRoleHidden(${idx})">
-                  ${r.hidden ? '👁️ Show Option' : '🚫 Hide Option'}
+                  ${r.hidden ? 'Show' : 'Hide'}
                 </button>
                 <button type="button" class="btn-white" style="padding: 0.25rem 0.5rem; font-size: 0.65rem; ${idx === 0 ? 'opacity:0.4;cursor:not-allowed;' : ''}" onclick="window.moveApplicationRole(${idx}, -1)" ${idx === 0 ? 'disabled' : ''} title="Move Up">▲</button>
                 <button type="button" class="btn-white" style="padding: 0.25rem 0.5rem; font-size: 0.65rem; ${idx === roles.length - 1 ? 'opacity:0.4;cursor:not-allowed;' : ''}" onclick="window.moveApplicationRole(${idx}, 1)" ${idx === roles.length - 1 ? 'disabled' : ''} title="Move Down">▼</button>
-                <button type="button" class="btn-white" style="padding: 0.25rem 0.6rem; font-size: 0.68rem; color: #DC2626; border-color: #FCA5A5;" onclick="window.deleteApplicationRole(${idx})" title="Delete Permanently">🗑️ Delete</button>
+                <button type="button" class="btn-white" style="padding: 0.25rem 0.6rem; font-size: 0.68rem; color: #DC2626; border-color: #FCA5A5;" onclick="window.deleteApplicationRole(${idx})" title="Delete Permanently">Delete</button>
               </div>
             </div>
           `).join('')}
@@ -468,7 +468,7 @@ function renderTabContent() {
 
       <!-- SECTION 2: THE UOS TIMES STORY TIP CATEGORIES -->
       <div style="margin-top: 2rem; background: #FFFFFF; border: 2px solid var(--uos-times-green); padding: 1.75rem;">
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--uos-border); padding-bottom: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--uos-border); padding-bottom: 1rem; margin-bottom: 1.25rem; flex-wrap: gap: 0.75rem;">
           <div>
             <span style="background: var(--uos-times-green); color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.15rem 0.5rem;">
               NEWSPAPER TIP CATEGORIES
@@ -481,7 +481,7 @@ function renderTabContent() {
             </p>
           </div>
           <button class="btn-white" onclick="window.resetTipCategories()" style="font-size: 0.7rem;">
-            ↺ Reset to Default Topics
+            Reset Topics
           </button>
         </div>
 
@@ -505,26 +505,25 @@ function renderTabContent() {
                   ${c.text}
                 </strong>
                 <span style="font-size: 0.65rem; font-weight: bold; padding: 0.1rem 0.4rem; border-radius: 2px; ${c.hidden ? 'background: #E5E7EB; color: #4B5563;' : 'background: #DCFCE7; color: #166534;'}">
-                  ${c.hidden ? '🚫 Hidden from Readers' : '👁️ Visible on Website'}
+                  ${c.hidden ? 'Hidden' : 'Visible'}
                 </span>
               </div>
               <div style="display: flex; align-items: center; gap: 0.35rem;">
                 <button type="button" class="btn-white" style="padding: 0.25rem 0.6rem; font-size: 0.68rem; font-weight: bold;" onclick="window.toggleTipCategoryHidden(${idx})">
-                  ${c.hidden ? '👁️ Show Option' : '🚫 Hide Option'}
+                  ${c.hidden ? 'Show' : 'Hide'}
                 </button>
                 <button type="button" class="btn-white" style="padding: 0.25rem 0.5rem; font-size: 0.65rem; ${idx === 0 ? 'opacity:0.4;cursor:not-allowed;' : ''}" onclick="window.moveTipCategory(${idx}, -1)" ${idx === 0 ? 'disabled' : ''} title="Move Up">▲</button>
                 <button type="button" class="btn-white" style="padding: 0.25rem 0.5rem; font-size: 0.65rem; ${idx === tipCats.length - 1 ? 'opacity:0.4;cursor:not-allowed;' : ''}" onclick="window.moveTipCategory(${idx}, 1)" ${idx === tipCats.length - 1 ? 'disabled' : ''} title="Move Down">▼</button>
-                <button type="button" class="btn-white" style="padding: 0.25rem 0.6rem; font-size: 0.68rem; color: #DC2626; border-color: #FCA5A5;" onclick="window.deleteTipCategory(${idx})" title="Delete Permanently">🗑️ Delete</button>
+                <button type="button" class="btn-white" style="padding: 0.25rem 0.6rem; font-size: 0.68rem; color: #DC2626; border-color: #FCA5A5;" onclick="window.deleteTipCategory(${idx})" title="Delete Permanently">Delete</button>
               </div>
             </div>
           `).join('')}
         </div>
       </div>
 
-      <!-- SECTION 3: OTHER WEBSITE AVAILABILITY TOGGLES -->
       <!-- SECTION 3: OTHER WEBSITE SECTIONS -->
       <div style="margin-top: 2rem;">
-        <h3 style="font-weight: 900; font-size: 1.2rem; margin-bottom: 0.75rem;">Other Website Sections (Turn On / Off)</h3>
+        <h3 style="font-weight: 900; font-size: 1.2rem; margin-bottom: 0.75rem;">Other Website Sections</h3>
         <div style="display: flex; flex-direction: column; gap: 1rem;">
           
           <!-- Newsletter Toggle Card -->
@@ -532,18 +531,18 @@ function renderTabContent() {
             <div>
               <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
                 <span style="background: ${settings.newsletterEnabled ? '#16A34A' : '#DC2626'}; color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.2rem 0.5rem;">
-                  ${settings.newsletterEnabled ? '● SUBSCRIPTIONS OPEN' : '⏸️ TEMPORARILY PAUSED'}
+                  ${settings.newsletterEnabled ? 'SUBSCRIPTIONS OPEN' : 'PAUSED'}
                 </span>
               </div>
               <h4 style="font-weight: bold; font-size: 1rem; color: #111111; margin: 0;">Email Newsletter Subscriptions</h4>
               <p style="font-size: 0.8rem; color: #4B5563; margin: 0.25rem 0 0 0;">
                 ${settings.newsletterEnabled 
                   ? 'Readers can fill out the form to subscribe to digital PDF editions.' 
-                  : 'Subscriptions are paused. The website displays: "The newsletter is temporarily paused. Please check back for later updates!"'}
+                  : 'Subscriptions are paused.'}
               </p>
             </div>
             <button class="${settings.newsletterEnabled ? 'btn-white' : 'btn-maroon'}" style="padding: 0.6rem 1.25rem; font-size: 0.8rem; font-weight: bold; cursor: pointer; ${settings.newsletterEnabled ? 'color: #DC2626; border-color: #DC2626;' : 'background: #16A34A; border-color: #15803D;'}" onclick="window.toggleSetting('newsletterEnabled')">
-              ${settings.newsletterEnabled ? '⏸️ Pause Newsletter' : '▶️ Resume / Open Newsletter'}
+              ${settings.newsletterEnabled ? 'Pause Newsletter' : 'Open Newsletter'}
             </button>
           </div>
 
@@ -552,18 +551,18 @@ function renderTabContent() {
             <div>
               <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
                 <span style="background: ${settings.podcastApplyEnabled ? '#16A34A' : '#DC2626'}; color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.2rem 0.5rem;">
-                  ${settings.podcastApplyEnabled ? '● PITCHES OPEN' : '⏸️ PITCHING PAUSED'}
+                  ${settings.podcastApplyEnabled ? 'PITCHES OPEN' : 'PITCHING PAUSED'}
                 </span>
               </div>
               <h4 style="font-weight: bold; font-size: 1rem; color: #111111; margin: 0;">Radio Studio & Podcast Episode Pitching</h4>
               <p style="font-size: 0.8rem; color: #4B5563; margin: 0.25rem 0 0 0;">
                 ${settings.podcastApplyEnabled 
-                  ? 'Students can click "🎙️ Pitch a Podcast Episode" to propose radio concepts.' 
-                  : 'Pitching is paused. The button on the website displays "⏸️ Pitching Paused" and is unclickable.'}
+                  ? 'Students can propose radio and podcast concepts.' 
+                  : 'Pitching is paused.'}
               </p>
             </div>
             <button class="${settings.podcastApplyEnabled ? 'btn-white' : 'btn-maroon'}" style="padding: 0.6rem 1.25rem; font-size: 0.8rem; font-weight: bold; cursor: pointer; ${settings.podcastApplyEnabled ? 'color: #DC2626; border-color: #DC2626;' : 'background: #16A34A; border-color: #15803D;'}" onclick="window.toggleSetting('podcastApplyEnabled')">
-              ${settings.podcastApplyEnabled ? '⏸️ Pause Pitching Now' : '▶️ Resume / Open Pitching'}
+              ${settings.podcastApplyEnabled ? 'Pause Pitching' : 'Open Pitching'}
             </button>
           </div>
 
@@ -572,7 +571,7 @@ function renderTabContent() {
             <div>
               <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
                 <span style="background: ${settings.campusVoiceEnabled ? '#16A34A' : '#DC2626'}; color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.2rem 0.5rem;">
-                  ${settings.campusVoiceEnabled ? '● VOTING OPEN' : '⏸️ VOTING PAUSED'}
+                  ${settings.campusVoiceEnabled ? 'VOTING OPEN' : 'VOTING PAUSED'}
                 </span>
               </div>
               <h4 style="font-weight: bold; font-size: 1rem; color: #111111; margin: 0;">Student Campus Voice Polls</h4>
@@ -583,7 +582,7 @@ function renderTabContent() {
               </p>
             </div>
             <button class="${settings.campusVoiceEnabled ? 'btn-white' : 'btn-maroon'}" style="padding: 0.6rem 1.25rem; font-size: 0.8rem; font-weight: bold; cursor: pointer; ${settings.campusVoiceEnabled ? 'color: #DC2626; border-color: #DC2626;' : 'background: #16A34A; border-color: #15803D;'}" onclick="window.toggleSetting('campusVoiceEnabled')">
-              ${settings.campusVoiceEnabled ? '⏸️ Pause Polls' : '▶️ Resume Polls'}
+              ${settings.campusVoiceEnabled ? 'Pause Polls' : 'Resume Polls'}
             </button>
           </div>
         </div>
@@ -594,9 +593,9 @@ function renderTabContent() {
       <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1.5rem; border-bottom: 2px solid #111111; flex-wrap: wrap; gap: 1rem;">
         <div>
           <h2 style="font-weight: 900; font-size: 1.5rem;">Newsletter Subscriber Directory (${subs.length})</h2>
-          <p style="font-family: var(--font-mono); font-size: 0.75rem; color: #6B7280;">Directly edit subscriber information or export for university broadcast</p>
+          <p style="font-family: var(--font-mono); font-size: 0.75rem; color: #6B7280;">Edit subscriber information or export for university broadcast</p>
         </div>
-        <button class="btn-maroon" onclick="window.exportSubscribers()">↓ Export CSV for Broadcast</button>
+        <button class="btn-maroon" onclick="window.exportSubscribers()">Export CSV</button>
       </div>
 
       <div style="margin-top: 1.5rem; overflow-x: auto; background: #FFFFFF; border: 2px solid #111111;">
@@ -631,7 +630,7 @@ function renderTabContent() {
     contentArea.innerHTML = `
       <div style="padding-bottom: 1.5rem; border-bottom: 2px solid #111111;">
         <h2 style="font-weight: 900; font-size: 1.5rem;">Press Club Recruitment Applications (${joins.length})</h2>
-        <p style="font-family: var(--font-mono); font-size: 0.75rem; color: #6B7280;">Select status (Approve, Decline, Waitlist) and launch instant personalized email links</p>
+        <p style="font-family: var(--font-mono); font-size: 0.75rem; color: #6B7280;">Manage application status and contact applicants</p>
       </div>
 
       <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem;">
@@ -652,10 +651,10 @@ function renderTabContent() {
               <div style="display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.75rem;">
                 <label style="font-weight: bold;">Status:</label>
                 <select class="form-select" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" onchange="window.changeJoinStatus('${j.id}', this.value)">
-                  <option value="approved" ${j.status === 'approved' ? 'selected' : ''}>✅ Approved</option>
-                  <option value="waitlist" ${j.status === 'waitlist' ? 'selected' : ''}>⏳ Waitlisted</option>
-                  <option value="declined" ${j.status === 'declined' ? 'selected' : ''}>❌ Declined</option>
-                  <option value="pending" ${j.status === 'pending' ? 'selected' : ''}>🕒 Pending Review</option>
+                  <option value="approved" ${j.status === 'approved' ? 'selected' : ''}>Approved</option>
+                  <option value="waitlist" ${j.status === 'waitlist' ? 'selected' : ''}>Waitlisted</option>
+                  <option value="declined" ${j.status === 'declined' ? 'selected' : ''}>Declined</option>
+                  <option value="pending" ${j.status === 'pending' ? 'selected' : ''}>Pending Review</option>
                 </select>
               </div>
             </div>
@@ -673,7 +672,7 @@ function renderTabContent() {
 
               <div style="display: flex; gap: 0.5rem;">
                 <button class="btn-maroon" style="padding: 0.4rem 0.75rem; font-size: 0.75rem;" onclick="window.sendApplicantEmail('${j.id}')">
-                  ✉ Send ${j.status.toUpperCase()} Decision Email ↗
+                  Send ${j.status.toUpperCase()} Decision Email
                 </button>
                 <button class="btn-white" style="color: #991B1B; font-size: 0.7rem; padding: 0.4rem 0.6rem;" onclick="window.removeJoin('${j.id}')">
                   Delete
@@ -688,7 +687,7 @@ function renderTabContent() {
     contentArea.innerHTML = `
       <div style="padding-bottom: 1.5rem; border-bottom: 2px solid #111111;">
         <h2 style="font-weight: 900; font-size: 1.5rem;">Ittisal Radio Studio Pitches (${pods.length})</h2>
-        <p style="font-family: var(--font-mono); font-size: 0.75rem; color: #6B7280;">Schedule, decline or postpone sound lab recording bookings with custom mailto actions</p>
+        <p style="font-family: var(--font-mono); font-size: 0.75rem; color: #6B7280;">Schedule, decline or postpone recording bookings with email actions</p>
       </div>
 
       <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem;">
@@ -709,10 +708,10 @@ function renderTabContent() {
               <div style="display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.75rem;">
                 <label style="font-weight: bold;">Booking Status:</label>
                 <select class="form-select" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" onchange="window.changePodcastStatus('${pod.id}', this.value)">
-                  <option value="scheduled" ${pod.status === 'scheduled' ? 'selected' : ''}>🎙️ Scheduled</option>
-                  <option value="postponed" ${pod.status === 'postponed' ? 'selected' : ''}>⏳ Postponed</option>
-                  <option value="declined" ${pod.status === 'declined' ? 'selected' : ''}>❌ Declined</option>
-                  <option value="pending" ${pod.status === 'pending' ? 'selected' : ''}>🕒 Pending Review</option>
+                  <option value="scheduled" ${pod.status === 'scheduled' ? 'selected' : ''}>Scheduled</option>
+                  <option value="postponed" ${pod.status === 'postponed' ? 'selected' : ''}>Postponed</option>
+                  <option value="declined" ${pod.status === 'declined' ? 'selected' : ''}>Declined</option>
+                  <option value="pending" ${pod.status === 'pending' ? 'selected' : ''}>Pending Review</option>
                 </select>
               </div>
             </div>
@@ -730,7 +729,7 @@ function renderTabContent() {
 
               <div style="display: flex; gap: 0.5rem;">
                 <button class="btn-maroon" style="padding: 0.4rem 0.75rem; font-size: 0.75rem;" onclick="window.sendPodcastEmail('${pod.id}')">
-                  ✉ Send ${pod.status.toUpperCase()} Studio Email ↗
+                  Send ${pod.status.toUpperCase()} Studio Email
                 </button>
                 <button class="btn-white" style="color: #991B1B; font-size: 0.7rem; padding: 0.4rem 0.6rem;" onclick="window.removePodcast('${pod.id}')">
                   Delete
@@ -1402,10 +1401,10 @@ function initTimesFormHandler() {
 
       if (id) {
         updateTimesArticle({ id, ...articlePayload });
-        alert(`✓ Article "${title}" updated successfully! Changes are synchronized with Firebase.`);
+        alert(`Article "${title}" updated successfully. Changes are synchronized with Firebase.`);
       } else {
         addTimesArticle(articlePayload);
-        alert(`✓ New article "${title}" published to The UOS Times newsroom! Changes are synchronized with Firebase.`);
+        alert(`New article "${title}" published to The UOS Times newsroom. Changes are synchronized with Firebase.`);
       }
 
       window.closeTimesModal();
