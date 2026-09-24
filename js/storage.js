@@ -497,16 +497,51 @@ export function deletePodcastSubmission(id) {
 }
 
 // 6. Multi-Poll Management & Real Voter Records
+export function reconcilePollsWithVoters(pollsList, votersList) {
+  if (!Array.isArray(pollsList)) return pollsList;
+  const voters = Array.isArray(votersList) ? votersList : getSurveyVoters();
+  
+  return pollsList.map(poll => {
+    const pollVoters = voters.filter(v => v.pollId === poll.id);
+    if (pollVoters.length > 0) {
+      const counts = {};
+      pollVoters.forEach(v => {
+        if (v.optionId) {
+          counts[v.optionId] = (counts[v.optionId] || 0) + 1;
+        } else if (v.optionText) {
+          const m = (poll.options || []).find(o => o.text === v.optionText);
+          if (m) counts[m.id] = (counts[m.id] || 0) + 1;
+        }
+      });
+      const options = (poll.options || []).map(opt => ({
+        ...opt,
+        votes: Math.max(Number(opt.votes) || 0, counts[opt.id] || 0)
+      }));
+      const totalVotes = options.reduce((sum, o) => sum + (Number(o.votes) || 0), 0);
+      return { ...poll, options, totalVotes };
+    } else {
+      const options = (poll.options || []).map(opt => ({ ...opt, votes: Number(opt.votes) || 0 }));
+      const totalVotes = options.reduce((sum, o) => sum + o.votes, 0);
+      return { ...poll, options, totalVotes };
+    }
+  });
+}
+
 export function getPolls() {
+  let list = [];
   try {
     const data = localStorage.getItem(KEYS.POLLS);
     if (data) {
       const parsed = JSON.parse(data);
-      if (Array.isArray(parsed) && parsed.length) return parsed;
+      if (Array.isArray(parsed) && parsed.length) list = parsed;
     }
   } catch (e) {}
-  // Deep clone to prevent in-memory mutation of the original initialPolls array
-  return JSON.parse(JSON.stringify(initialPolls));
+  
+  if (!list.length) {
+    list = JSON.parse(JSON.stringify(initialPolls));
+  }
+
+  return reconcilePollsWithVoters(list);
 }
 
 export function savePolls(polls) {

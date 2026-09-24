@@ -485,24 +485,17 @@ function formatTime(sec) {
   return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
 }
 
-// 5. Campus Voice Poll & Name-Verified Voting (Multiple Surveys & Voter Dropdown)
+// 5. Campus Voice Section (Student Polls with Multi-Question Support)
 let currentPollIndex = 0;
 
-function initCampusVoiceSection() {
+export function initCampusVoiceSection() {
   const allPolls = getPolls();
   const polls = allPolls.filter(p => !p.hidden);
-  const allVoters = getSurveyVoters();
   const settings = getSettings();
-
   const pollQuestion = document.getElementById('poll-question');
   const pollEdition = document.getElementById('poll-edition');
   const pollNavIndicator = document.getElementById('poll-nav-indicator');
   const pollOptionsContainer = document.getElementById('poll-options-container');
-
-  // Voter Dropdown elements
-  const voterDropdown = document.getElementById('survey-voter-dropdown');
-  const voterDisplay = document.getElementById('selected-voter-choice-display');
-  const voterBadge = document.getElementById('voter-count-badge');
 
   if (!polls.length) {
     if (pollQuestion) pollQuestion.textContent = '"No survey questions are currently active."';
@@ -511,9 +504,6 @@ function initCampusVoiceSection() {
     if (pollOptionsContainer) {
       pollOptionsContainer.innerHTML = '<div style="padding: 1.5rem; background: #FAF9F5; border: 1px solid #D1CFCA; text-align: center; font-family: var(--font-mono); font-size: 0.8rem; color: #6B7280;">No questions are currently open for student voting. Check back soon for the next edition!</div>';
     }
-    if (voterBadge) voterBadge.textContent = '0 Verified Votes';
-    if (voterDropdown) voterDropdown.innerHTML = '<option value="">No active surveys</option>';
-    if (voterDisplay) voterDisplay.textContent = 'Surveys will open in upcoming campus issues.';
     return;
   }
 
@@ -523,8 +513,12 @@ function initCampusVoiceSection() {
   const currentPoll = polls[currentPollIndex] || polls[0];
   if (!currentPoll) return;
 
+  // Calculate live total votes from options
+  const totalVotes = currentPoll.options.reduce((sum, o) => sum + (Number(o.votes) || 0), 0);
+  currentPoll.totalVotes = totalVotes;
+
   if (pollQuestion) pollQuestion.textContent = `"${currentPoll.question}"`;
-  if (pollEdition) pollEdition.textContent = `Active Survey • ${currentPoll.edition}`;
+  if (pollEdition) pollEdition.textContent = `Active Poll • ${currentPoll.edition}`;
   if (pollNavIndicator) {
     pollNavIndicator.innerHTML = `
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; font-family: var(--font-mono); font-size: 0.7rem;">
@@ -539,48 +533,7 @@ function initCampusVoiceSection() {
     `;
   }
 
-  // Filter voters for this poll
-  const pollVoters = allVoters.filter(v => v.pollId === currentPoll.id);
-  if (voterBadge) voterBadge.textContent = `${pollVoters.length} Verified Votes`;
-
-  if (voterDropdown) {
-    if (!pollVoters.length) {
-      voterDropdown.innerHTML = `<option value="">No student votes logged yet for this question</option>`;
-      if (voterDisplay) voterDisplay.textContent = 'Be the first student to cast a verified vote!';
-    } else {
-      voterDropdown.innerHTML = `
-        <option value="">-- Choose a student voter (${pollVoters.length}) --</option>
-        ${pollVoters.map((v, idx) => `
-          <option value="${idx}">
-            ${v.voterName} — [${new Date(v.date).toLocaleDateString()}]
-          </option>
-        `).join('')}
-      `;
-
-      voterDropdown.onchange = (e) => {
-        const selectedIdx = e.target.value;
-        if (selectedIdx === '' || !pollVoters[selectedIdx]) {
-          voterDisplay.textContent = 'Select a student above to inspect their chosen stance.';
-        } else {
-          const v = pollVoters[selectedIdx];
-          voterDisplay.innerHTML = `
-            <div>
-              <span style="color: #7A132B; font-weight: bold;">Verified Voter:</span> <strong>${v.voterName}</strong>
-            </div>
-            <div style="margin-top: 0.35rem;">
-              <span style="color: #6B7280; font-weight: bold;">Selected Option:</span> 
-              <span style="color: #111111; font-weight: bold;">"${v.optionText}"</span>
-            </div>
-            <div style="margin-top: 0.25rem; font-size: 0.7rem; color: #9CA3AF;">
-              Timestamp: ${new Date(v.date).toLocaleString()}
-            </div>
-          `;
-        }
-      };
-    }
-  }
-
-  // Check if current user has verified & voted
+  // Check if current user has voted
   const votedChoice = localStorage.getItem(`uos_voted_${currentPoll.id}`);
   const hasVoted = Boolean(votedChoice);
 
@@ -591,19 +544,20 @@ function initCampusVoiceSection() {
       let html = '<div style="display: flex; flex-direction: column; gap: 0.5rem;">';
       
       currentPoll.options.forEach(opt => {
-        const pct = currentPoll.totalVotes > 0 ? Math.round((opt.votes / currentPoll.totalVotes) * 100) : 0;
+        const optVotes = Number(opt.votes) || 0;
+        const pct = totalVotes > 0 ? Math.round((optVotes / totalVotes) * 100) : 0;
         const isSelected = votedChoice === opt.id;
 
         html += `
-          <div class="poll-option-row" style="position: relative; width: 100%; border: 1px solid ${isSelected ? '#7A132B' : '#E2E0D8'}; background: #FAF9F6; padding: 0.85rem; overflow: hidden;">
-            ${hasVoted ? `<div style="position: absolute; top: 0; bottom: 0; left: 0; width: ${pct}%; background: rgba(122, 19, 43, 0.12);"></div>` : ''}
+          <div class="poll-option-row" style="position: relative; width: 100%; border: 1px solid ${isSelected ? '#7A132B' : '#E2E0D8'}; background: #FAF9F6; padding: 0.85rem; overflow: hidden; cursor: ${hasVoted ? 'default' : 'pointer'};" onclick="${hasVoted ? '' : `document.getElementById('${opt.id}-radio').checked = true;`}">
+            ${hasVoted ? `<div style="position: absolute; top: 0; bottom: 0; left: 0; width: ${pct}%; background: rgba(122, 19, 43, 0.12); transition: width 0.4s ease;"></div>` : ''}
             
             <div style="position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center;">
               <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; width: 100%;">
-                <input type="radio" name="poll_option" value="${opt.id}" data-text="${opt.text.replace(/"/g, '&quot;')}" ${isSelected ? 'checked' : ''} ${hasVoted ? 'disabled' : ''} style="accent-color: #7A132B;" />
+                <input id="${opt.id}-radio" type="radio" name="poll_option" value="${opt.id}" data-text="${opt.text.replace(/"/g, '&quot;')}" ${isSelected ? 'checked' : ''} ${hasVoted ? 'disabled' : ''} style="accent-color: #7A132B;" />
                 <span style="font-weight: 600; font-size: 0.85rem; color: #111111;">${opt.text}</span>
               </label>
-              ${hasVoted ? `<span style="font-family: var(--font-mono); font-weight: bold; color: #7A132B; font-size: 0.8rem; margin-left: 0.5rem;">${pct}% (${opt.votes})</span>` : ''}
+              ${hasVoted ? `<span style="font-family: var(--font-mono); font-weight: bold; color: #7A132B; font-size: 0.8rem; margin-left: 0.5rem; white-space: nowrap;">${pct}% (${optVotes})</span>` : ''}
             </div>
           </div>
         `;
@@ -611,25 +565,18 @@ function initCampusVoiceSection() {
 
       html += '</div>';
 
-      // Name verification box if not voted yet
       if (!hasVoted) {
         html += `
-          <div style="margin-top: 1rem; padding: 1rem; background: #FAF9F5; border: 1px solid #D1CFCA; font-family: var(--font-mono); font-size: 0.75rem;">
-            <span style="font-weight: bold; color: #7A132B; display: block; margin-bottom: 0.5rem;">
-              Step 2: Enter your name to record your vote and see live results
-            </span>
-            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-              <input id="voter-name" type="text" required placeholder="Full Name *" class="form-input" />
-              <button onclick="window.submitVerifiedVote()" class="btn-maroon" style="justify-content: center; padding: 0.65rem;">
-                Submit Vote & View Results
-              </button>
-            </div>
+          <div style="margin-top: 1rem;">
+            <button onclick="window.submitVerifiedVote()" class="btn-maroon" style="width: 100%; justify-content: center; padding: 0.75rem; font-size: 0.8rem;">
+              Submit Vote
+            </button>
           </div>
         `;
       } else {
         html += `
           <div style="margin-top: 0.75rem; padding: 0.75rem 1rem; background: #ECFDF5; border: 1px solid #A7F3D0; font-family: var(--font-mono); font-size: 0.75rem; color: #065F46; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
-            <span>Your vote has been counted and added to the results.</span>
+            <span>Your vote has been counted (${totalVotes} total responses).</span>
             <button onclick="window.resetMyVote()" class="btn-white" style="font-size: 0.65rem; padding: 0.25rem 0.6rem; color: #111111; cursor: pointer;">
               Change Vote
             </button>
@@ -643,6 +590,19 @@ function initCampusVoiceSection() {
 
   window.resetMyVote = () => {
     if (currentPoll) {
+      const prevOptId = localStorage.getItem(`uos_voted_${currentPoll.id}`);
+      if (prevOptId) {
+        const masterPolls = getPolls();
+        const targetPoll = masterPolls.find(p => p.id === currentPoll.id);
+        if (targetPoll) {
+          targetPoll.options = targetPoll.options.map(o => {
+            const v = Number(o.votes) || 0;
+            return o.id === prevOptId ? { ...o, votes: Math.max(0, v - 1) } : { ...o, votes: v };
+          });
+          targetPoll.totalVotes = targetPoll.options.reduce((sum, o) => sum + o.votes, 0);
+          savePolls(masterPolls);
+        }
+      }
       localStorage.removeItem(`uos_voted_${currentPoll.id}`);
       localStorage.removeItem(`uos_voter_name_${currentPoll.id}`);
       initCampusVoiceSection();
@@ -665,26 +625,15 @@ function initCampusVoiceSection() {
 
   window.submitVerifiedVote = () => {
     const selected = document.querySelector('input[name="poll_option"]:checked');
-    const nameInput = document.getElementById('voter-name');
 
     if (!selected) {
-      alert('Please select an option first!');
-      return;
-    }
-    if (!nameInput || !nameInput.value.trim()) {
-      alert('Please enter your name to verify your vote and unlock results.');
+      alert('Please select an option first.');
       return;
     }
 
     const optId = selected.value;
-    const optText = selected.dataset.text || 'Selected Option';
-    const voterName = nameInput.value.trim();
 
     localStorage.setItem(`uos_voted_${currentPoll.id}`, optId);
-    localStorage.setItem(`uos_voter_name_${currentPoll.id}`, voterName);
-
-    // Save to Voter Log
-    addSurveyVoter(currentPoll.id, voterName, optId, optText);
 
     // Increment vote count in master polls list
     const masterPolls = getPolls();

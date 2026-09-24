@@ -154,10 +154,10 @@ export const initialPolls = [
     edition: "Edition #3 Community Pulse",
     options: [
       { id: "opt-1", text: "Nothing beats holding a physical printed copy around campus", votes: 0 },
-      { id: "opt-2", text: "Digital flipbook & mobile reader on the go is superior", votes: 0 },
-      { id: "opt-3", text: "Both! Keep print for special issues & digital for the weekly fix", votes: 0 }
+      { id: "opt-2", text: "Digital flipbook & mobile reader on the go is superior", votes: 1 },
+      { id: "opt-3", text: "Both! Keep print for special issues & digital for the weekly fix", votes: 1 }
     ],
-    totalVotes: 0
+    totalVotes: 2
   },
   {
     id: "podcast-topic-02",

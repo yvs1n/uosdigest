@@ -373,3 +373,67 @@ function initTipForm() {
     };
   }
 }
+
+// 6. Broadsheet PDF Document Reader Modal
+const broadsheetEditions = {
+  'issue-2': {
+    title: 'The UOS Times, Issue #2',
+    subtitle: 'Campus Broadsheet & University Affairs • Academic Year 2025–2026',
+    pdfUrl: '/pdf/The UOS Times final for print.pdf',
+    pages: 16
+  },
+  'issue-1': {
+    title: 'The UOS Times, Issue #1',
+    subtitle: 'Inaugural Student Broadsheet Edition • Academic Year 2024–2025',
+    pdfUrl: '/pdf/uos times issue 17 print.pdf',
+    pages: 12
+  }
+};
+
+window.openTimesPdfReader = (editionKey = 'issue-2') => {
+  const edition = broadsheetEditions[editionKey] || broadsheetEditions['issue-2'];
+  const modal = document.getElementById('times-reader-modal');
+  if (!modal) return;
+
+  const titleEl = document.getElementById('times-reader-title');
+  const subEl = document.getElementById('times-reader-subtitle');
+  const selectEl = document.getElementById('times-reader-select');
+  const downloadEl = document.getElementById('times-reader-download');
+  const objEl = document.getElementById('times-reader-object');
+  const iframeEl = document.getElementById('times-reader-iframe');
+
+  if (titleEl) titleEl.textContent = edition.title;
+  if (subEl) subEl.textContent = edition.subtitle;
+  if (selectEl) {
+    selectEl.value = editionKey;
+    selectEl.onchange = (e) => window.openTimesPdfReader(e.target.value);
+  }
+  if (downloadEl) {
+    downloadEl.href = edition.pdfUrl;
+    downloadEl.setAttribute('download', `${edition.title}.pdf`);
+  }
+  if (objEl) objEl.data = edition.pdfUrl;
+  if (iframeEl) iframeEl.src = edition.pdfUrl;
+
+  modal.classList.add('active');
+  document.body.classList.add('reader-active');
+};
+
+window.closeTimesReaderModal = () => {
+  const modal = document.getElementById('times-reader-modal');
+  if (modal) modal.classList.remove('active');
+  document.body.classList.remove('reader-active');
+  if (document.fullscreenElement) {
+    document.exitFullscreen().catch(() => {});
+  }
+};
+
+window.toggleTimesReaderFullscreen = () => {
+  const modal = document.getElementById('times-reader-modal');
+  if (!modal) return;
+  if (!document.fullscreenElement) {
+    modal.requestFullscreen().catch(() => {});
+  } else {
+    document.exitFullscreen().catch(() => {});
+  }
+};

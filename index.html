@@ -323,43 +323,34 @@
     </div>
   </section>
 
-  <!-- 05: Campus Voice / Vox-Pop Section (Name Required to View Results & Voter Dropdown) -->
+  <!-- 05: Campus Voice / Polls Section -->
   <section id="campus-voice" style="padding: 5rem 0; background-color: #FFFFFF; border-bottom: 1px solid var(--uos-border);">
     <div class="container">
-      <div class="grid-2" style="align-items: start;">
+      <div class="grid-2" style="align-items: start; gap: 3rem;">
         <div>
           <span class="section-header-tag">[ 05 / CAMPUS POLLS ]</span>
           <h2 class="section-title">Campus Polls</h2>
           <p style="font-size: 1rem; color: #4B5563; margin-top: 0.75rem; line-height: 1.6;">
-            Vote on current campus topics and see student responses.
+            Cast your vote on current university topics and view live student results.
           </p>
 
-          <!-- Verified Student Voters Dropdown Box -->
-          <div style="margin-top: 2rem; padding: 1.5rem; background: var(--uos-paper); border: 2px solid var(--uos-ink);">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--uos-border); padding-bottom: 0.75rem; margin-bottom: 1rem;">
-              <span style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: bold; color: var(--uos-maroon); text-transform: uppercase; display: inline-flex; align-items: center; gap: 0.4rem;">
-                <svg class="icon icon-stroke" viewBox="0 0 24 24" width="14" height="14"><path d="m9 12 2 2 4-4"/><path d="M5 7c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v12H5V7Z"/><path d="M22 19H2"/></svg>
-                Student Votes Log
-              </span>
-              <span id="voter-count-badge" style="font-family: var(--font-mono); font-size: 0.7rem; font-weight: bold; background: #FFFFFF; border: 1px solid var(--uos-border-dark); padding: 0.15rem 0.5rem;">
-                0 Votes
-              </span>
+          <div style="margin-top: 2rem; display: flex; flex-direction: column; gap: 0.75rem; font-family: var(--font-mono); font-size: 0.75rem; color: #4B5563;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <svg class="icon icon-stroke" viewBox="0 0 24 24" width="15" height="15" style="color: var(--uos-maroon);"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span>Anonymous instant student poll</span>
             </div>
-
-            <label style="display: block; font-family: var(--font-mono); font-size: 0.75rem; font-weight: bold; color: #374151; margin-bottom: 0.5rem;">
-              Select a voter to view response:
-            </label>
-            <select id="survey-voter-dropdown" class="form-select" style="font-family: var(--font-mono); font-size: 0.75rem; width: 100%; margin-bottom: 0.75rem;">
-              <!-- Populated by JS -->
-            </select>
-
-            <div id="selected-voter-choice-display" style="padding: 1rem; background: #FFFFFF; border: 1px solid var(--uos-border); font-family: var(--font-mono); font-size: 0.75rem; color: #111111; line-height: 1.5;">
-              Select a student above to view their response.
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <svg class="icon icon-stroke" viewBox="0 0 24 24" width="15" height="15" style="color: var(--uos-maroon);"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              <span>Live real-time percentage results</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <svg class="icon icon-stroke" viewBox="0 0 24 24" width="15" height="15" style="color: var(--uos-maroon);"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span>Updated with each edition release</span>
             </div>
           </div>
         </div>
 
-        <!-- Poll Card (Multi-Question & Name Verified) -->
+        <!-- Poll Card (Multi-Question & Instant Vote) -->
         <div style="background: var(--uos-paper); border: 2px solid var(--uos-ink); padding: 2rem;">
           <div style="border-bottom: 1px solid var(--uos-border); padding-bottom: 1rem; margin-bottom: 1.5rem;">
             <div id="poll-nav-indicator"></div>

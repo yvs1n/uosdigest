@@ -311,10 +311,10 @@
           <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
           Submit Tip
         </button>
-        <a href="#broadsheet-pdf" class="btn-times" style="padding: 0.5rem 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;">
+        <button class="btn-times" onclick="window.openTimesPdfReader('issue-2')" style="padding: 0.5rem 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;">
           <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
           Print Editions
-        </a>
+        </button>
       </div>
     </div>
   </header>
@@ -340,10 +340,10 @@
             <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
             Submit Tip
           </button>
-          <a href="#broadsheet-pdf" class="btn-times" style="padding: 0.45rem 0.85rem; font-size: 0.72rem; display: inline-flex; align-items: center; gap: 0.35rem;">
+          <button class="btn-times" onclick="window.openTimesPdfReader('issue-2')" style="padding: 0.45rem 0.85rem; font-size: 0.72rem; display: inline-flex; align-items: center; gap: 0.35rem;">
             <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
             Print Editions
-          </a>
+          </button>
         </div>
       </div>
     </div>
@@ -456,9 +456,9 @@
             </p>
           </div>
           <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-            <a href="/pdf/The UOS Times final for print.pdf" target="_blank" class="btn-times" style="flex: 1; justify-content: center; padding: 0.5rem; font-size: 0.75rem;">
+            <button onclick="window.openTimesPdfReader('issue-2')" class="btn-times" style="flex: 1; justify-content: center; padding: 0.5rem; font-size: 0.75rem;">
               Read PDF
-            </a>
+            </button>
             <a href="/pdf/The UOS Times final for print.pdf" download class="btn-white" style="padding: 0.5rem 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;">
               <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
               Download
@@ -481,9 +481,9 @@
             </p>
           </div>
           <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-            <a href="/pdf/uos times issue 17 print.pdf" target="_blank" class="btn-times" style="flex: 1; justify-content: center; padding: 0.5rem; font-size: 0.75rem;">
+            <button onclick="window.openTimesPdfReader('issue-1')" class="btn-times" style="flex: 1; justify-content: center; padding: 0.5rem; font-size: 0.75rem;">
               Read PDF
-            </a>
+            </button>
             <a href="/pdf/uos times issue 17 print.pdf" download class="btn-white" style="padding: 0.5rem 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;">
               <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
               Download
@@ -644,8 +644,68 @@
     </div>
   </div>
 
+  <!-- MODAL 3: EMBEDDED PDF DOCUMENT READER FOR THE UOS TIMES -->
+  <div id="times-reader-modal" class="modal-overlay">
+    <div class="modal-box-wide" style="display: flex; flex-direction: column; height: 94vh; max-height: 94vh; padding: 0; background: #1A1A1A; border: 2px solid var(--uos-times-green); border-radius: 0; overflow: hidden; width: 95vw; max-width: 1440px;">
+      
+      <!-- Reader Header & Toolbar -->
+      <div style="background-color: var(--uos-ink); color: #FFFFFF; padding: 0.85rem 1.5rem; border-bottom: 2px solid var(--uos-times-green); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <span style="background: var(--uos-times-green); color: #FFFFFF; font-family: var(--font-mono); font-size: 0.7rem; font-weight: 900; padding: 0.25rem 0.6rem;">
+            THE UOS TIMES
+          </span>
+          <div>
+            <h3 id="times-reader-title" style="font-family: var(--font-times); font-weight: 900; font-size: 1.25rem; color: #FFFFFF; margin: 0; line-height: 1.2;">
+              The UOS Times, Issue #2
+            </h3>
+            <p id="times-reader-subtitle" style="font-family: var(--font-mono); font-size: 0.7rem; color: #9CA3AF; margin: 0.15rem 0 0 0;">
+              Official Broadsheet Print Edition • University of Sharjah
+            </p>
+          </div>
+        </div>
+
+        <!-- Toolbar Controls -->
+        <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+          <label style="font-family: var(--font-mono); font-size: 0.7rem; color: #9CA3AF;">Edition:</label>
+          <select id="times-reader-select" class="form-select" style="background: #111111; color: #FFFFFF; border: 1px solid #4B5563; font-family: var(--font-mono); font-size: 0.7rem; padding: 0.3rem 0.6rem;">
+            <option value="issue-2">The UOS Times, Issue #2 (Academic Year 2025–2026)</option>
+            <option value="issue-1">The UOS Times, Issue #1 (Academic Year 2024–2025)</option>
+          </select>
+
+          <a id="times-reader-download" href="/pdf/The UOS Times final for print.pdf" download class="btn-white" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;">
+            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download PDF
+          </a>
+
+          <button class="btn-white" onclick="window.toggleTimesReaderFullscreen()" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;">
+            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+            Fullscreen
+          </button>
+
+          <button class="btn-times" onclick="window.closeTimesReaderModal()" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;">
+            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            Close
+          </button>
+        </div>
+      </div>
+
+      <!-- PDF Canvas -->
+      <div style="flex: 1; position: relative; background: #222222; display: flex; flex-direction: column;">
+        <object id="times-reader-object" data="/pdf/The UOS Times final for print.pdf" type="application/pdf" style="width: 100%; height: 100%; border: none;">
+          <iframe id="times-reader-iframe" src="/pdf/The UOS Times final for print.pdf" style="width: 100%; height: 100%; border: none;"></iframe>
+        </object>
+      </div>
+
+      <!-- Footer -->
+      <div style="background-color: var(--uos-ink); padding: 0.45rem 1.25rem; border-top: 1px solid #374151; font-family: var(--font-mono); font-size: 0.7rem; color: #9CA3AF; display: flex; justify-content: space-between; align-items: center;">
+        <span>The UOS Times • Broadsheet Document Viewer</span>
+        <span>College of Communication • University of Sharjah</span>
+      </div>
+    </div>
+  </div>
+
   <!-- Vanilla JS Controller -->
-  <script type="module" src="js/times.js?v=20260924_1"></script>
+  <script type="module" src="js/times.js?v=20260924_2"></script>
 </body>
 </html>
 
