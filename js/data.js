@@ -191,64 +191,64 @@ export const initialSurveyVoters = [];
 
 export const initialInstagramPosts = [
   {
-    id: "DdEbrx5Mk8k",
-    shortcode: "DdEbrx5Mk8k",
-    permalink: "https://www.instagram.com/uosdigest/reel/DdEbrx5Mk8k/",
-    imageUrl: "assets/instagram/DdEbrx5Mk8k.jpg",
-    caption: "CAMPUS COUTURE EPISODE 12: Real or Fake. Style, trends, and campus scenarios with UOS Digest.",
-    timestamp: "2026-09-09T16:00:00Z",
-    likes: 74,
-    comments: 2
+    "id": "Ddq3n-WsNCE",
+    "shortcode": "Ddq3n-WsNCE",
+    "permalink": "https://www.instagram.com/uosdigest/reel/Ddq3n-WsNCE/",
+    "imageUrl": "assets/instagram/Ddq3n-WsNCE.jpg",
+    "caption": "UOS DIGEST ISSUE 4 RELEASE EVENT: SEPTEMBER 30TH 12PM-4PM, c11 (w7)   #uos #universityofsharjah #event #uni #uosdigest",
+    "timestamp": "2026-09-24T12:19:17Z",
+    "likes": 72,
+    "comments": 7
   },
   {
-    id: "DcyaF0SzVOH",
-    shortcode: "DcyaF0SzVOH",
-    permalink: "https://www.instagram.com/uosdigest/reel/DcyaF0SzVOH/",
-    imageUrl: "assets/instagram/DcyaF0SzVOH.jpg",
-    caption: "Campus Couture presents: style, trends, and campus scenarios with UOS Digest.",
-    timestamp: "2026-09-02T16:00:00Z",
-    likes: 71,
-    comments: 16
+    "id": "DdoeguOzb1J",
+    "shortcode": "DdoeguOzb1J",
+    "permalink": "https://www.instagram.com/uosdigest/reel/DdoeguOzb1J/",
+    "imageUrl": "assets/instagram/DdoeguOzb1J.jpg",
+    "caption": "CAMPUS COUTURE EPISODE 14: one word  #uos #universityofsharjah #student #campuslife #uni",
+    "timestamp": "2026-09-23T14:01:21Z",
+    "likes": 35,
+    "comments": 0
   },
   {
-    id: "Dcv4l3-skFt",
-    shortcode: "Dcv4l3-skFt",
-    permalink: "https://www.instagram.com/uosdigest/reel/Dcv4l3-skFt/",
-    imageUrl: "assets/instagram/Dcv4l3-skFt.jpg",
-    caption: "TINY MIC series: Asking students across Sharjah campuses their takes on university life & culture.",
-    timestamp: "2026-09-01T12:30:00Z",
-    likes: 100,
-    comments: 3
+    "id": "DdlI9dvMPqi",
+    "shortcode": "DdlI9dvMPqi",
+    "permalink": "https://www.instagram.com/uosdigest/p/DdlI9dvMPqi/",
+    "imageUrl": "assets/instagram/DdlI9dvMPqi.jpg",
+    "caption": "UOS DIGEST ISSUE #4 COMING TO UR FAV COLLEGE (communications) ON SEPTEMBER 30TH 12-PM-4PM   SKIP THEM CLASSES, BOOK OUT UR AFTERNOON AND JOIN US FOR THE MOST EP...",
+    "timestamp": "2026-09-22T06:55:19Z",
+    "likes": 123,
+    "comments": 16
   },
   {
-    id: "DciQ5yTTEIA",
-    shortcode: "DciQ5yTTEIA",
-    permalink: "https://www.instagram.com/uosdigest/reel/DciQ5yTTEIA/",
-    imageUrl: "assets/instagram/DciQ5yTTEIA.jpg",
-    caption: "Behind the typewriter: Issue #3 editorial preview and literary highlights from student contributors.",
-    timestamp: "2026-08-27T10:15:00Z",
-    likes: 67,
-    comments: 1
+    "id": "DdWYd47MuMQ",
+    "shortcode": "DdWYd47MuMQ",
+    "permalink": "https://www.instagram.com/uosdigest/reel/DdWYd47MuMQ/",
+    "imageUrl": "assets/instagram/DdWYd47MuMQ.jpg",
+    "caption": "CAMPUS COUTURE EPISODE 13: would you rather? #uos #universityofsharjah #wouldyourather #uni #student",
+    "timestamp": "2026-09-16T13:22:13Z",
+    "likes": 41,
+    "comments": 2
   },
   {
-    id: "DcgWd6as_tx",
-    shortcode: "DcgWd6as_tx",
-    permalink: "https://www.instagram.com/uosdigest/reel/DcgWd6as_tx/",
-    imageUrl: "assets/instagram/DcgWd6as_tx.jpg",
-    caption: "Campus Couture style spotlight: Investigating student identity and fashion in the third edition.",
-    timestamp: "2026-08-26T15:00:00Z",
-    likes: 81,
-    comments: 9
+    "id": "DdUC6ZfMdpT",
+    "shortcode": "DdUC6ZfMdpT",
+    "permalink": "https://www.instagram.com/uosdigest/reel/DdUC6ZfMdpT/",
+    "imageUrl": "assets/instagram/DdUC6ZfMdpT.jpg",
+    "caption": "tiny mic ft. @sasa_updates !!!!!   #uos #sasa #tinymic #universityofsharjah",
+    "timestamp": "2026-09-15T15:35:23Z",
+    "likes": 177,
+    "comments": 3
   },
   {
-    id: "DXy7k04MAbl",
-    shortcode: "DXy7k04MAbl",
-    permalink: "https://www.instagram.com/uosdigest/reel/DXy7k04MAbl/",
-    imageUrl: "assets/instagram/DXy7k04MAbl.jpg",
-    caption: "Student photography archive: Visual stories capturing life across university courtyards and galleries.",
-    timestamp: "2026-05-01T14:45:00Z",
-    likes: 74,
-    comments: 7
+    "id": "DdQd1KvsaeI",
+    "shortcode": "DdQd1KvsaeI",
+    "permalink": "https://www.instagram.com/uosdigest/reel/DdQd1KvsaeI/",
+    "imageUrl": "assets/instagram/DdQd1KvsaeI.jpg",
+    "caption": "THE PHOTOGRAPHY SPREAD IS BACCKKKK   SUBMIT 3-5 OF UR FAV PICTURES BY DMING US ON IG @UOSDIGEST BY SEPTEMBER 22ND   #uosdigest #uni #photography #magazine",
+    "timestamp": "2026-09-14T06:13:38Z",
+    "likes": 68,
+    "comments": 5
   }
 ];
 

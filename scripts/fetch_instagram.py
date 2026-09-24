@@ -576,19 +576,61 @@ def merge_and_slide_window(new_posts, existing_posts):
     all_posts.sort(key=get_time, reverse=True)
     return all_posts[:MAX_POSTS]
 
+def sync_initial_posts_in_js(posts):
+    js_data_file = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'js', 'data.js'))
+    if not os.path.exists(js_data_file):
+        return
+    try:
+        with open(js_data_file, 'r', encoding='utf-8') as f:
+            content = f.read()
+        formatted_json = json.dumps(posts, indent=2, ensure_ascii=False)
+        pattern = r'export const initialInstagramPosts = \[[\s\S]*?\];'
+        replacement = f"export const initialInstagramPosts = {formatted_json};"
+        if re.search(pattern, content):
+            new_content = re.sub(pattern, replacement, content)
+            with open(js_data_file, 'w', encoding='utf-8') as f:
+                f.write(new_content)
+            print(f"  [DATA.JS] Synchronized initialInstagramPosts in {js_data_file}")
+    except Exception as e:
+        print(f"  [DATA.JS WARN] Could not sync initialInstagramPosts: {e}")
+
 def main():
     print(f"=== UOS Digest Instagram Feed Sync (@{USERNAME}) ===")
     existing = load_existing_posts()
     print(f"Loaded {len(existing)} existing posts from {OUTPUT_FILE}")
 
-    # 1. Fetch new posts: Tier 1 Direct HTTP -> Tier 2 Playwright -> Tier 3 Instaloader
-    new_posts = fetch_posts_via_direct_requests()
+    target_sc = os.environ.get('TARGET_SHORTCODE', '').strip()
+    new_posts = []
+
+    if target_sc:
+        print(f"Target shortcode override detected: {target_sc}")
+        wlikes, wcomments, wimg = fetch_metrics_from_web(target_sc)
+        if not wimg or wlikes is None:
+            elikes, ecomments, eimg = fetch_metrics_from_embed(target_sc)
+            if wlikes is None: wlikes = elikes
+            if wcomments is None: wcomments = ecomments
+            if not wimg: wimg = eimg
+        new_posts = [{
+            'id': target_sc,
+            'shortcode': target_sc,
+            'permalink': f"https://www.instagram.com/uosdigest/reel/{target_sc}/",
+            'imageUrl': wimg,
+            'caption': '',
+            'timestamp': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
+            'is_video': True,
+            'likes': wlikes,
+            'comments': wcomments
+        }]
+
     if not new_posts:
-        print("Direct HTTP produced no posts; trying Playwright browser...")
-        new_posts = fetch_posts_via_playwright()
-    if not new_posts:
-        print("Playwright produced no posts; trying Instaloader fallback...")
-        new_posts = fetch_posts_via_instaloader()
+        # 1. Fetch new posts: Tier 1 Direct HTTP -> Tier 2 Playwright -> Tier 3 Instaloader
+        new_posts = fetch_posts_via_direct_requests()
+        if not new_posts:
+            print("Direct HTTP produced no posts; trying Playwright browser...")
+            new_posts = fetch_posts_via_playwright()
+        if not new_posts:
+            print("Playwright produced no posts; trying Instaloader fallback...")
+            new_posts = fetch_posts_via_instaloader()
 
     print(f"Discovered {len(new_posts)} total posts from Instagram extraction.")
 
@@ -604,12 +646,15 @@ def main():
     # 4. Save if any post, like count, or comment count changed
     if existing and json.dumps(existing, sort_keys=True) == json.dumps(updated, sort_keys=True):
         print("Feed and all metrics are already up to date. No changes to commit.")
+        sync_initial_posts_in_js(updated)
         return
 
     os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
     with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
         json.dump(updated, f, indent=2, ensure_ascii=False)
     print(f"[OK] Successfully saved {len(updated)} posts with verified likes and comments to {OUTPUT_FILE}")
+
+    sync_initial_posts_in_js(updated)
 
 if __name__ == '__main__':
     main()
