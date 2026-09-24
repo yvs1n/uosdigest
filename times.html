@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The UOS Times | University of Sharjah Student Broadsheet Newspaper</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%232c793d'/><text y='70' x='22' fill='%23FFFFFF' font-size='65' font-family='serif' font-weight='bold'>T</text></svg>">
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%232c793d'/><text y='70' x='22' fill='%23FFFFFF' font-size='65' font-family='serif' font-weight='bold'>T</text></svg>">
 
   <!-- Google Fonts: DM Serif Text (The UOS Times), Bitter (Subtitles/Deks), Inter (Body Sans), Amiri (Arabic), JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Bitter:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Serif+Text:ital@0;1&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Bitter:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Serif+Text:ital@0;1&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap"
+    rel="stylesheet">
 
   <link rel="stylesheet" href="css/style.css?v=20260912_2">
   <style>
@@ -30,6 +34,7 @@
       overflow: hidden;
       position: relative;
     }
+
     .times-ticker-tag {
       background-color: var(--uos-times-green);
       color: #FFFFFF;
@@ -43,6 +48,7 @@
       flex-shrink: 0;
       z-index: 5;
     }
+
     .ticker-pulse-dot {
       width: 7px;
       height: 7px;
@@ -51,10 +57,21 @@
       display: inline-block;
       animation: tickerDotBlink 1.2s infinite ease-in-out;
     }
+
     @keyframes tickerDotBlink {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.35; transform: scale(0.8); }
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.35;
+        transform: scale(0.8);
+      }
     }
+
     .times-ticker-marquee {
       overflow: hidden;
       position: relative;
@@ -64,19 +81,28 @@
       mask-image: linear-gradient(to right, transparent 0%, black 2%, black 98%, transparent 100%);
       -webkit-mask-image: linear-gradient(to right, transparent 0%, black 2%, black 98%, transparent 100%);
     }
+
     .times-ticker-track {
       display: inline-flex !important;
       white-space: nowrap !important;
       animation: tickerSlide 35s linear infinite !important;
       will-change: transform;
     }
+
     .times-ticker-track:hover {
       animation-play-state: paused !important;
     }
+
     @keyframes tickerSlide {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
     }
+
     .times-ticker-item {
       display: inline-block !important;
       white-space: nowrap !important;
@@ -84,15 +110,17 @@
       color: rgba(255, 255, 255, 0.95);
       font-weight: 500;
     }
+
     .times-header-rule {
       height: 4px;
       background: var(--uos-times-green);
       width: 100%;
     }
+
     .times-col-border {
       border-right: 1px solid var(--uos-border-dark);
     }
-    
+
     /* Sticky Category Nav */
     .times-nav-sticky {
       position: sticky;
@@ -102,6 +130,7 @@
       backdrop-filter: blur(8px);
       border-bottom: 2px solid var(--uos-ink);
     }
+
     .times-sticky-container {
       display: flex;
       justify-content: space-between;
@@ -109,6 +138,7 @@
       min-height: 3.25rem;
       gap: 1rem;
     }
+
     .times-desk-nav {
       display: flex;
       align-items: center;
@@ -120,19 +150,23 @@
       padding: 0.4rem 0;
       flex: 1;
     }
+
     .times-desk-nav::-webkit-scrollbar {
       display: none;
     }
+
     .times-filter-btn {
       flex-shrink: 0;
       white-space: nowrap;
     }
+
     .times-nav-actions {
       display: flex;
       align-items: center;
       gap: 0.5rem;
       flex-shrink: 0;
     }
+
     .times-mobile-actions {
       display: none;
     }
@@ -145,6 +179,7 @@
       background: #E5E7EB;
       border-bottom: 2px solid var(--uos-ink);
     }
+
     .times-lead-body {
       padding: 1.75rem;
       display: flex;
@@ -174,37 +209,46 @@
       .times-nav-actions {
         display: none !important;
       }
+
       .times-mobile-actions {
         display: flex !important;
         gap: 0.5rem;
         padding: 0.75rem 0 0 0;
       }
+
       .times-mobile-actions button,
       .times-mobile-actions a {
         flex: 1;
         text-align: center;
         justify-content: center;
       }
+
       .times-nav-sticky {
         padding: 0.15rem 0;
       }
+
       .times-sticky-container {
         min-height: 2.75rem;
       }
+
       .times-title {
         font-size: clamp(2rem, 8vw, 3.25rem) !important;
       }
+
       .times-crest-box {
         width: 2.75rem !important;
         height: 2.75rem !important;
         font-size: 1.75rem !important;
       }
+
       .times-lead-img-wrap {
         height: 14rem !important;
       }
+
       .times-lead-body {
         padding: 1.15rem 1rem !important;
       }
+
       .times-modal-box {
         width: 100% !important;
         max-width: 100% !important;
@@ -214,6 +258,7 @@
         border: none !important;
         padding: 1.25rem 1rem 3rem 1rem !important;
       }
+
       .times-dateline-bar {
         flex-direction: column !important;
         text-align: center !important;
@@ -228,42 +273,54 @@
         grid-template-columns: 1fr !important;
         gap: 1.5rem !important;
       }
+
       .times-search-wrap {
         width: 100% !important;
       }
+
       .times-search-wrap input {
         width: 100% !important;
       }
+
       .times-card-img-wrap {
         height: 11.5rem !important;
       }
+
       .times-card-body {
         padding: 1rem !important;
       }
+
       .times-modal-article-body {
         font-size: 1rem !important;
         line-height: 1.65 !important;
       }
+
       .times-pdf-section {
         padding: 1.5rem 1rem !important;
       }
     }
   </style>
 </head>
+
 <body style="background-color: var(--uos-paper); color: var(--uos-ink);">
 
   <!-- Top Institutional Bar (Strictly Single-Line Height) -->
-  <div class="top-institutional-bar" style="background-color: var(--uos-times-green); border-bottom: 1px solid var(--uos-times-green-dark);">
-    <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: nowrap; overflow: hidden; white-space: nowrap; width: 100%; height: 100%;">
-      <div style="display: flex; align-items: center; gap: 0.6rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0;">
-        <a href="index.html" style="background: #111111; color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.15rem 0.5rem; text-decoration: none; border: 1px solid rgba(255,255,255,0.2); white-space: nowrap; flex-shrink: 0;">
+  <div class="top-institutional-bar"
+    style="background-color: var(--uos-times-green); border-bottom: 1px solid var(--uos-times-green-dark);">
+    <div class="container"
+      style="display: flex; justify-content: space-between; align-items: center; flex-wrap: nowrap; overflow: hidden; white-space: nowrap; width: 100%; height: 100%;">
+      <div
+        style="display: flex; align-items: center; gap: 0.6rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0;">
+        <a href="index.html"
+          style="background: #111111; color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.15rem 0.5rem; text-decoration: none; border: 1px solid rgba(255,255,255,0.2); white-space: nowrap; flex-shrink: 0;">
           ← UOS Digest
         </a>
         <span class="font-serif font-bold top-bar-sub">جامعة الشارقة • UNIVERSITY OF SHARJAH</span>
         <span style="color: rgba(255,255,255,0.4);" class="top-bar-sub">|</span>
         <span class="top-bar-sub">The Press Club</span>
       </div>
-      <div style="display: flex; align-items: center; gap: 0.85rem; font-family: var(--font-mono); font-size: 0.68rem; white-space: nowrap; flex-shrink: 0;">
+      <div
+        style="display: flex; align-items: center; gap: 0.85rem; font-family: var(--font-mono); font-size: 0.68rem; white-space: nowrap; flex-shrink: 0;">
         <span id="times-live-date" class="top-bar-date"></span>
       </div>
     </div>
@@ -272,7 +329,8 @@
   <!-- Broadsheet Newspaper Masthead -->
   <header class="times-masthead">
     <div class="container">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; font-family: var(--font-mono); font-size: 0.72rem; color: #6B7280; flex-wrap: wrap; gap: 0.5rem;">
+      <div
+        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; font-family: var(--font-mono); font-size: 0.72rem; color: #6B7280; flex-wrap: wrap; gap: 0.5rem;">
         <div style="font-weight: 700; color: #374151;">
           UNIVERSITY OF SHARJAH
         </div>
@@ -285,9 +343,11 @@
       </div>
 
       <!-- Main Newspaper Title Block -->
-      <div style="text-align: center; padding: 1.25rem 0 0.75rem 0; border-top: 2px solid var(--uos-ink); border-bottom: 1px solid var(--uos-ink);">
+      <div
+        style="text-align: center; padding: 1.25rem 0 0.75rem 0; border-top: 2px solid var(--uos-ink); border-bottom: 1px solid var(--uos-ink);">
         <div style="display: flex; align-items: center; justify-content: center; gap: 1.25rem; flex-wrap: wrap;">
-          <div class="times-crest-box" style="width: 3.5rem; height: 3.5rem; background: var(--uos-times-green); color: #FFFFFF; font-family: var(--font-times); font-size: 2.25rem; font-weight: bold; display: flex; align-items: center; justify-content: center; border: 2px solid var(--uos-ink);">
+          <div class="times-crest-box"
+            style="width: 3.5rem; height: 3.5rem; background: var(--uos-times-green); color: #FFFFFF; font-family: var(--font-times); font-size: 2.25rem; font-weight: bold; display: flex; align-items: center; justify-content: center; border: 2px solid var(--uos-ink);">
             T
           </div>
           <div>
@@ -307,14 +367,25 @@
 
       <!-- Mobile Dedicated Action Buttons (Touch Friendly) -->
       <div class="times-mobile-actions">
-        <button class="btn-times-outline" onclick="window.openTipModal()" style="padding: 0.5rem 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;">
-          <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        <button class="btn-times-outline" onclick="window.openTipModal()"
+          style="padding: 0.5rem 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;">
+          <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13">
+            <path d="M12 20h9" />
+            <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
+          </svg>
           Submit Tip
         </button>
-        <button class="btn-times" onclick="window.openTimesPdfReader('issue-17')" style="padding: 0.5rem 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;">
-          <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
+        <a href="#broadsheet-pdf" class="btn-times"
+          style="padding: 0.5rem 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem; text-decoration: none;">
+          <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13">
+            <path
+              d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2" />
+            <path d="M18 14h-8" />
+            <path d="M15 18h-5" />
+            <path d="M10 6h8v4h-8V6Z" />
+          </svg>
           Print Editions
-        </button>
+        </a>
       </div>
     </div>
   </header>
@@ -325,25 +396,43 @@
       <div class="times-sticky-container">
         <!-- Desk Category Links (Smooth Horizontal Swipe on Mobile) -->
         <nav id="times-desk-nav" class="times-desk-nav">
-          <button class="times-filter-btn active" data-category="all" onclick="window.filterTimesCategory('all')">All Stories</button>
-          <button class="times-filter-btn" data-category="Campus News" onclick="window.filterTimesCategory('Campus News')">Campus News</button>
-          <button class="times-filter-btn" data-category="Academics & Tech" onclick="window.filterTimesCategory('Academics & Tech')">Academics & Tech</button>
-          <button class="times-filter-btn" data-category="Investigation" onclick="window.filterTimesCategory('Investigation')">Investigation</button>
-          <button class="times-filter-btn" data-category="Arts & Culture" onclick="window.filterTimesCategory('Arts & Culture')">Arts & Culture</button>
-          <button class="times-filter-btn" data-category="Sports" onclick="window.filterTimesCategory('Sports')">Sports</button>
-          <button class="times-filter-btn" data-category="Opinion" onclick="window.filterTimesCategory('Opinion')">Opinion</button>
+          <button class="times-filter-btn active" data-category="all" onclick="window.filterTimesCategory('all')">All
+            Stories</button>
+          <button class="times-filter-btn" data-category="Campus News"
+            onclick="window.filterTimesCategory('Campus News')">Campus News</button>
+          <button class="times-filter-btn" data-category="Academics & Tech"
+            onclick="window.filterTimesCategory('Academics & Tech')">Academics & Tech</button>
+          <button class="times-filter-btn" data-category="Investigation"
+            onclick="window.filterTimesCategory('Investigation')">Investigation</button>
+          <button class="times-filter-btn" data-category="Arts & Culture"
+            onclick="window.filterTimesCategory('Arts & Culture')">Arts & Culture</button>
+          <button class="times-filter-btn" data-category="Sports"
+            onclick="window.filterTimesCategory('Sports')">Sports</button>
+          <button class="times-filter-btn" data-category="Opinion"
+            onclick="window.filterTimesCategory('Opinion')">Opinion</button>
         </nav>
 
         <!-- Right Action Tools (Desktop) -->
         <div class="times-nav-actions">
-          <button class="btn-times-outline" onclick="window.openTipModal()" style="padding: 0.45rem 0.85rem; font-size: 0.72rem; display: inline-flex; align-items: center; gap: 0.35rem;">
-            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          <button class="btn-times-outline" onclick="window.openTipModal()"
+            style="padding: 0.45rem 0.85rem; font-size: 0.72rem; display: inline-flex; align-items: center; gap: 0.35rem;">
+            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13">
+              <path d="M12 20h9" />
+              <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
+            </svg>
             Submit Tip
           </button>
-          <button class="btn-times" onclick="window.openTimesPdfReader('issue-17')" style="padding: 0.45rem 0.85rem; font-size: 0.72rem; display: inline-flex; align-items: center; gap: 0.35rem;">
-            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
+          <a href="#broadsheet-pdf" class="btn-times"
+            style="padding: 0.45rem 0.85rem; font-size: 0.72rem; display: inline-flex; align-items: center; gap: 0.35rem; text-decoration: none;">
+            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13">
+              <path
+                d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2" />
+              <path d="M18 14h-8" />
+              <path d="M15 18h-5" />
+              <path d="M10 6h8v4h-8V6Z" />
+            </svg>
             Print Editions
-          </button>
+          </a>
         </div>
       </div>
     </div>
@@ -351,8 +440,10 @@
 
   <!-- Moving Breaking News Campus Dispatch -->
   <div class="times-ticker-bar">
-    <div class="container" style="display: flex; align-items: center; overflow: hidden; padding-top: 0; padding-bottom: 0;">
-      <div class="times-ticker-tag" style="flex-shrink: 0; z-index: 5; display: inline-flex; align-items: center; gap: 0.4rem;">
+    <div class="container"
+      style="display: flex; align-items: center; overflow: hidden; padding-top: 0; padding-bottom: 0;">
+      <div class="times-ticker-tag"
+        style="flex-shrink: 0; z-index: 5; display: inline-flex; align-items: center; gap: 0.4rem;">
         <span class="ticker-pulse-dot"></span>
         <span>BREAKING</span>
       </div>
@@ -361,14 +452,18 @@
           <span class="times-ticker-item">● University of Sharjah student elections set for October 2026</span>
           <span class="times-ticker-item">● Registration opens for UOSMUN 5.0 at College of Communication</span>
           <span class="times-ticker-item">● Fall term broadsheet editions arriving across all Sharjah campuses</span>
-          <span class="times-ticker-item">● College of Communication inaugurates digital multimedia & podcast studio</span>
-          <span class="times-ticker-item">● Student journalism applications open for upcoming investigative editions</span>
+          <span class="times-ticker-item">● College of Communication inaugurates digital multimedia & podcast
+            studio</span>
+          <span class="times-ticker-item">● Student journalism applications open for upcoming investigative
+            editions</span>
           <!-- Seamless Loop Duplicate -->
           <span class="times-ticker-item">● University of Sharjah student elections set for October 2026</span>
           <span class="times-ticker-item">● Registration opens for UOSMUN 5.0 at College of Communication</span>
           <span class="times-ticker-item">● Fall term broadsheet editions arriving across all Sharjah campuses</span>
-          <span class="times-ticker-item">● College of Communication inaugurates digital multimedia & podcast studio</span>
-          <span class="times-ticker-item">● Student journalism applications open for upcoming investigative editions</span>
+          <span class="times-ticker-item">● College of Communication inaugurates digital multimedia & podcast
+            studio</span>
+          <span class="times-ticker-item">● Student journalism applications open for upcoming investigative
+            editions</span>
         </div>
       </div>
     </div>
@@ -379,7 +474,8 @@
 
     <!-- SECTION 1: FRONT PAGE LEAD & SECONDARY DISPATCHES -->
     <section id="front-page-lead" style="margin-bottom: 3.5rem;">
-      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--uos-ink); padding-bottom: 0.5rem; margin-bottom: 1.5rem; font-family: var(--font-mono); font-size: 0.75rem;">
+      <div
+        style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--uos-ink); padding-bottom: 0.5rem; margin-bottom: 1.5rem; font-family: var(--font-mono); font-size: 0.75rem;">
         <span style="background: var(--uos-times-green); color: #FFFFFF; font-weight: bold; padding: 0.2rem 0.5rem;">
           FRONT PAGE LEAD
         </span>
@@ -394,9 +490,11 @@
 
     <!-- SECTION 2: CATEGORY FILTER / SEARCH & ACTIVE DESK -->
     <section id="all-articles-section" style="margin-bottom: 4rem;">
-      <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid var(--uos-ink); padding-bottom: 0.75rem; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+      <div
+        style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid var(--uos-ink); padding-bottom: 0.75rem; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
         <div>
-          <span style="font-family: var(--font-mono); font-size: 0.7rem; font-weight: bold; color: var(--uos-times-green); text-transform: uppercase; letter-spacing: 0.05em;">
+          <span
+            style="font-family: var(--font-mono); font-size: 0.7rem; font-weight: bold; color: var(--uos-times-green); text-transform: uppercase; letter-spacing: 0.05em;">
             NEWSROOM ARCHIVE
           </span>
           <h2 id="current-desk-title" class="times-headline" style="font-size: 2rem; margin-top: 0.25rem;">
@@ -406,24 +504,34 @@
 
         <!-- Search Bar -->
         <div class="times-search-wrap" style="display: flex; align-items: center; gap: 0.5rem;">
-          <input id="times-search-input" type="text" placeholder="Search headlines, authors..." class="form-input" style="padding: 0.45rem 0.75rem; font-size: 0.8rem; width: 16rem; font-family: var(--font-mono);" />
-          <button id="times-clear-search" class="btn-white" style="padding: 0.45rem 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; justify-content: center;" onclick="window.clearTimesSearch()">
-            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="12" height="12"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          <input id="times-search-input" type="text" placeholder="Search headlines, authors..." class="form-input"
+            style="padding: 0.45rem 0.75rem; font-size: 0.8rem; width: 16rem; font-family: var(--font-mono);" />
+          <button id="times-clear-search" class="btn-white"
+            style="padding: 0.45rem 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; justify-content: center;"
+            onclick="window.clearTimesSearch()">
+            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="12" height="12">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
           </button>
         </div>
       </div>
 
       <!-- Articles Broadsheet Grid -->
-      <div id="times-articles-grid" class="times-articles-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem;">
+      <div id="times-articles-grid" class="times-articles-grid"
+        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem;">
         <!-- Populated dynamically by js/times.js -->
       </div>
     </section>
 
     <!-- SECTION 3: PHYSICAL PRINT BROADSHEET PDF ARCHIVE -->
-    <section id="broadsheet-pdf" class="times-pdf-section" style="margin-bottom: 4rem; padding: 3rem 2rem; background: #FFFFFF; border: 2px solid var(--uos-ink); box-shadow: 6px 6px 0px rgba(17, 17, 17, 0.08);">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--uos-border); padding-bottom: 1.5rem; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+    <section id="broadsheet-pdf" class="times-pdf-section"
+      style="margin-bottom: 4rem; padding: 3rem 2rem; background: #FFFFFF; border: 2px solid var(--uos-ink); box-shadow: 6px 6px 0px rgba(17, 17, 17, 0.08);">
+      <div
+        style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--uos-border); padding-bottom: 1.5rem; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
         <div>
-          <span style="background: var(--uos-times-green); color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.2rem 0.5rem;">
+          <span
+            style="background: var(--uos-times-green); color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.2rem 0.5rem;">
             PRINT ARCHIVE
           </span>
           <h2 class="times-headline" style="font-size: 2.25rem; margin-top: 0.5rem;">
@@ -433,59 +541,109 @@
             Download original print editions prepared for offset printing across University of Sharjah campuses.
           </p>
         </div>
-        <a href="index.html#publications" class="btn-times-outline" style="padding: 0.6rem 1rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;">
+        <a href="index.html#publications" class="btn-times-outline"
+          style="padding: 0.6rem 1rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;">
           <span>Magazine Archive</span>
-          <svg class="icon icon-stroke" viewBox="0 0 24 24" width="11" height="11"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          <svg class="icon icon-stroke" viewBox="0 0 24 24" width="11" height="11">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+            <polyline points="15 3 21 3 21 9" />
+            <line x1="10" y1="14" x2="21" y2="3" />
+          </svg>
         </a>
       </div>
 
       <!-- Print Issues Grid -->
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
         <!-- Issue #17 (Latest Broadsheet) -->
-        <div style="border: 1px solid var(--uos-ink); background: var(--uos-paper); padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between;">
+        <div
+          style="border: 1px solid var(--uos-ink); background: var(--uos-paper); padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between;">
           <div>
-            <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.7rem; color: #6B7280; margin-bottom: 0.5rem;">
+            <a href="pdf/uos%20times%20issue%2017%20print.pdf" target="_blank" rel="noopener noreferrer"
+              style="display: block; width: 100%; height: 16rem; overflow: hidden; margin-bottom: 1rem; border: 1px solid var(--uos-ink); background: #E5E7EB;"
+              title="Open Issue #17 PDF in new tab">
+              <img src="assets/covers/uos-times-issue-17.png" alt="The UOS Times, Issue #17"
+                style="width: 100%; height: 100%; object-fit: cover; object-position: top;" />
+            </a>
+            <div
+              style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.7rem; color: #6B7280; margin-bottom: 0.5rem;">
               <span>November 2025 • Academic Year 2025–2026</span>
               <strong style="color: var(--uos-times-green);">24 Pages</strong>
             </div>
             <h3 class="times-headline-md" style="font-size: 1.35rem; margin-bottom: 0.4rem;">
-              The UOS Times, Issue #17
+              <a href="pdf/uos%20times%20issue%2017%20print.pdf" target="_blank" rel="noopener noreferrer"
+                style="color: inherit; text-decoration: none;">
+                The UOS Times, Issue #17 ↗
+              </a>
             </h3>
             <p class="times-deck" style="font-size: 0.85rem; margin-bottom: 1rem;">
-              "Fall Recap & Campus Life" — University of Sharjah Ranks 47th in Research Quality Worldwide (Exclusive Interview with Vice Chancellor Dr. Yousef Haik), Campus Fashion & Student Features.
+              "Fall Recap & Campus Life" — University of Sharjah Ranks 47th in Research Quality Worldwide (Exclusive
+              Interview with Vice Chancellor Dr. Yousef Haik), Campus Fashion & Student Features.
             </p>
           </div>
           <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-            <button onclick="window.openTimesPdfReader('issue-17')" class="btn-times" style="flex: 1; justify-content: center; padding: 0.5rem; font-size: 0.75rem;">
-              Read PDF
-            </button>
-            <a href="pdf/uos%20times%20issue%2017%20print.pdf" download="The UOS Times, Issue #17.pdf" class="btn-white" style="padding: 0.5rem 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;">
-              <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <a href="pdf/uos%20times%20issue%2017%20print.pdf" target="_blank" rel="noopener noreferrer" class="btn-times"
+              style="flex: 1; justify-content: center; padding: 0.5rem; font-size: 0.75rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;">
+              <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+              </svg>
+              Read PDF ↗
+            </a>
+            <a href="pdf/uos%20times%20issue%2017%20print.pdf" download="The UOS Times, Issue #17.pdf" class="btn-white"
+              style="padding: 0.5rem 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem; text-decoration: none;">
+              <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
               Download
             </a>
           </div>
         </div>
 
         <!-- Issue #16 -->
-        <div style="border: 1px solid var(--uos-ink); background: var(--uos-paper); padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between;">
+        <div
+          style="border: 1px solid var(--uos-ink); background: var(--uos-paper); padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between;">
           <div>
-            <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.7rem; color: #6B7280; margin-bottom: 0.5rem;">
+            <a href="pdf/The%20UOS%20Times%20final%20for%20print.pdf" target="_blank" rel="noopener noreferrer"
+              style="display: block; width: 100%; height: 16rem; overflow: hidden; margin-bottom: 1rem; border: 1px solid var(--uos-ink); background: #E5E7EB;"
+              title="Open Issue #16 PDF in new tab">
+              <img src="assets/covers/uos-times-issue-16.png" alt="The UOS Times, Issue #16"
+                style="width: 100%; height: 100%; object-fit: cover; object-position: top;" />
+            </a>
+            <div
+              style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.7rem; color: #6B7280; margin-bottom: 0.5rem;">
               <span>April 2025 • Academic Year 2024–2025</span>
               <strong style="color: var(--uos-times-green);">28 Pages</strong>
             </div>
             <h3 class="times-headline-md" style="font-size: 1.35rem; margin-bottom: 0.4rem;">
-              The UOS Times, Issue #16
+              <a href="pdf/The%20UOS%20Times%20final%20for%20print.pdf" target="_blank" rel="noopener noreferrer"
+                style="color: inherit; text-decoration: none;">
+                The UOS Times, Issue #16 ↗
+              </a>
             </h3>
             <p class="times-deck" style="font-size: 0.85rem; margin-bottom: 1rem;">
-              "Up-and-coming, Finals & Graduation" — Coverage of the 4th UOSMUN Association Conference, student journalism dispatches, and graduating senior reflections.
+              "Up-and-coming, Finals & Graduation" — Coverage of the 4th UOSMUN Association Conference, student
+              journalism dispatches, and graduating senior reflections.
             </p>
           </div>
           <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-            <button onclick="window.openTimesPdfReader('issue-16')" class="btn-times" style="flex: 1; justify-content: center; padding: 0.5rem; font-size: 0.75rem;">
-              Read PDF
-            </button>
-            <a href="pdf/The%20UOS%20Times%20final%20for%20print.pdf" download="The UOS Times, Issue #16.pdf" class="btn-white" style="padding: 0.5rem 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;">
-              <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <a href="pdf/The%20UOS%20Times%20final%20for%20print.pdf" target="_blank" rel="noopener noreferrer" class="btn-times"
+              style="flex: 1; justify-content: center; padding: 0.5rem; font-size: 0.75rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;">
+              <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+              </svg>
+              Read PDF ↗
+            </a>
+            <a href="pdf/The%20UOS%20Times%20final%20for%20print.pdf" download="The UOS Times, Issue #16.pdf"
+              class="btn-white"
+              style="padding: 0.5rem 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem; text-decoration: none;">
+              <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
               Download
             </a>
           </div>
@@ -496,17 +654,23 @@
   </main>
 
   <!-- Broadsheet Newspaper Colophon & Footer -->
-  <footer style="background-color: var(--uos-ink); color: #FFFFFF; padding: 4rem 0 2rem 0; font-family: var(--font-mono); border-top: 4px solid var(--uos-times-green);">
+  <footer
+    style="background-color: var(--uos-ink); color: #FFFFFF; padding: 4rem 0 2rem 0; font-family: var(--font-mono); border-top: 4px solid var(--uos-times-green);">
     <div class="container">
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2.5rem; margin-bottom: 3rem;">
+      <div
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2.5rem; margin-bottom: 3rem;">
         <div>
           <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
-            <div style="width: 2.5rem; height: 2.5rem; background: var(--uos-times-green); color: #fff; font-family: var(--font-times); font-size: 1.5rem; font-weight: bold; display: flex; align-items: center; justify-content: center;">
+            <div
+              style="width: 2.5rem; height: 2.5rem; background: var(--uos-times-green); color: #fff; font-family: var(--font-times); font-size: 1.5rem; font-weight: bold; display: flex; align-items: center; justify-content: center;">
               T
             </div>
             <div>
-              <span style="font-family: var(--font-times); font-weight: 900; font-size: 1.25rem; display: block; letter-spacing: -0.01em;">THE UOS TIMES</span>
-              <span style="font-size: 0.65rem; color: var(--uos-times-green-light);">University of Sharjah Broadsheet</span>
+              <span
+                style="font-family: var(--font-times); font-weight: 900; font-size: 1.25rem; display: block; letter-spacing: -0.01em;">THE
+                UOS TIMES</span>
+              <span style="font-size: 0.65rem; color: var(--uos-times-green-light);">University of Sharjah
+                Broadsheet</span>
             </div>
           </div>
           <p style="font-size: 0.75rem; color: #9CA3AF; line-height: 1.6; font-family: var(--font-sans);">
@@ -515,24 +679,37 @@
         </div>
 
         <div style="font-size: 0.75rem; display: flex; flex-direction: column; gap: 0.5rem;">
-          <span style="font-weight: bold; color: #FFFFFF; border-bottom: 1px solid #374151; padding-bottom: 0.5rem; margin-bottom: 0.5rem;">EDITORIAL DESKS</span>
-          <a href="#" onclick="window.filterTimesCategory('Campus News'); return false;" style="color: #D1CFCA; text-decoration: none;">Campus News</a>
-          <a href="#" onclick="window.filterTimesCategory('Academics & Tech'); return false;" style="color: #D1CFCA; text-decoration: none;">Academics & Tech</a>
-          <a href="#" onclick="window.filterTimesCategory('Investigation'); return false;" style="color: #D1CFCA; text-decoration: none;">Investigation</a>
-          <a href="#" onclick="window.filterTimesCategory('Arts & Culture'); return false;" style="color: #D1CFCA; text-decoration: none;">Arts & Culture</a>
-          <a href="#" onclick="window.filterTimesCategory('Sports'); return false;" style="color: #D1CFCA; text-decoration: none;">Sports</a>
+          <span
+            style="font-weight: bold; color: #FFFFFF; border-bottom: 1px solid #374151; padding-bottom: 0.5rem; margin-bottom: 0.5rem;">EDITORIAL
+            DESKS</span>
+          <a href="#" onclick="window.filterTimesCategory('Campus News'); return false;"
+            style="color: #D1CFCA; text-decoration: none;">Campus News</a>
+          <a href="#" onclick="window.filterTimesCategory('Academics & Tech'); return false;"
+            style="color: #D1CFCA; text-decoration: none;">Academics & Tech</a>
+          <a href="#" onclick="window.filterTimesCategory('Investigation'); return false;"
+            style="color: #D1CFCA; text-decoration: none;">Investigation</a>
+          <a href="#" onclick="window.filterTimesCategory('Arts & Culture'); return false;"
+            style="color: #D1CFCA; text-decoration: none;">Arts & Culture</a>
+          <a href="#" onclick="window.filterTimesCategory('Sports'); return false;"
+            style="color: #D1CFCA; text-decoration: none;">Sports</a>
         </div>
 
         <div style="font-size: 0.75rem; display: flex; flex-direction: column; gap: 0.5rem;">
-          <span style="font-weight: bold; color: #FFFFFF; border-bottom: 1px solid #374151; padding-bottom: 0.5rem; margin-bottom: 0.5rem;">CONNECTED MEDIA</span>
-          <a href="index.html" style="color: var(--uos-gold); text-decoration: none; font-weight: bold;">← UOS Digest Magazine</a>
+          <span
+            style="font-weight: bold; color: #FFFFFF; border-bottom: 1px solid #374151; padding-bottom: 0.5rem; margin-bottom: 0.5rem;">CONNECTED
+            MEDIA</span>
+          <a href="index.html" style="color: var(--uos-gold); text-decoration: none; font-weight: bold;">← UOS Digest
+            Magazine</a>
           <a href="index.html#radio" style="color: #D1CFCA; text-decoration: none;">Ittisal Radio</a>
           <a href="index.html#campus-voice" style="color: #D1CFCA; text-decoration: none;">Campus Polls</a>
-          <a href="https://instagram.com/uosdigest" target="_blank" style="color: #D1CFCA; text-decoration: none;">@uosdigest Instagram</a>
+          <a href="https://instagram.com/uosdigest" target="_blank"
+            style="color: #D1CFCA; text-decoration: none;">@uosdigest Instagram</a>
         </div>
 
         <div style="font-size: 0.75rem;">
-          <span style="font-weight: bold; color: #FFFFFF; border-bottom: 1px solid #374151; padding-bottom: 0.5rem; margin-bottom: 0.5rem; display: block;">NEWSROOM DESK</span>
+          <span
+            style="font-weight: bold; color: #FFFFFF; border-bottom: 1px solid #374151; padding-bottom: 0.5rem; margin-bottom: 0.5rem; display: block;">NEWSROOM
+            DESK</span>
           <p style="color: #9CA3AF; line-height: 1.5; font-family: var(--font-sans); margin-bottom: 0.75rem;">
             M-10 Building, College of Communication, University City, Sharjah, UAE.
           </p>
@@ -542,7 +719,8 @@
         </div>
       </div>
 
-      <div style="border-top: 1px solid #27272A; padding-top: 1.5rem; display: flex; justify-content: space-between; font-size: 0.7rem; color: #6B7280; flex-wrap: wrap; gap: 0.5rem;">
+      <div
+        style="border-top: 1px solid #27272A; padding-top: 1.5rem; display: flex; justify-content: space-between; font-size: 0.7rem; color: #6B7280; flex-wrap: wrap; gap: 0.5rem;">
         <span>© 2024–2026 The UOS Times • The Press Club, University of Sharjah.</span>
         <span>Journalism Standards</span>
       </div>
@@ -552,30 +730,45 @@
   <!-- MODAL 1: FULL ARTICLE READER MODAL -->
   <div id="times-article-modal" class="modal-overlay">
     <div class="times-modal-box">
-      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--uos-ink); padding-bottom: 1rem; margin-bottom: 1.5rem;">
+      <div
+        style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--uos-ink); padding-bottom: 1rem; margin-bottom: 1.5rem;">
         <div style="display: flex; align-items: center; gap: 0.5rem;">
           <span id="modal-category" class="times-category-pill">Campus News</span>
-          <span id="modal-read-time" style="font-family: var(--font-mono); font-size: 0.7rem; color: #6B7280;">4 min read</span>
+          <span id="modal-read-time" style="font-family: var(--font-mono); font-size: 0.7rem; color: #6B7280;">4 min
+            read</span>
         </div>
         <div style="display: flex; align-items: center; gap: 0.5rem;">
-          <button class="btn-white" onclick="window.printArticle()" style="padding: 0.35rem 0.65rem; font-size: 0.72rem; display: inline-flex; align-items: center; gap: 0.35rem;">
-            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          <button class="btn-white" onclick="window.printArticle()"
+            style="padding: 0.35rem 0.65rem; font-size: 0.72rem; display: inline-flex; align-items: center; gap: 0.35rem;">
+            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13">
+              <polyline points="6 9 6 2 18 2 18 9" />
+              <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+              <rect x="6" y="14" width="12" height="8" />
+            </svg>
             Print
           </button>
-          <button class="btn-white" onclick="window.closeArticleModal()" style="padding: 0.35rem 0.65rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;">
-            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          <button class="btn-white" onclick="window.closeArticleModal()"
+            style="padding: 0.35rem 0.65rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;">
+            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
             Close
           </button>
         </div>
       </div>
 
       <article id="modal-article-content">
-        <h1 id="modal-headline" class="times-headline" style="margin-bottom: 0.5rem; font-size: clamp(1.75rem, 4vw, 2.5rem);"></h1>
+        <h1 id="modal-headline" class="times-headline"
+          style="margin-bottom: 0.5rem; font-size: clamp(1.75rem, 4vw, 2.5rem);"></h1>
         <p id="modal-subtitle" class="times-deck" style="font-size: 1.15rem; margin-bottom: 1.25rem;"></p>
 
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 0; border-top: 1px solid var(--uos-border); border-bottom: 1px solid var(--uos-border); margin-bottom: 1.5rem; font-family: var(--font-mono); font-size: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+        <div
+          style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 0; border-top: 1px solid var(--uos-border); border-bottom: 1px solid var(--uos-border); margin-bottom: 1.5rem; font-family: var(--font-mono); font-size: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
           <div style="display: flex; align-items: center; gap: 0.5rem;">
-            <span style="width: 2rem; height: 2rem; border-radius: 50%; background: var(--uos-times-green); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold;" id="modal-author-avatar">U</span>
+            <span
+              style="width: 2rem; height: 2rem; border-radius: 50%; background: var(--uos-times-green); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold;"
+              id="modal-author-avatar">U</span>
             <div>
               <strong id="modal-author" style="color: var(--uos-ink);"></strong>
               <span id="modal-author-role" style="color: #6B7280; display: block; font-size: 0.65rem;"></span>
@@ -585,13 +778,17 @@
         </div>
 
         <div id="modal-image-wrap" style="margin-bottom: 1.75rem; display: none;">
-          <img id="modal-image" src="" alt="" style="width: 100%; max-height: 28rem; object-fit: cover; border: 1px solid var(--uos-ink);" />
-          <p id="modal-image-caption" style="font-family: var(--font-mono); font-size: 0.7rem; color: #6B7280; margin-top: 0.4rem;"></p>
+          <img id="modal-image" src="" alt=""
+            style="width: 100%; max-height: 28rem; object-fit: cover; border: 1px solid var(--uos-ink);" />
+          <p id="modal-image-caption"
+            style="font-family: var(--font-mono); font-size: 0.7rem; color: #6B7280; margin-top: 0.4rem;"></p>
         </div>
 
         <div id="modal-body" class="times-modal-article-body"></div>
 
-        <div id="modal-tags" style="margin-top: 2rem; padding-top: 1rem; border-top: 1px dashed var(--uos-border); display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
+        <div id="modal-tags"
+          style="margin-top: 2rem; padding-top: 1rem; border-top: 1px dashed var(--uos-border); display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        </div>
       </article>
     </div>
   </div>
@@ -599,13 +796,20 @@
   <!-- MODAL 2: SUBMIT A STORY TIP / PITCH -->
   <div id="times-tip-modal" class="modal-overlay">
     <div class="modal-box" style="max-width: 34rem;">
-      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--uos-border); padding-bottom: 1rem; margin-bottom: 1.5rem;">
+      <div
+        style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--uos-border); padding-bottom: 1rem; margin-bottom: 1.5rem;">
         <div>
-          <span style="background: var(--uos-times-green); color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.2rem 0.5rem;">NEWSROOM TIP</span>
+          <span
+            style="background: var(--uos-times-green); color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.2rem 0.5rem;">NEWSROOM
+            TIP</span>
           <h3 class="times-headline" style="font-size: 1.5rem; margin-top: 0.25rem;">Submit a News Tip</h3>
         </div>
-        <button class="btn-white" onclick="window.closeTipModal()" style="padding: 0.35rem 0.65rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.25rem;">
-          <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        <button class="btn-white" onclick="window.closeTipModal()"
+          style="padding: 0.35rem 0.65rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.25rem;">
+          <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
         </button>
       </div>
 
@@ -635,7 +839,8 @@
         </div>
         <div class="form-group">
           <label class="form-label">Details *</label>
-          <textarea id="tip-details" rows="4" required placeholder="Provide details, dates, and locations..." class="form-textarea"></textarea>
+          <textarea id="tip-details" rows="4" required placeholder="Provide details, dates, and locations..."
+            class="form-textarea"></textarea>
         </div>
         <button type="submit" class="btn-times" style="width: 100%; justify-content: center; padding: 0.75rem;">
           Submit Tip
@@ -646,19 +851,24 @@
 
   <!-- MODAL 3: EMBEDDED PDF DOCUMENT READER FOR THE UOS TIMES -->
   <div id="times-reader-modal" class="modal-overlay">
-    <div class="modal-box-wide" style="display: flex; flex-direction: column; height: 94vh; max-height: 94vh; padding: 0; background: #1A1A1A; border: 2px solid var(--uos-times-green); border-radius: 0; overflow: hidden; width: 95vw; max-width: 1440px;">
-      
+    <div class="modal-box-wide"
+      style="display: flex; flex-direction: column; height: 94vh; max-height: 94vh; padding: 0; background: #1A1A1A; border: 2px solid var(--uos-times-green); border-radius: 0; overflow: hidden; width: 95vw; max-width: 1440px;">
+
       <!-- Reader Header & Toolbar -->
-      <div style="background-color: var(--uos-ink); color: #FFFFFF; padding: 0.85rem 1.5rem; border-bottom: 2px solid var(--uos-times-green); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+      <div
+        style="background-color: var(--uos-ink); color: #FFFFFF; padding: 0.85rem 1.5rem; border-bottom: 2px solid var(--uos-times-green); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
         <div style="display: flex; align-items: center; gap: 0.75rem;">
-          <span style="background: var(--uos-times-green); color: #FFFFFF; font-family: var(--font-mono); font-size: 0.7rem; font-weight: 900; padding: 0.25rem 0.6rem;">
+          <span
+            style="background: var(--uos-times-green); color: #FFFFFF; font-family: var(--font-mono); font-size: 0.7rem; font-weight: 900; padding: 0.25rem 0.6rem;">
             THE UOS TIMES
           </span>
           <div>
-            <h3 id="times-reader-title" style="font-family: var(--font-times); font-weight: 900; font-size: 1.25rem; color: #FFFFFF; margin: 0; line-height: 1.2;">
+            <h3 id="times-reader-title"
+              style="font-family: var(--font-times); font-weight: 900; font-size: 1.25rem; color: #FFFFFF; margin: 0; line-height: 1.2;">
               The UOS Times, Issue #17
             </h3>
-            <p id="times-reader-subtitle" style="font-family: var(--font-mono); font-size: 0.7rem; color: #9CA3AF; margin: 0.15rem 0 0 0;">
+            <p id="times-reader-subtitle"
+              style="font-family: var(--font-mono); font-size: 0.7rem; color: #9CA3AF; margin: 0.15rem 0 0 0;">
               Fall Recap, Campus Life & Research Quality Worldwide • November 2025
             </p>
           </div>
@@ -667,23 +877,37 @@
         <!-- Toolbar Controls -->
         <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
           <label style="font-family: var(--font-mono); font-size: 0.7rem; color: #9CA3AF;">Edition:</label>
-          <select id="times-reader-select" class="form-select" style="background: #111111; color: #FFFFFF; border: 1px solid #4B5563; font-family: var(--font-mono); font-size: 0.7rem; padding: 0.3rem 0.6rem;">
+          <select id="times-reader-select" class="form-select"
+            style="background: #111111; color: #FFFFFF; border: 1px solid #4B5563; font-family: var(--font-mono); font-size: 0.7rem; padding: 0.3rem 0.6rem;">
             <option value="issue-17">The UOS Times, Issue #17 (November 2025 • 24 Pages)</option>
             <option value="issue-16">The UOS Times, Issue #16 (April 2025 • 28 Pages)</option>
           </select>
 
-          <a id="times-reader-download" href="pdf/uos%20times%20issue%2017%20print.pdf" download="The UOS Times, Issue #17.pdf" class="btn-white" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;">
-            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <a id="times-reader-download" href="pdf/uos%20times%20issue%2017%20print.pdf"
+            download="The UOS Times, Issue #17.pdf" class="btn-white"
+            style="padding: 0.35rem 0.75rem; font-size: 0.75rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;">
+            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
             Download PDF
           </a>
 
-          <button class="btn-white" onclick="window.toggleTimesReaderFullscreen()" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;">
-            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+          <button class="btn-white" onclick="window.toggleTimesReaderFullscreen()"
+            style="padding: 0.35rem 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;">
+            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13">
+              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+            </svg>
             Fullscreen
           </button>
 
-          <button class="btn-times" onclick="window.closeTimesReaderModal()" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;">
-            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          <button class="btn-times" onclick="window.closeTimesReaderModal()"
+            style="padding: 0.35rem 0.75rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;">
+            <svg class="icon icon-stroke" viewBox="0 0 24 24" width="13" height="13">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
             Close
           </button>
         </div>
@@ -691,13 +915,16 @@
 
       <!-- PDF Canvas -->
       <div style="flex: 1; position: relative; background: #222222; display: flex; flex-direction: column;">
-        <object id="times-reader-object" data="pdf/uos%20times%20issue%2017%20print.pdf" type="application/pdf" style="width: 100%; height: 100%; border: none;">
-          <iframe id="times-reader-iframe" src="pdf/uos%20times%20issue%2017%20print.pdf" style="width: 100%; height: 100%; border: none;"></iframe>
+        <object id="times-reader-object" data="pdf/uos%20times%20issue%2017%20print.pdf" type="application/pdf"
+          style="width: 100%; height: 100%; border: none;">
+          <iframe id="times-reader-iframe" src="pdf/uos%20times%20issue%2017%20print.pdf"
+            style="width: 100%; height: 100%; border: none;"></iframe>
         </object>
       </div>
 
       <!-- Footer -->
-      <div style="background-color: var(--uos-ink); padding: 0.45rem 1.25rem; border-top: 1px solid #374151; font-family: var(--font-mono); font-size: 0.7rem; color: #9CA3AF; display: flex; justify-content: space-between; align-items: center;">
+      <div
+        style="background-color: var(--uos-ink); padding: 0.45rem 1.25rem; border-top: 1px solid #374151; font-family: var(--font-mono); font-size: 0.7rem; color: #9CA3AF; display: flex; justify-content: space-between; align-items: center;">
         <span>The UOS Times • Broadsheet Document Viewer</span>
         <span>College of Communication • University of Sharjah</span>
       </div>
@@ -707,5 +934,5 @@
   <!-- Vanilla JS Controller -->
   <script type="module" src="js/times.js?v=20260924_2"></script>
 </body>
-</html>
 
+</html>

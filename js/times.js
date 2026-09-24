@@ -396,33 +396,10 @@ window.openTimesPdfReader = (editionKey = 'issue-17') => {
   if (editionKey === 'issue-1') editionKey = 'issue-16';
 
   const edition = broadsheetEditions[editionKey] || broadsheetEditions['issue-17'];
-  const modal = document.getElementById('times-reader-modal');
-  if (!modal) return;
-
-  const titleEl = document.getElementById('times-reader-title');
-  const subEl = document.getElementById('times-reader-subtitle');
-  const selectEl = document.getElementById('times-reader-select');
-  const downloadEl = document.getElementById('times-reader-download');
-  const objEl = document.getElementById('times-reader-object');
-  const iframeEl = document.getElementById('times-reader-iframe');
-
   const resolvedUrl = getPdfUrl(edition.pdfUrl);
 
-  if (titleEl) titleEl.textContent = edition.title;
-  if (subEl) subEl.textContent = edition.subtitle;
-  if (selectEl) {
-    selectEl.value = editionKey;
-    selectEl.onchange = (e) => window.openTimesPdfReader(e.target.value);
-  }
-  if (downloadEl) {
-    downloadEl.href = resolvedUrl;
-    downloadEl.setAttribute('download', `${edition.title}.pdf`);
-  }
-  if (objEl) objEl.data = resolvedUrl;
-  if (iframeEl) iframeEl.src = resolvedUrl;
-
-  modal.classList.add('active');
-  document.body.classList.add('reader-active');
+  // Open respective PDF file directly in new tab
+  window.open(resolvedUrl, '_blank', 'noopener,noreferrer');
 };
 
 window.closeTimesReaderModal = () => {
