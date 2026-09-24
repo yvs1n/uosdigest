@@ -16,8 +16,10 @@ import {
   addJoinSubmission,
   addPodcastSubmission,
   getRadioEpisodes,
-  initLiveSync
-} from './storage.js?v=20260912_4';
+  initLiveSync,
+  getPdfUrl,
+  getAssetUrl
+} from './storage.js?v=20260925_1';
 import { initialInstagramPosts } from './data.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -108,18 +110,25 @@ export function renderHeroAndPublications() {
   if (heroCoverCard) {
     heroCoverCard.onclick = () => window.openCoverFullscreen(featured);
   }
+  if (heroCoverImg) {
+    heroCoverImg.src = getAssetUrl(featured.coverImage);
+  }
   if (heroDownloadBtn) {
-    heroDownloadBtn.href = featured.pdfFileUrl || `/pdf/${featured.id}.pdf`;
+    const heroPdf = getPdfUrl(featured.pdfFileUrl, featured.id);
+    heroDownloadBtn.href = heroPdf;
     heroDownloadBtn.setAttribute('download', `${featured.title}.pdf`);
   }
 
   // Update Publications Grid
   const gridContainer = document.getElementById('publications-grid');
   if (gridContainer) {
-    gridContainer.innerHTML = pubs.map(p => `
+    gridContainer.innerHTML = pubs.map(p => {
+      const cover = getAssetUrl(p.coverImage);
+      const pdf = getPdfUrl(p.pdfFileUrl, p.id);
+      return `
       <div class="pub-card">
         <div class="pub-cover-wrap" onclick="window.openPublicationReader('${p.id}')" title="Click to read PDF document">
-          <img src="${p.coverImage}" alt="${p.title}" class="pub-cover-img" />
+          <img src="${cover}" alt="${p.title}" class="pub-cover-img" />
           <span style="position: absolute; top: 0.5rem; left: 0.5rem; background-color: #7A132B; color: #FFFFFF; font-family: var(--font-mono); font-size: 0.65rem; font-weight: bold; padding: 0.2rem 0.5rem; z-index: 2;">
             ${p.publicationName} #${p.issueNumber}
           </span>
@@ -151,14 +160,15 @@ export function renderHeroAndPublications() {
             <button class="btn-maroon" style="padding: 0.35rem 0.75rem; font-size: 0.7rem;" onclick="window.openPublicationReader('${p.id}')">
               Read PDF
             </button>
-            <a href="${p.pdfFileUrl || `/pdf/${p.id}.pdf`}" download="${p.title}.pdf" style="font-family: var(--font-mono); font-size: 0.7rem; color: #7A132B; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 0.25rem;">
+            <a href="${pdf}" download="${p.title}.pdf" style="font-family: var(--font-mono); font-size: 0.7rem; color: #7A132B; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 0.25rem;">
               <svg class="icon icon-stroke" viewBox="0 0 24 24" width="12" height="12"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
               Download
             </a>
           </div>
         </div>
       </div>
-    `).join('');
+    `;
+    }).join('');
   }
 }
 
@@ -213,7 +223,8 @@ export function openReader(pub) {
   if (specTerm) specTerm.textContent = pub.academicYear || 'Academic Year 2025–2026';
   if (specDate) specDate.textContent = pub.releaseDate || 'February 2026';
   if (specPages) specPages.textContent = `${pub.pageCount} Pages`;
-  if (specPath) specPath.textContent = pub.pdfFileUrl || `/pdf/${pub.id}.pdf`;
+  const pdfUrl = getPdfUrl(pub.pdfFileUrl, pub.id);
+  if (specPath) specPath.textContent = pdfUrl;
   if (specDesc) specDesc.textContent = pub.description || 'Published by The Press Club, College of Communication.';
 
   if (specHighlights) {
@@ -240,7 +251,6 @@ export function openReader(pub) {
   }
 
   // Document Streaming
-  const pdfUrl = pub.pdfFileUrl || `/pdf/${pub.id}.pdf`;
   const streamIframe = document.getElementById('reader-iframe');
   const streamObject = document.getElementById('reader-object');
   const downloadLink = document.getElementById('reader-download-link');
@@ -289,7 +299,7 @@ window.openCoverFullscreen = (pub) => {
   const downloadBtn = document.getElementById('cover-modal-download-btn');
 
   if (img) {
-    img.src = targetPub.coverImage;
+    img.src = getAssetUrl(targetPub.coverImage);
     img.alt = targetPub.title;
   }
   if (title) title.textContent = targetPub.title;
@@ -301,7 +311,8 @@ window.openCoverFullscreen = (pub) => {
     };
   }
   if (downloadBtn) {
-    downloadBtn.href = targetPub.pdfFileUrl || `/pdf/${targetPub.id}.pdf`;
+    const pdfUrl = getPdfUrl(targetPub.pdfFileUrl, targetPub.id);
+    downloadBtn.href = pdfUrl;
     downloadBtn.setAttribute('download', `${targetPub.title}.pdf`);
   }
 

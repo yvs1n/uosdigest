@@ -2,7 +2,7 @@
  * University of Sharjah - The UOS Times Broadsheet Controller (Pure Vanilla JS)
  */
 
-import { getTimesArticles, getTipCategories, initLiveSync } from './storage.js?v=20260912_3';
+import { getTimesArticles, getTipCategories, initLiveSync, getPdfUrl, getAssetUrl } from './storage.js?v=20260925_1';
 
 let articles = [];
 let activeCategory = 'all';
@@ -376,22 +376,26 @@ function initTipForm() {
 
 // 6. Broadsheet PDF Document Reader Modal
 const broadsheetEditions = {
-  'issue-2': {
-    title: 'The UOS Times, Issue #2',
-    subtitle: 'Campus Broadsheet & University Affairs • Academic Year 2025–2026',
-    pdfUrl: '/pdf/The UOS Times final for print.pdf',
-    pages: 16
+  'issue-17': {
+    title: 'The UOS Times, Issue #17',
+    subtitle: 'Fall Recap, Campus Life & Research Quality Worldwide • November 2025',
+    pdfUrl: 'pdf/uos times issue 17 print.pdf',
+    pages: 24
   },
-  'issue-1': {
-    title: 'The UOS Times, Issue #1',
-    subtitle: 'Inaugural Student Broadsheet Edition • Academic Year 2024–2025',
-    pdfUrl: '/pdf/uos times issue 17 print.pdf',
-    pages: 12
+  'issue-16': {
+    title: 'The UOS Times, Issue #16',
+    subtitle: 'Up-and-coming, Finals & Graduation • April 2025',
+    pdfUrl: 'pdf/The UOS Times final for print.pdf',
+    pages: 28
   }
 };
 
-window.openTimesPdfReader = (editionKey = 'issue-2') => {
-  const edition = broadsheetEditions[editionKey] || broadsheetEditions['issue-2'];
+window.openTimesPdfReader = (editionKey = 'issue-17') => {
+  // Support legacy keys if passed
+  if (editionKey === 'issue-2') editionKey = 'issue-17';
+  if (editionKey === 'issue-1') editionKey = 'issue-16';
+
+  const edition = broadsheetEditions[editionKey] || broadsheetEditions['issue-17'];
   const modal = document.getElementById('times-reader-modal');
   if (!modal) return;
 
@@ -402,6 +406,8 @@ window.openTimesPdfReader = (editionKey = 'issue-2') => {
   const objEl = document.getElementById('times-reader-object');
   const iframeEl = document.getElementById('times-reader-iframe');
 
+  const resolvedUrl = getPdfUrl(edition.pdfUrl);
+
   if (titleEl) titleEl.textContent = edition.title;
   if (subEl) subEl.textContent = edition.subtitle;
   if (selectEl) {
@@ -409,11 +415,11 @@ window.openTimesPdfReader = (editionKey = 'issue-2') => {
     selectEl.onchange = (e) => window.openTimesPdfReader(e.target.value);
   }
   if (downloadEl) {
-    downloadEl.href = edition.pdfUrl;
+    downloadEl.href = resolvedUrl;
     downloadEl.setAttribute('download', `${edition.title}.pdf`);
   }
-  if (objEl) objEl.data = edition.pdfUrl;
-  if (iframeEl) iframeEl.src = edition.pdfUrl;
+  if (objEl) objEl.data = resolvedUrl;
+  if (iframeEl) iframeEl.src = resolvedUrl;
 
   modal.classList.add('active');
   document.body.classList.add('reader-active');

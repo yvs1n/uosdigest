@@ -14,8 +14,8 @@ export const initialPublications = [
     semester: "Spring Semester",
     academicYear: "2025–2026",
     releaseDate: "February 2026",
-    coverImage: "/assets/covers/uos-digest-issue-3.png",
-    pdfFileUrl: "/pdf/uos digest issue 3 for print.pdf",
+    coverImage: "assets/covers/uos-digest-issue-3.png",
+    pdfFileUrl: "pdf/uos digest issue 3 for print.pdf",
     featured: true,
     pageCount: 36,
     description: "The student magazine of the University of Sharjah. Written, photographed, and designed by students at the College of Communication.",
@@ -37,8 +37,8 @@ export const initialPublications = [
     semester: "Fall Semester",
     academicYear: "2025–2026",
     releaseDate: "October 2025",
-    coverImage: "/assets/covers/uos-digest-issue-2.png",
-    pdfFileUrl: "/pdf/UOS Digest issue #2, Print.pdf",
+    coverImage: "assets/covers/uos-digest-issue-2.png",
+    pdfFileUrl: "pdf/UOS Digest issue #2, Print.pdf",
     featured: false,
     pageCount: 40,
     description: "An inquiry into modern newsrooms, pop cultural phenomena, social media narratives, and student-produced critical essays.",
@@ -60,8 +60,8 @@ export const initialPublications = [
     semester: "Spring Semester",
     academicYear: "2024–2025",
     releaseDate: "February 2025",
-    coverImage: "/assets/covers/uos-digest-issue-1.png",
-    pdfFileUrl: "/pdf/UOS DIGEST.pdf",
+    coverImage: "assets/covers/uos-digest-issue-1.png",
+    pdfFileUrl: "pdf/UOS DIGEST.pdf",
     featured: false,
     pageCount: 28,
     description: "The premiere release of UOS Digest featuring visual photography folios, creative writing, and student profiles.",
@@ -76,32 +76,42 @@ export const initialPublications = [
 
 export const initialTimesBroadsheets = [
   {
-    id: "uos-times-issue-2",
-    title: "The UOS Times, Issue #2",
-    subtitle: "Campus Broadsheet & University Affairs",
-    issueNumber: 2,
+    id: "uos-times-issue-17",
+    title: "The UOS Times, Issue #17",
+    subtitle: "Fall Recap, Campus Life & Research Quality Worldwide",
+    issueNumber: 17,
     type: "newspaper",
     publicationName: "The UOS Times",
     academicYear: "Academic Year 2025–2026",
     releaseDate: "November 2025",
-    coverImage: "/assets/covers/uos-times-issue-2.png",
-    pdfFileUrl: "/pdf/The UOS Times final for print.pdf",
-    pageCount: 16,
-    description: "Campus Broadsheet & University Affairs — Coverage of Media Week, student investigative essays, and campus elections."
+    coverImage: "assets/covers/uos-times-issue-17.png",
+    pdfFileUrl: "pdf/uos times issue 17 print.pdf",
+    pageCount: 24,
+    description: "Fall Recap & Campus Life — University of Sharjah Ranks 47th in Research Quality Worldwide (Exclusive Interview with Vice Chancellor Dr. Yousef Haik), Campus Fashion & Student Features.",
+    highlights: [
+      "World University Rankings: UOS Ranks 47th in Research Quality",
+      "Fall Recap & Student Life across Colleges",
+      "Campus Style & Student Portfolios"
+    ]
   },
   {
-    id: "uos-times-issue-1",
-    title: "The UOS Times, Issue #1",
-    subtitle: "Inaugural Student Broadsheet Edition",
-    issueNumber: 1,
+    id: "uos-times-issue-16",
+    title: "The UOS Times, Issue #16",
+    subtitle: "Up-and-coming, Finals & Graduation",
+    issueNumber: 16,
     type: "newspaper",
     publicationName: "The UOS Times",
     academicYear: "Academic Year 2024–2025",
     releaseDate: "April 2025",
-    coverImage: "/assets/covers/uos-times-issue-1.png",
-    pdfFileUrl: "/pdf/uos times issue 17 print.pdf",
-    pageCount: 12,
-    description: "Inaugural Student Broadsheet Edition — The launch issue introducing student beat reporting and youth journalism in Sharjah."
+    coverImage: "assets/covers/uos-times-issue-16.png",
+    pdfFileUrl: "pdf/The UOS Times final for print.pdf",
+    pageCount: 28,
+    description: "Up-and-coming, Finals & Graduation — Coverage of the 4th UOSMUN Association Conference, student journalism dispatches, and graduating senior reflections.",
+    highlights: [
+      "UOSMUN 4th Edition Conference Dispatches",
+      "Finals & Graduation Special Coverage",
+      "College of Communication Student Newsroom"
+    ]
   }
 ];
 

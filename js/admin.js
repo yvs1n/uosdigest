@@ -161,7 +161,7 @@ function renderTabContent() {
                 <p style="font-family: var(--font-serif); font-style: italic; font-size: 0.8rem; color: #4B5563;">"${p.subtitle || ''}"</p>
                 <p style="font-family: var(--font-mono); font-size: 0.7rem; color: #6B7280; margin-top: 0.2rem;">${p.semester} • ${p.releaseDate} • ${p.pageCount} Pages</p>
                 <p style="font-family: var(--font-mono); font-size: 0.65rem; color: #7A132B; margin-top: 0.25rem; max-width: 25rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                  PDF Stream: <strong>${p.pdfFileUrl || `/pdf/${p.id}.pdf`}</strong>
+                  PDF Stream: <strong>${p.pdfFileUrl || `pdf/${p.id}.pdf`}</strong>
                 </p>
               </div>
             </div>
@@ -760,7 +760,7 @@ window.openAddPubModal = () => {
     document.getElementById('pub-form-date').value = 'March 2026';
     document.getElementById('pub-form-cover').value = '';
     document.getElementById('pub-form-pages').value = '32';
-    document.getElementById('pub-form-pdf-path').value = '/pdf/uos digest issue 3 for print.pdf';
+    document.getElementById('pub-form-pdf-path').value = 'pdf/uos digest issue 3 for print.pdf';
     document.getElementById('pub-form-desc').value = 'Published by The Press Club, College of Communication, University of Sharjah.';
     document.getElementById('pub-form-highlights').value = 'Lead investigative report\nStudent visual folio\nCampus column';
 
@@ -788,7 +788,7 @@ window.openEditPubModal = (pubId) => {
     document.getElementById('pub-form-date').value = pub.releaseDate;
     document.getElementById('pub-form-cover').value = pub.coverImage;
     document.getElementById('pub-form-pages').value = pub.pageCount;
-    document.getElementById('pub-form-pdf-path').value = pub.pdfFileUrl || `/pdf/${pub.id}.pdf`;
+    document.getElementById('pub-form-pdf-path').value = pub.pdfFileUrl || `pdf/${pub.id}.pdf`;
     document.getElementById('pub-form-desc').value = pub.description;
     document.getElementById('pub-form-highlights').value = (pub.highlights || []).join('\n');
 
@@ -844,7 +844,7 @@ function initPubFormHandler() {
       const releaseDate = document.getElementById('pub-form-date').value;
       let coverImage = document.getElementById('pub-form-cover').value || 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=80';
       const pageCount = Number(document.getElementById('pub-form-pages').value) || 32;
-      let pdfFileUrl = document.getElementById('pub-form-pdf-path').value || '/pdf/uos digest issue 3 for print.pdf';
+      let pdfFileUrl = document.getElementById('pub-form-pdf-path').value || 'pdf/uos digest issue 3 for print.pdf';
       const description = document.getElementById('pub-form-desc').value;
       const highlights = document.getElementById('pub-form-highlights').value.split('\n').filter(Boolean);
 

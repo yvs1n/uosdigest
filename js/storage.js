@@ -190,6 +190,28 @@ export async function initLiveSync(onDataChange) {
   }
 }
 
+// URL and Asset normalization utilities
+export function getPdfUrl(rawUrl, fallbackId) {
+  let url = rawUrl || (fallbackId ? `pdf/${fallbackId}.pdf` : '');
+  if (!url) return '';
+  if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:')) {
+    return url;
+  }
+  // Strip leading slashes to prevent root-domain 404s on subpaths
+  url = url.replace(/^\/+/, '');
+  // URL encode segments to preserve spaces and special chars (e.g. '#' in filenames)
+  const parts = url.split('/');
+  return parts.map(p => encodeURIComponent(decodeURIComponent(p))).join('/');
+}
+
+export function getAssetUrl(rawUrl) {
+  if (!rawUrl) return '';
+  if (rawUrl.startsWith('http://') || rawUrl.startsWith('https://') || rawUrl.startsWith('data:')) {
+    return rawUrl;
+  }
+  return rawUrl.replace(/^\/+/, '');
+}
+
 // 1. Publications Management (Add, Edit, Delete, Pin)
 export function getPublications() {
   try {
@@ -210,8 +232,12 @@ export function getPublications() {
             storedPub.highlights = defaults.highlights;
             needsResave = true;
           }
-          if (defaults.coverImage && (!storedPub.coverImage || storedPub.coverImage.includes('odoo.com') || storedPub.coverImage.includes('Screenshot%20202') || storedPub.coverImage.includes('IMG_100'))) {
+          if (defaults.coverImage && (!storedPub.coverImage || storedPub.coverImage.includes('odoo.com') || storedPub.coverImage.includes('Screenshot%20202') || storedPub.coverImage.includes('IMG_100') || storedPub.coverImage.startsWith('/assets/'))) {
             storedPub.coverImage = defaults.coverImage;
+            needsResave = true;
+          }
+          if (defaults.pdfFileUrl && (!storedPub.pdfFileUrl || storedPub.pdfFileUrl.startsWith('/pdf/'))) {
+            storedPub.pdfFileUrl = defaults.pdfFileUrl;
             needsResave = true;
           }
           return { ...defaults, ...storedPub };
