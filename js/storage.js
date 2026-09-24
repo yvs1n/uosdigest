@@ -198,7 +198,12 @@ export function getPublications() {
       const stored = JSON.parse(data);
       if (Array.isArray(stored) && stored.length) {
         let needsResave = false;
-        const merged = stored.map(storedPub => {
+        // Filter to digests only in order of newest released
+        const digestsOnly = stored.filter(p => !p.id || !p.id.startsWith('uos-times-'));
+        if (digestsOnly.length !== stored.length) {
+          needsResave = true;
+        }
+        const merged = (digestsOnly.length ? digestsOnly : initialPublications).map(storedPub => {
           const defaults = initialPublications.find(p => p.id === storedPub.id) || {};
           if (storedPub.description && (storedPub.description.includes('intellectual, artistic') || storedPub.description.includes('student lab magazine'))) {
             storedPub.description = defaults.description;
@@ -211,6 +216,7 @@ export function getPublications() {
           }
           return { ...defaults, ...storedPub };
         });
+        merged.sort((a, b) => (b.issueNumber || 0) - (a.issueNumber || 0));
         if (needsResave) {
           savePublications(merged);
         }
@@ -218,7 +224,7 @@ export function getPublications() {
       }
     }
   } catch (e) {}
-  return initialPublications;
+  return [...initialPublications].sort((a, b) => (b.issueNumber || 0) - (a.issueNumber || 0));
 }
 
 export function savePublications(pubs) {

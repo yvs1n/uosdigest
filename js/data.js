@@ -27,29 +27,6 @@ export const initialPublications = [
     tags: ["Constructed", "Identity", "Visual Culture", "Student Life"]
   },
   {
-    id: "uos-times-issue-2",
-    title: "The UOS Times, Issue #2",
-    subtitle: "Campus Broadsheet & University Affairs",
-    issueNumber: 2,
-    type: "newspaper",
-    publicationName: "The UOS Times",
-    theme: "Student Broadsheet & Current Affairs",
-    semester: "Fall Semester",
-    academicYear: "2025–2026",
-    releaseDate: "November 2025",
-    coverImage: "/assets/covers/uos-times-issue-2.png",
-    pdfFileUrl: "/pdf/The UOS Times final for print.pdf",
-    featured: false,
-    pageCount: 16,
-    description: "The official student-edited newspaper chronicling college events, journalism research conferences, student government elections, and Sharjah arts roundups.",
-    highlights: [
-      "College of Communication Media Week coverage",
-      "Student editorial on generative media in journalism classrooms",
-      "University sports tournaments and student club showcases"
-    ],
-    tags: ["Campus News", "Broadsheet", "Press Club", "Academic Affairs"]
-  },
-  {
     id: "uos-digest-issue-2",
     title: "UOS Digest, Issue #2",
     subtitle: "Press Culture: The Politics of Pop Culture",
@@ -73,29 +50,6 @@ export const initialPublications = [
     tags: ["Press Culture", "Pop Culture", "Essays", "Broadcasting"]
   },
   {
-    id: "uos-times-issue-1",
-    title: "The UOS Times, Issue #1",
-    subtitle: "Inaugural Student Broadsheet Edition",
-    issueNumber: 1,
-    type: "newspaper",
-    publicationName: "The UOS Times",
-    theme: "Launch Edition",
-    semester: "Spring Semester",
-    academicYear: "2024–2025",
-    releaseDate: "April 2025",
-    coverImage: "/assets/covers/uos-times-issue-1.png",
-    pdfFileUrl: "/pdf/uos times issue 17 print.pdf",
-    featured: false,
-    pageCount: 12,
-    description: "The founding issue of The UOS Times broadsheet, establishing student voice, investigative beat reporting, and campus affairs.",
-    highlights: [
-      "Inauguration of the College Press Club Newsroom",
-      "Special report on youth in media innovation",
-      "Sharjah heritage and student architectural documentation"
-    ],
-    tags: ["Inaugural", "Newspaper", "Sharjah", "Journalism"]
-  },
-  {
     id: "uos-digest-issue-1",
     title: "UOS Digest, Issue #1",
     subtitle: "Culture, Photography & University Life",
@@ -117,6 +71,37 @@ export const initialPublications = [
       "Campus poetry & short essays in Arabic and English"
     ],
     tags: ["First Edition", "Photography", "Creative Writing", "Art"]
+  }
+];
+
+export const initialTimesBroadsheets = [
+  {
+    id: "uos-times-issue-2",
+    title: "The UOS Times, Issue #2",
+    subtitle: "Campus Broadsheet & University Affairs",
+    issueNumber: 2,
+    type: "newspaper",
+    publicationName: "The UOS Times",
+    academicYear: "Academic Year 2025–2026",
+    releaseDate: "November 2025",
+    coverImage: "/assets/covers/uos-times-issue-2.png",
+    pdfFileUrl: "/pdf/The UOS Times final for print.pdf",
+    pageCount: 16,
+    description: "Campus Broadsheet & University Affairs — Coverage of Media Week, student investigative essays, and campus elections."
+  },
+  {
+    id: "uos-times-issue-1",
+    title: "The UOS Times, Issue #1",
+    subtitle: "Inaugural Student Broadsheet Edition",
+    issueNumber: 1,
+    type: "newspaper",
+    publicationName: "The UOS Times",
+    academicYear: "Academic Year 2024–2025",
+    releaseDate: "April 2025",
+    coverImage: "/assets/covers/uos-times-issue-1.png",
+    pdfFileUrl: "/pdf/uos times issue 17 print.pdf",
+    pageCount: 12,
+    description: "Inaugural Student Broadsheet Edition — The launch issue introducing student beat reporting and youth journalism in Sharjah."
   }
 ];
 
